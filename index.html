@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="py-br">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+        <link rel="stylesheet" href="./src/css/style.css">
+        <title>Moinhos</title>
+        <!-- StyleSheets  -->
+        <link rel="stylesheet" href="./assets/css/dashlite.css?ver=3.0.2">
+        <link id="skin-default" rel="stylesheet" href="./assets/css/theme.css?ver=3.0.2">
+
+
+    </head>
+    <body id="body">
+        <div class="nk-header nk-header-fixed is-light">
+            <div class="container-fluid d-flex flex-row-reverse">
+                <div class="col-sm-2 m-2">
+                    <div class="form-group d-flex align-items-center">
+                        <h3 class="mr-2 mb-0 d-flex align-items-center"><em class="icon ni ni-activity-round-fill"></em></h3>
+                        <div class="form-control-wrap w-100">
+                            <select class="form-select js-select2" data-search="on" id="selectSetorExame" onchange="javascript:mostraAlerta(this)" data-placeholder="Filtro por sala">
+                                <option value="0">Filtro por setor de exame</option>
+                                <option value="1">TODOS SETORES</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-2 m-2">
+                    <div class="form-group d-flex align-items-center">
+                        <h3 class="mr-2 mb-0 d-flex align-items-center"><svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-door-open-fill" viewBox="0 0 16 16">
+                            <path d="M1.5 15a.5.5 0 0 0 0 1h13a.5.5 0 0 0 0-1H13V2.5A1.5 1.5 0 0 0 11.5 1H11V.5a.5.5 0 0 0-.57-.495l-7 1A.5.5 0 0 0 3 1.5V15H1.5zM11 2h.5a.5.5 0 0 1 .5.5V15h-1V2zm-2.5 8c-.276 0-.5-.448-.5-1s.224-1 .5-1 .5.448.5 1-.224 1-.5 1z"/>
+                          </svg></h3>
+                        <div class="form-control-wrap w-100">
+                            <select class="form-select js-select2" data-search="on" data-placeholder="Filtro por sala">
+                                <option value="default_option">Filtro por sala</option>
+                                <option value="option_select_name">Option select name</option>
+                                <option value="option_select_name">Option select name</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="board"  style="margin-top: 60px;">
+            <div class="board-column solicitados mb-5">
+                <div class="board-column-container">
+                    <div class="board-column-header">
+                      <header class="kanban-board-header kanban-primary m-0">
+                              <div class="kanban-title-board">
+                                <div class="kanban-title-content">
+                                    <h6 class="title">SOLICITADOS</h6>
+                                    <span class="badge rounded-pill bg-outline-light text-dark" id="SolicitadosCount"></span>
+                                </div>
+                            </div>
+                        </header>
+                    </div>
+                    <div class="board-column-content-wrapper">
+                        <div class="board-column-content" id="Solicitados" style="min-height: 500px; ">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="board-column agendado mb-5">
+                <div class="board-column-container">
+                    <div class="board-column-header">
+                        <header class="kanban-board-header kanban-primary m-0">
+                            <div class="kanban-title-board">
+                                  <div class="kanban-title-content">
+                                      <h6 class="title">AGENDADOS</h6>
+                                      <span class="badge rounded-pill bg-outline-light text-dark" id="AgendadosCount"></span>
+                                  </div>
+                              </div>
+                          </header>
+                      </div>
+                    <div class="board-column-content-wrapper">
+                        <div class="board-column-content" id="Agendados" style="min-height: 500px;">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="board-column atendimento mb-5">
+                <div class="board-column-container">
+                    <div class="board-column-header">
+                        <header class="kanban-board-header kanban-primary m-0">
+                            <div class="kanban-title-board">
+                                  <div class="kanban-title-content">
+                                      <h6 class="title">ATENDIMENTO</h6>
+                                      <span class="badge rounded-pill bg-outline-light text-dark" id="AtendimentoCount"></span>
+                                  </div>
+                              </div>
+                          </header>
+                    </div>
+                    <div class="board-column-content-wrapper">
+                        <div class="board-column-content" id="Atendimento" style="min-height: 500px;">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="board-column posExame mb-5">
+                <div class="board-column-container">
+                    <div class="board-column-header">
+                        <header class="kanban-board-header kanban-primary m-0">
+                              <div class="kanban-title-board">
+                                  <div class="kanban-title-content">
+                                      <h6 class="title">PÓS-EXAME</h6>
+                                      <span class="badge rounded-pill bg-outline-light text-dark" id="PosExameCount"></span>
+                                  </div>
+                              </div>
+                          </header>
+                      </div>
+                    <div class="board-column-content-wrapper">
+                        <div class="board-column-content" id="posExame" style="min-height: 500px;">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="board-column finalizados mb-5">
+                <div class="board-column-container">
+                    <div class="board-column-header">
+                        <header class="kanban-board-header kanban-primary m-0">
+                              <div class="kanban-title-board">
+                                  <div class="kanban-title-content">
+                                      <h6 class="title">FINALIZADOS</h6>
+                                      <span class="badge rounded-pill bg-outline-light text-dark" id="FinalizadosCount"></span>
+                                  </div>
+                              </div>
+                          </header>
+                      </div>
+                    <div class="board-column-content-wrapper">
+                        <div class="board-column-content" id="finalizados" style="min-height: 500px;">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="nk-footer p-0 fixed-bottom">
+            <div class="container-fluid">
+                <div class="d-flex justify-content-around">
+                    <div><em class="icon ni ni-plus-medi-fill text-danger"></em>Pacientes da urgência</div>
+                    <div><em class="icon ni ni-alert-fill text-danger"></em></em>Pacientes em isolamento</div>
+                    <div><em class="icon ni ni-alert-circle-fill text-danger"></em></em>Paciente urgente</div>
+                </div>
+            </div>
+        </div>
+        <!-- MODAL's -->
+        <div class="modal" id="modalLoading" style="background: white;">
+            <div class="modal-dialog d-flex align-items-center justify-content-center" role="document">
+                <li class="preview-item" id="loading">
+                    <div class="spinner-border text-primary" style="width: 5rem; height: 5rem;" role="status">
+                      <span class="visually-hidden">Loading...</span>
+                    </div>
+                </li>
+            </div>
+        </div>
+        <div class="modal" tabindex="-1" id="modalForm">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content overflow-hidden">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Detalhes do Exame</h5>
+                        <a href="#" class="close" data-bs-dismiss="modal" aria-label="Close">
+                            <em class="icon ni ni-cross"></em>
+                        </a>
+                    </div>
+                    <div class="modal-body js-dados-preview overflow-auto" id="js-modal-dados-preview">
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal" tabindex="-1" id="modalAgendar">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <div>
+                            <h5 class="modal-title">Agendar horário de exame</h5>
+                            <small>Informe a data e a hora que o exame será realizado.</small>
+                        </div>
+                        <a data-bs-dismiss="modal" id="fecharAgendamento">
+                            <em class="icon ni ni-cross"></em>
+                        </a>
+                    </div>
+                    <div class="modal-body">
+                        <form name="form" class="form-validate is-alter">
+                            <div class="form-group d-flex flex-column">
+                                <div class="col-lg-12 col-sm-12 m-0">
+                                    <div class="form-group">
+                                        <div class="form-control-wrap">
+                                            <label class="form-label m-0" for="outlined-normal">Data de Realização</label>
+                                            <input type="date" name="data" class="form-control form-control form-control js-mask-data" id="outlined-normal js-mask-data" >
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group d-flex flex-column">
+                                <div class="col-lg-12 col-sm-12 m-0">
+                                    <div class="form-group">
+                                        <div class="form-control-wrap">
+                                            <label class="form-label m-0" for="outlined-normal">Hora de Realização</label>
+                                            <input type="time" name="hora" class="form-control form-control form-control js-mask-hora" id="outlined-normal js-mask-hora"  placeholder="12:00">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-dim btn-outline-primary" id="marcar-horario">Agendar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" tabindex="-1" id="modalHoraValida">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-body modal-body-lg text-center">
+                        <div class="nk-modal">
+                            <em class="nk-modal-icon icon icon-circle icon-circle-xxl ni ni-cross bg-danger"></em>
+                            <h4 class="nk-modal-title">Horário inválido!</h4>
+                            <div class="nk-modal-text">
+                                <!-- <p class="lead">We are sorry, we were unable to process your payment. Please try after sometimes.</p> -->
+                                <p class="text-soft">Por favor, informe um horário válido.</p>
+                            </div>
+                            <div class="nk-modal-action mt-5">
+                                <a href="#" class="btn btn-lg btn-mw btn-light" data-bs-dismiss="modal" onClick="window.location.reload()">Voltar</a>
+                            </div>
+                        </div>
+                    </div><!-- .modal-body -->
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" tabindex="-1" id="modalDataValida">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-body modal-body-lg text-center">
+                        <div class="nk-modal">
+                            <em class="nk-modal-icon icon icon-circle icon-circle-xxl ni ni-cross bg-danger"></em>
+                            <h4 class="nk-modal-title">Data inválida!</h4>
+                            <div class="nk-modal-text">
+                                <!-- <p class="lead">We are sorry, we were unable to process your payment. Please try after sometimes.</p> -->
+                                <p class="text-soft">Por favor, informe uma data válida.</p>
+                            </div>
+                            <div class="nk-modal-action mt-5">
+                                <a href="#" class="btn btn-lg btn-mw btn-light" data-bs-dismiss="modal" onClick="window.location.reload()">Voltar</a>
+                            </div>
+                        </div>
+                    </div><!-- .modal-body -->
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" tabindex="-1" id="modalMovimentacaoInvalida">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-body modal-body-lg text-center">
+                        <div class="nk-modal">
+                            <em class="nk-modal-icon icon icon-circle icon-circle-xxl ni ni-cross bg-danger"></em>
+                            <h4 class="nk-modal-title">Movimentação inválida!</h4>
+                            <div class="nk-modal-text">
+                                <!-- <p class="lead">We are sorry, we were unable to process your payment. Please try after sometimes.</p> -->
+                                <p class="text-soft">Essa movimentação não é válida.</p>
+                            </div>
+                            <div class="nk-modal-action mt-5">
+                                <a href="#" class="btn btn-lg btn-mw btn-light" data-bs-dismiss="modal" onClick="window.location.reload()">Voltar</a>
+                            </div>
+                        </div>
+                    </div><!-- .modal-body -->
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" tabindex="-1" id="modalAgendadoSucesso">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <a href="#" class="close" data-bs-dismiss="modal"><em class="icon ni ni-cross"></em></a>
+                    <div class="modal-body modal-body-lg text-center">
+                        <div class="nk-modal">
+                            <em class="nk-modal-icon icon icon-circle icon-circle-xxl ni ni-check bg-success"></em>
+                            <h4 class="nk-modal-title">Agendado!</h4>
+                            <div class="nk-modal-text">
+                                <div class="caption-text">Solicitação de exame agendada com <strong>Sucesso</strong>!</div>
+                                <span class="sub-text-sm">Acompanhe seus agendamentos na coluna de agendados.</span>
+                            </div>
+                            <div class="nk-modal-action">
+                                <a href="#" class="btn btn-lg btn-mw btn-primary" data-bs-dismiss="modal" onClick="window.location.reload()">Fechar</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" tabindex="-1" id="modalAgendadoCancelado">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <a href="#" class="close" data-bs-dismiss="modal"><em class="icon ni ni-cross"></em></a>
+                    <div class="modal-body modal-body-lg text-center">
+                        <div class="nk-modal">
+                            <em class="nk-modal-icon icon icon-circle icon-circle-xxl ni ni-check bg-success"></em>
+                            <h4 class="nk-modal-title">Cancelado!</h4>
+                            <div class="nk-modal-text">
+                                <div class="caption-text">Agendamento cancelado com <strong>Sucesso</strong>!</div>
+                                <span class="sub-text-sm">Acompanhe o card na coluna de solicitados.</span>
+                            </div>
+                            <div class="nk-modal-action">
+                                <a href="#" class="btn btn-lg btn-mw btn-primary" data-bs-dismiss="modal" onClick="window.location.reload()">Fechar</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" tabindex="-1" id="modalAtendimentoCancelado">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <a href="#" class="close" data-bs-dismiss="modal"><em class="icon ni ni-cross"></em></a>
+                    <div class="modal-body modal-body-lg text-center">
+                        <div class="nk-modal">
+                            <em class="nk-modal-icon icon icon-circle icon-circle-xxl ni ni-check bg-success"></em>
+                            <h4 class="nk-modal-title">Cancelado!</h4>
+                            <div class="nk-modal-text">
+                                <div class="caption-text">Atendimento cancelado com <strong>Sucesso</strong>!</div>
+                                <span class="sub-text-sm">Acompanhe o card na coluna de solicitados.</span>
+                            </div>
+                            <div class="nk-modal-action">
+                                <a href="#" class="btn btn-lg btn-mw btn-primary" data-bs-dismiss="modal" onClick="window.location.reload()">Fechar</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal" tabindex="-1" id="modalTransporte">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <div>
+                            <h5 class="modal-title">Solicitar transporte</h5>
+                            <small>Informe a sala que o paciente irá realizar o exame.</small>
+                        </div>
+                        <a data-bs-dismiss="modal" id="fecharAgendamento">
+                            <em class="icon ni ni-cross"></em>
+                        </a>
+                    </div>
+                    <div class="modal-body">
+                        <form name="formTransporte"  id="formTransporte" class="form-validate is-alter">
+                            <div class="col-sm-12 mb-3">
+                                <div class="form-group">
+                                    <label class="form-label">Sala</label>
+                                    <div class="form-control-wrap">
+                                        <select name="sala" class="form-select js-select2" data-search="on">
+                                            <option value="default_option">Escolha uma sala</option>
+                                            <option value="999-169_Sala de ressonância – Bloco C - 2º Andar">Sala de ressonância – Bloco C - 2º Andar</option>
+                                            <option value="999-170_Sala de ressonância – Bloco C - 3º Andar">Sala de ressonância – Bloco C - 3º Andar</option>
+                                            <option value="999-168_Sala de ressonância – Bloco D">Sala de ressonância – Bloco D</option>
+                                            <option value="999-61_Tomografia – Bloco A">Tomografia – Bloco A</option>
+                                            <option value="999-130_Tomografia da emergência">Tomografia da emergência</option>
+                                            <option value="999-46_Tomografia da internação">Tomografia da internação</option>
+                                            <option value="999-60_Procedimento invasivos da ecografia">Procedimento invasivos da ecografia</option>
+                                            <option value="999-7_Ecografia transvaginal – Bloco A">Ecografia transvaginal – Bloco A</option>
+                                            <option value="999-8_Ecografia mamária – Bloco A">Ecografia mamária – Bloco A</option>
+                                            <option value="999-121_Ecografia da emergência">Ecografia da emergência</option>
+                                            <option value="999-20_Ecografia pediátrica – Bloco A">Ecografia pediátrica – Bloco A</option>
+                                            <option value="999-9_Mamografia">Mamografia</option>
+                                            <option value="999-6_Densitometria óssea">Densitometria óssea</option>
+                                            <option value="999-45_Raio X – Bloco  A">Raio X – Bloco  A</option>
+                                            <option value="999-118_Raio X da emergência">Raio X da emergência</option>
+                                            <option value="999-38_Medicina Nuclear">Medicina Nuclear</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>                            
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-dim btn-outline-primary">Solicitar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal" tabindex="-1" id="modalTransporteFinal">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <div>
+                            <h5 class="modal-title">Solicitar transporte</h5>
+                            <small>Informe a sala que o paciente irá realizar o exame.</small>
+                        </div>
+                        <a data-bs-dismiss="modal" id="fecharAgendamento">
+                            <em class="icon ni ni-cross"></em>
+                        </a>
+                    </div>
+                    <div class="modal-body">
+                        <form name="formTransporteform" id="formTransporteForm" class="form-validate is-alter">
+                            <div class="col-sm-12 mb-3">
+                                <div class="form-group">
+                                    <label class="form-label">Sala</label>
+                                    <div class="form-control-wrap">
+                                        <select name="sala" class="form-select js-select2" data-search="on">
+                                            <option value="999-150_ANGIOGRAFIA">ANGIOGRAFIA</option>
+                                            <option value="999-31_DIALISE">DIALISE</option>
+                                            <option value="999-36_MATERNIDADE 10º ANDAR">MATERNIDADE 10º ANDAR</option>
+                                            <option value="999-37_MATERNIDADE 9º ANDAR">MATERNIDADE 9º ANDAR</option>
+                                            <option value="999-181_UI - 5B">UI - 5B</option>
+                                            <option value="999-161_UI - A2">UI - A2</option>
+                                            <option value="999-162_UI - B2">UI - B2</option>
+                                            <option value="999-50_UI - C2">UI - C2</option>
+                                            <option value="999-49_UI - D1">UI - D1</option>
+                                            <option value="999-156_UI - D3">UI - D3</option>
+                                            <option value="999-52_UI - E1">UI - E1</option>
+                                            <option value="999-163_UI - E3">UI - E3</option>
+                                            <option value="999-160_UI - G3">UI - G3</option>
+                                            <option value="999-53_UI - A1">UI - A1</option>
+                                            <option value="999-54_UI - B1">UI - B1</option>
+                                            <option value="999-55_UI - C1">UI - C1</option>
+                                            <option value="999-56_UI - D2">UI - D2</option>
+                                            <option value="999-134_UNIQUE">UNIQUE</option>		
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-dim btn-outline-primary">Solicitar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" tabindex="-1" id="modalAlgoErrado">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-body modal-body-lg text-center">
+                        <div class="nk-modal">
+                            <em class="nk-modal-icon icon icon-circle icon-circle-xxl ni ni-cross bg-danger"></em>
+                            <h4 class="nk-modal-title">Algo deu errado!</h4>
+                            <div class="nk-modal-text">
+                                <!-- <p class="lead">We are sorry, we were unable to process your payment. Please try after sometimes.</p> -->
+                                <p class="text-soft">Reinicie a página e tente novamente.</p>
+                            </div>
+                            <div class="nk-modal-action mt-5">
+                                <a href="#" class="btn btn-lg btn-mw btn-light" data-bs-dismiss="modal" onClick="window.location.reload()">Voltar</a>
+                            </div>
+                        </div>
+                    </div><!-- .modal-body -->
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" tabindex="-1" id="modalTransporteNaoSolicitado">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-body modal-body-lg text-center">
+                        <div class="nk-modal">
+                            <em class="nk-modal-icon icon icon-circle icon-circle-xxl ni ni-cross bg-danger"></em>
+                            <h4 class="nk-modal-title">Transporte não solicitado!</h4>
+                            <div class="nk-modal-text">
+                                <!-- <p class="lead">We are sorry, we were unable to process your payment. Please try after sometimes.</p> -->
+                                <p class="text-soft">Por favor solicite o transporte para que o paciente realize o exame.</p>
+                            </div>
+                            <div class="nk-modal-action mt-5">
+                                <a href="#" class="btn btn-lg btn-mw btn-light" data-bs-dismiss="modal" onClick="window.location.reload()">Voltar</a>
+                            </div>
+                        </div>
+                    </div><!-- .modal-body -->
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" tabindex="-1" id="modalTransporteSolicitado">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-body modal-body-lg text-center">
+                        <div class="nk-modal">
+                            <em class="nk-modal-icon icon icon-circle icon-circle-xxl ni ni-cross bg-danger"></em>
+                            <h4 class="nk-modal-title">Transporte já solicitado!</h4>
+                            <div class="nk-modal-text">
+                                <!-- <p class="lead">We are sorry, we were unable to process your payment. Please try after sometimes.</p> -->
+                                <p class="text-soft">Por favor finalize o transporte para que o paciente realize o atendimento.</p>
+                            </div>
+                            <div class="nk-modal-action mt-5">
+                                <a href="#" class="btn btn-lg btn-mw btn-light" data-bs-dismiss="modal" onClick="window.location.reload()">Voltar</a>
+                            </div>
+                        </div>
+                    </div><!-- .modal-body -->
+                </div>
+            </div>
+        </div>
+        <script type="text/javascript">
+            function mostraAlerta(elemento)
+            {   
+                if(elemento.value == '1'){
+                    elemento = 'index.html'
+                    history.pushState({}, null, elemento);
+                }else{
+                    elemento = 'index.html?setor='+elemento.value
+                    history.pushState({}, null, elemento);
+                }
+                window.location.reload()
+            }
+        </script>
+        <script src="./assets/js/jquery.min.js"></script>
+        <script src="./assets/js/bundle.js?ver=3.0.2"></script>
+        <script src="./assets/js/jquery.mask.min.js"></script>
+        <script src="./assets/js/sweet-alert.js"></script>   
+        <script src="./assets/js/scripts.js?ver=3.0.2"></script>
+        <script src="./assets/js/web-animation.js"></script>
+        <script src="./assets/js/muuri.js"></script>
+        <script src="./assets/js/jquery-3-6-3.js"></script>
+        <script src="./assets/js/axios.js"></script>
+        <script type="module" src="./src/index.js"></script>
+        <script type="module" src="./src/js/funcoes.js"></script>
+
+    </body>
+</html>
