@@ -1,5 +1,12 @@
 import { url } from "./url.js";
 const columnGrids = [];
+const socket = new WebSocket('ws://localhost:9990/chat');
+
+// Ao receber mensagens do servidor
+socket.addEventListener('message', function (event) {
+    window.location.reload()
+});
+
 export class Trelo {
 
     treloRodar() {
@@ -206,6 +213,7 @@ export class Trelo {
 
                                         //ABRE MODAL DE SUCESSO
                                         $('#modalAgendadoSucesso').modal('show')
+                                        socket.send('foi');
                                     })
                                     .catch(function (error) {
                                         $('#modalAlgoErrado').modal('show')

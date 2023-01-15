@@ -1,3 +1,3 @@
 export function url(){
-    return 'https://4050-144-22-147-249.sa.ngrok.io'
+    return 'http://10.0.0.173:8000'
 }
