@@ -4,18 +4,23 @@ import {
 import {
     cardsTrelo
 } from "./js/cardsTrelo.js";
-import columnGrids from "./js/Trelo.js";
+// import columnGrids from "./js/Trelo.js";
 import { addEvent } from "./js/cardsTrelo.js";
 import { umov } from "./js/solicitarTransporte.js";
 import { url } from "./js/url.js";
+import socket from "./js/websocket.js";
 
+// Ao receber mensagens do servidor
+socket.addEventListener('message', function (event) {
+    rodar()
+});
 
 function acesso(){
     const urlParams = new URLSearchParams(window.location.search);
     const setor = urlParams.get('setor');
   
       return {setor}
-  }
+}
 
 function rodar(){
     
@@ -28,6 +33,7 @@ acesso().setor ? x = (axios.post(y+'/api/moinhos/consulta', {codigo_setor_exame:
     x
     .then(function(response) {
         $('#modalLoading').modal('hide')
+        $("#Solicitados").empty()
         Object.entries(response.data.solicitados).forEach(([key, val]) => {
             //ICONE DE URGENCIA
             let urgente = ''
@@ -146,6 +152,7 @@ acesso().setor ? x = (axios.post(y+'/api/moinhos/consulta', {codigo_setor_exame:
             </div>
             `)
         });
+        $("#Agendados").empty()
         Object.entries(response.data.agendados).forEach(([key, val]) => {
             //ICONE DE URGENCIA
             let urgente = ''
@@ -264,6 +271,7 @@ acesso().setor ? x = (axios.post(y+'/api/moinhos/consulta', {codigo_setor_exame:
             </div>
             `)
         });
+        $("#Atendimento").empty()
         Object.entries(response.data.atendimento).forEach(([key, val]) => {
             //ICONE DE URGENCIA
             let urgente = ''
@@ -382,6 +390,7 @@ acesso().setor ? x = (axios.post(y+'/api/moinhos/consulta', {codigo_setor_exame:
             </div>
             `)
         });
+        $("#posExame").empty()
         Object.entries(response.data.pos_exame).forEach(([key, val]) => {
             //ICONE DE URGENCIA
             let urgente = ''
@@ -504,6 +513,7 @@ acesso().setor ? x = (axios.post(y+'/api/moinhos/consulta', {codigo_setor_exame:
             </div>
             `)
         });
+        $("#finalizados").empty()
         Object.entries(response.data.finalizados).forEach(([key, val]) => {
             //ICONE DE URGENCIA
             let urgente = ''
@@ -669,6 +679,7 @@ acesso().setor ? x = (axios.post(y+'/api/moinhos/consulta', {codigo_setor_exame:
             let select = document.getElementById("selectSetorExame")
             select.add(option)
         }
+
         trelo.treloRodar();
 
         //VERIFICA SE VAI ATUALIZAR A PAGINA DE ACORDO COM OS CARDS
@@ -724,7 +735,7 @@ acesso().setor ? x = (axios.post(y+'/api/moinhos/consulta', {codigo_setor_exame:
                         axios.get(linkXmlConsultaImagem).then((val)=>{
                             clearInterval(buscarDados)
                             let xmlDaTarefa = document.createElement('div')
-                            xmlDaTarefa.innerHTML = val.data
+                            xmlDaTarefa.innerappend = val.data
                             let statusTarefa = xmlDaTarefa.getElementsByTagName('schedule')[0].getElementsByTagName('situation')[0].getElementsByTagName('id')[0].innerText
                             let agenteTarefa = xmlDaTarefa.getElementsByTagName('schedule')[0].getElementsByTagName('executionstarttime')[0]
                             console.log(xmlDaTarefa)
@@ -798,28 +809,28 @@ acesso().setor ? x = (axios.post(y+'/api/moinhos/consulta', {codigo_setor_exame:
         };checaImagem()
 
         //VERICIFA SE EXISTE UM NOVO SOLICITADO
-        const busca = async ()=>{
-            let solicitadosVal = []
-            const buscarDados = setInterval(() => {
-                axios.get(y+'/api/moinhos/diferenca')
-                .then((val)=>{
-                    val.data.solicitados.forEach((val)=>{
-                        solicitadosVal.push(val)
-                    })
-                    if(val.data.solicitados != ''){
-                        addEvent(solicitadosVal, columnGrids[0])
-                        clearInterval(buscarDados)
-                        solicitadosVal = []
-                        busca()
-                    }
-                }).catch((error)=>{
-                    clearInterval(buscarDados)
-                    solicitadosVal = []
-                    busca()
-                })
-            }, 3000);
-        }
-        busca()
+        // const busca = async ()=>{
+        //     let solicitadosVal = []
+        //     const buscarDados = setInterval(() => {
+        //         axios.get(y+'/api/moinhos/diferenca')
+        //         .then((val)=>{
+        //             val.data.solicitados.forEach((val)=>{
+        //                 solicitadosVal.push(val)
+        //             })
+        //             if(val.data.solicitados != ''){
+        //                 addEvent(solicitadosVal, columnGrids[0])
+        //                 clearInterval(buscarDados)
+        //                 solicitadosVal = []
+        //                 busca()
+        //             }
+        //         }).catch((error)=>{
+        //             clearInterval(buscarDados)
+        //             solicitadosVal = []
+        //             busca()
+        //         })
+        //     }, 3000);
+        // }
+        // busca()
     })
     .catch(function(error) {
         // handle error

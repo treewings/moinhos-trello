@@ -1,4 +1,5 @@
 import { url } from "./url.js"
+import socket from "./websocket.js"
 $(document).ready(()=>{
     var y = url()
     $('#modalLoading').modal('show')
@@ -213,7 +214,7 @@ $(document).ready(()=>{
                         $('#modalForm').modal('hide')
                         //ABRE MODAL DE SUCESSO
                         $('#modalAgendadoCancelado').modal('show')
-                        window.location.reload()
+                        socket.send('foi');   
                     })
                     .catch(function (error) {
                         $('#modalAlgoErrado').modal('show')

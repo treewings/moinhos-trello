@@ -1,16 +1,12 @@
 import { url } from "./url.js";
-const columnGrids = [];
-const socket = new WebSocket('ws://localhost:9990/chat');
+import socket from "./websocket.js";
 
-// Ao receber mensagens do servidor
-socket.addEventListener('message', function (event) {
-    window.location.reload()
-});
+
 
 export class Trelo {
 
     treloRodar() {
-
+        var columnGrids = [];
         var dragContainer = document.querySelector('.drag-container');
         var itemContainers = [].slice.call(document.querySelectorAll('.board-column-content'));
         var boardGrid;
@@ -213,7 +209,10 @@ export class Trelo {
 
                                         //ABRE MODAL DE SUCESSO
                                         $('#modalAgendadoSucesso').modal('show')
-                                        socket.send('foi');
+                                        setTimeout(() => {
+                                            socket.send('foi');    
+                                        }, 1000);
+                                        
                                     })
                                     .catch(function (error) {
                                         $('#modalAlgoErrado').modal('show')
@@ -259,6 +258,9 @@ export class Trelo {
 
                                 $("#SolicitadosCount").text((+SolicitadosCount.innerText.replace(/\s/g, '')) - 1)
                                 $("#AgendadosCount").text((+AgendadosCount.innerText.replace(/\s/g, '')) + 1)
+                                setTimeout(() => {
+                                    socket.send('foi');    
+                                }, 1000);
                             })
                             .catch(function (error) {
                                 $('#modalAlgoErrado').modal('show')
@@ -281,7 +283,9 @@ export class Trelo {
                             val = JSON.parse(valor);
                             axios.post(y+'/api/moinhos/posexame',{ acess_number: ID })
                             .then(function (response) {
-                                window.location.reload()
+                                setTimeout(() => {
+                                    socket.send('foi');    
+                                }, 1000);
                             })
                             .catch(function (error) {
                                 console.log(error);
@@ -314,6 +318,9 @@ export class Trelo {
 
                                     $("#SolicitadosCount").text((+SolicitadosCount.innerText.replace(/\s/g, '')) - 1)
                                     $("#AgendadosCount").text((+AgendadosCount.innerText.replace(/\s/g, '')) + 1)
+                                    setTimeout(() => {
+                                        socket.send('foi');    
+                                    }, 1000);
                                 })
                                 .catch(function (error) {
                                     console.error(error);
@@ -342,26 +349,22 @@ export class Trelo {
                     item.getElement().style.height = '';
                     item.getGrid().refreshItems([item]);
                 })
-                .on('layoutStart', function (item) {
-                    item.forEach((val) => {
-                        if (val._gridId == 5) {
-
-                        }
-                    })
-                    boardGrid.refreshItems().layout();
+                .on('layoutStart', function (item, matriz) {
+    
                 })
                 .on('move', function (data) {
                 });
-
+            
+            grid.refreshItems().layout()
             columnGrids.push(grid);
         });
 
         // Init board grid so we can drag those columns around.
         boardGrid = new Muuri('.board', {
-            dragEnabled: true,
+            dragEnabled: false,
             dragHandle: '.board-column-header'
         });
     }
 }
 
-export default columnGrids
+// export default columnGrids
