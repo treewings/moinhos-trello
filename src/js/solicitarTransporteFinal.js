@@ -1,5 +1,5 @@
 import { url } from "./url.js"
-export function umov(val, destino){
+export function umovFinalizar(val, destino){
     var y = url()
     let dados = JSON.parse(val)
     let destinoJunto = destino.split('_')
@@ -20,6 +20,13 @@ export function umov(val, destino){
     if(dados.acom_familiar == null || dados.acom_familiar == undefined){
         dados.acom_familiar = ''
     }
+    function dataAtualFormatada() {
+        var data = new Date(),
+        dia = data.getDate().toString().padStart(2, '0'),
+        mes = (data.getMonth() + 1).toString().padStart(2, '0'), //+1 pois no getMonth Janeiro começa com zero.
+        ano = data.getFullYear();
+        return ano + "-" + mes + "-" + dia;
+    }
     if(dados.tipo_isolamento == '-'){
         dados.tipo_isolamento  = ''
     }
@@ -28,13 +35,6 @@ export function umov(val, destino){
     }
     if(dados.leito == null){
         dados.leito  = ''
-    }
-    function dataAtualFormatada() {
-        var data = new Date(),
-        dia = data.getDate().toString().padStart(2, '0'),
-        mes = (data.getMonth() + 1).toString().padStart(2, '0'), //+1 pois no getMonth Janeiro começa com zero.
-        ano = data.getFullYear();
-        return ano + "-" + mes + "-" + dia;
     }
     function horaAtualFormatada() {
         let datahora = new Date().toString()
@@ -118,38 +118,30 @@ export function umov(val, destino){
     var config = {
         headers: {'Content-Type': 'application/x-www-form-urlencoded'}
     };
-    console.log(corpo)
     axios.post(url_data, {
         data: corpo
     }, config).then((val)=>{
         let xmlDeCriacao = document.createElement('div')
         xmlDeCriacao.innerHTML = val.data
-        let numeroTarefa = xmlDeCriacao.children[0].children[1].innerText
-        console.log(numeroTarefa)
-        let linkXmlTarefa = 'https://api.umov.me/CenterWeb/api/26347e33d181559023ab7b32150ca3bfbc572e/schedule/'+numeroTarefa+'.xml'
+        var numeroTarefaFinal = xmlDeCriacao.children[0].children[1].innerText
+        let linkXmlTarefa = 'https://api.umov.me/CenterWeb/api/26347e33d181559023ab7b32150ca3bfbc572e/schedule/'+numeroTarefaFinal+'.xml'
         axios.get(linkXmlTarefa).then((val)=>{
             let xmlDaTarefa = document.createElement('div')
             xmlDaTarefa.innerHTML = val.data
-            // console.log(xmlDaTarefa)
             let atividadesUm = xmlDaTarefa.children[0].children[15].children[0].innerHTML
-            // let atividadesDois = xmlDaTarefa.children[0].children[21].children[0].children[0].id
-            // let atividadesTres = xmlDaTarefa.children[0].children[21].children[0].children[0].children[0].id
-            console.log(atividadesUm)
-            // console.log(atividadesDois)
-            // console.log(atividadesTres)
             axios.post(y+'/api/moinhos/agendar/tarefa/'+dados.acess_number, {
-                numero_tarefa: numeroTarefa,
+                numero_tarefa: numeroTarefaFinal,
                 imagem_cadeira: 'cadeira-de-rodas-amarelo.png',
                 sala: nome_destino,
                 cod_sala: Destino,
-                origem: 'agendado'
+                origem: 'posexame'
             })
             .then(function (response) {
-                $('#modalTransporte').modal('hide')
+                $('#modalTransporteFinal').modal('hide')
                 window.location.reload()
             })
             .catch(function (error) {
-                $('#modalTransporte').modal('hide')
+                $('#modalTransporteFinal').modal('hide')
                 $('#modalAlgoErrado').modal('show')
                 console.log(error);
             });
@@ -161,4 +153,3 @@ export function umov(val, destino){
         console.log(error);
     }) 
 }
-

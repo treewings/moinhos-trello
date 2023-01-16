@@ -19,7 +19,12 @@ $(document).ready(()=>{
         let solicitado = document.querySelector("#solicitado-"+ID);
         let agendado = document.querySelector("#agendado-"+ID);
         let atendimento = document.querySelector("#atendimento-"+ID);
+        let posexame = document.querySelector("#posexame-"+ID);
+        let finalizado = document.querySelector("#finalizado-"+ID);
         let sala = document.querySelector("#sala-"+ID);
+        let observacaoitem = document.querySelector("#observacao_item-"+ID);
+        let justificativaitem = document.querySelector("#justificativa_item-"+ID);
+        let obsercacao = document.querySelector("#observacao-"+ID);
 
         let valueNome = nome.value == '' || nome.value == 'null' || nome.value == undefined ? '' : nome.value;
         let valueDtNascimento = dtnascimento.value == '' || dtnascimento.value == null || dtnascimento.value == undefined ? '' : dtnascimento.value;
@@ -35,19 +40,44 @@ $(document).ready(()=>{
         let valueSolicitado = sala.value == '' || sala.value == 'null' || sala.value == undefined ? '' : sala.value;
         let valueAgendado = agendado.value == '' || agendado.value == 'null' || agendado.value == undefined ? '' : agendado.value;
         let valueAtendimento = atendimento.value == '' || atendimento.value == 'null' || atendimento.value == undefined ? '' : atendimento.value;
+        let valuePosExame = posexame.value == '' || posexame.value == 'null' || posexame.value == undefined ? '' : posexame.value;
+        let valueFinalizado = finalizado.value == '' || finalizado.value == 'null' || finalizado.value == undefined ? '' : finalizado.value;
+        let valueObservacaoItem = observacaoitem.value == '' || observacaoitem.value == 'null' || observacaoitem.value == undefined ? '' : observacaoitem.value;
+        let valueJustificativaItem = justificativaitem.value == '' || justificativaitem.value == 'null' || justificativaitem.value == undefined ? '' : justificativaitem.value;
+        let valueObservacao = obsercacao.value == '' || obsercacao.value == 'null' || obsercacao.value == undefined ? '' : obsercacao.value;
+
+        let origemtextArea =  ''
+        if (valueAgendado == 'agendado') {
+            origemtextArea = 'agendado'
+        }if (valueAtendimento == 'atendimento') {
+            origemtextArea = 'atendimento'
+        }if (valuePosExame == 'posexame') {
+            origemtextArea = 'posexame'
+        }if (valueFinalizado == 'finalizado') {
+            origemtextArea = 'finalizado'
+        }
+
 
         let botaoCancelar = ``
-        // if(valueSolicitado == 'solicitado'){
-        //     botaoCancelar = `
-        //         <div class="col-lg-12 col-sm-12 mt-3">
-        //             <a id="cancelarAgendamentoExame" class="btn btn-dim btn-light mt-2" data-id="`+ID+`">Cancelar solicitação</a>
-        //         </div>
-        //     `
-        // }
+        let textAreaObservacao = ``
         if(valueAgendado == 'agendado'){
             botaoCancelar = `
                 <div class="col-lg-12 col-sm-12 mt-3">
                     <a id="cancelarAgendamentoExame" class="btn btn-dim btn-light mt-2" data-id="`+ID+`">Cancelar horário agendado</a>
+                </div>
+            `
+
+            textAreaObservacao = `
+                <div class="col-sm-12">
+                    <div class="form-group">
+                        <label class="form-label" for="default-textarea">Observações</label>
+                        <div class="form-control-wrap">
+                            <textarea class="form-control no-resize" id="default-textarea-`+valueAcessionNumber+`">`+valueObservacao+`</textarea>
+                        </div>
+                    </div>
+                    <div class="form-group mb-0 mt-1 d-flex flex-row-reverse">
+                        <button type="submit" data-origem="`+origemtextArea+`" data-id="`+valueAcessionNumber+`" id="salvarObservacaoPreview" class="btn btn-sm btn-dim btn-outline-primary">Salvar Observações</button>
+                    </div>
                 </div>
             `
         }
@@ -138,24 +168,28 @@ $(document).ready(()=>{
             <div class="col-lg-12 col-sm-12 mb-3">
                 <div class="form-group">
                     <div class="form-control-wrap">
+                        <label class="form-label m-0" for="outlined-normal">Observação do Item</label>
+                        <input type="text" class="form-control form-control form-control-outlined" disabled value=" `+valueObservacaoItem+`" id="outlined-normal">
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-12 col-sm-12 mb-3">
+                <div class="form-group">
+                    <div class="form-control-wrap">
+                        <label class="form-label m-0" for="outlined-normal">Justificativa do Item</label>
+                        <input type="text" class="form-control form-control form-control-outlined" disabled value=" `+valueJustificativaItem+`" id="outlined-normal">
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-12 col-sm-12 mb-3">
+                <div class="form-group">
+                    <div class="form-control-wrap">
                         <label class="form-label m-0" for="outlined-normal">Sala de Exame</label>
                         <input type="text" class="form-control form-control form-control-outlined" disabled value=" `+valueSala+`" id="outlined-normal">
                     </div>
                 </div>
             </div>
-            <div class="col-sm-12">
-                <form name="formObservacoesPreview"  id="formObservacoesPreview" class="form-validate is-alter>
-                    <div class="form-group">
-                        <label class="form-label" for="default-textarea">Observações</label>
-                        <div class="form-control-wrap">
-                            <textarea class="form-control no-resize" id="default-textarea">Large text area content</textarea>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-dim btn-outline-primary">Solicitar</button>
-                    </div>
-                </form>
-            </div>
+            `+textAreaObservacao+`
             `+botaoCancelar+`
         `;
     })    
@@ -286,5 +320,26 @@ $(document).ready(()=>{
                 )
             }
         })
+    })
+
+
+    $('body').on('click', '#salvarObservacaoPreview', function(event) {
+        event.preventDefault()
+        let ID = $(this).data("id")
+        console.log(ID)
+        let origem = $(this).data("origem")
+        console.log(origem)
+
+        let observacao = document.getElementById('default-textarea-'+ID)
+        let valueObservacao = observacao.value
+        axios.post(y+'/api/moinhos/observacao/'+ID, {
+            origem: origem,
+            observacao:  valueObservacao
+        })
+        .then(function (response) {
+            window.location.reload()
+            // console.log(xmlDaTarefa)
+        })
+        
     })
 })

@@ -12,7 +12,7 @@ export class Trelo {
         itemContainers.forEach(function (container) {
             var grid = new Muuri(container, {
                 items: '.board-item',
-                ...( container.id == 'finalizados' || container.id == 'posExame' ? {
+                ...( container.id == 'finalizados' ? {
                     dragEnabled: false
                 } : {
                     dragEnabled: true
@@ -79,6 +79,13 @@ export class Trelo {
                             ano = data.getFullYear();
                             return ano + "-" + mes + "-" + dia;
                         }
+                        function dataAtualPadrao() {
+                            var data = new Date(),
+                            dia = data.getDate().toString().padStart(2, '0'),
+                            mes = (data.getMonth() + 1).toString().padStart(2, '0'), //+1 pois no getMonth Janeiro começa com zero.
+                            ano = data.getFullYear();
+                            return dia+'/'+mes+'/'+ano;
+                        }
                         function horaAtualFormatada() {
                             let datahora = new Date().toString()
                             let dataEhora = datahora.split(" ")
@@ -132,13 +139,13 @@ export class Trelo {
                             //VERIFICA SE A HORA INPUTADA NÃO É MENOR QUE A ATUAL
                             let horaAtual = horaAtualFormatada().split()
                             let horaInputada = hr.split()
-                            if (horaInputada[0] < horaAtual[0]) {
+                            if (horaInputada[0] < horaAtual[0] && dt <= dataAtualPadrao()) {
                                 item.toGrid.send(item.item, item.fromGrid, 0, {
                                     layoutReceiver: "instant",
                                 });
                                 continuar = 'nao';
                                 $('#modalHoraValida').modal('toggle')
-                            }if (horaInputada[0] = horaAtual[0] && horaInputada[1] < horaAtual[1]) {
+                            }if ((horaInputada[0] = horaAtual[0] && horaInputada[1] < horaAtual[1]) && dt <= dataAtualPadrao()) {
                                 item.toGrid.send(item.item, item.fromGrid, 0, {
                                     layoutReceiver: "instant",
                                 });
@@ -226,6 +233,14 @@ export class Trelo {
                         let numeroTarefa = tagNumeroTarefa.value
                         let statusTarefa = document.querySelector("#status_tarefa-" + ID);
                         let status = statusTarefa.value
+                        if(numeroTarefa == 'null'){
+                            $('#modalTransporteNaoSolicitado').modal('show')
+                            item.toGrid.send(item.item, item.fromGrid, 0, {
+                                layoutReceiver: "instant",
+                            });
+                            // window.location.reload()
+                            return
+                        }
                         if(status != '50' && status != '70'){
                             $('#modalTransporteSolicitado').modal('show')
                             item.toGrid.send(item.item, item.fromGrid, 0, {
@@ -245,6 +260,8 @@ export class Trelo {
                                 codigo_setor_exame: val.codigo_setor_exame
                             })
                             .then(function (response) {
+                                $('#modalAtendimentoSucesso').modal('show')
+
                                 //ATRIBUI OS VALORES DOS COUNT's
                                 let SolicitadosCount = document.getElementById("AgendadosCount");
                                 let AgendadosCount = document.getElementById("AtendimentoCount");
@@ -296,26 +313,41 @@ export class Trelo {
                             let valor = update.value;
                             val = JSON.parse(valor);
                             axios.post(y+'/api/moinhos/finalizar', {
-                                acess_number: ID,
-                                dados: val
+                                acess_number: ID
                             })
-                                .then(function (response) {
-                                    //ATRIBUI OS VALORES DOS COUNT's
-                                    let SolicitadosCount = document.getElementById("PosExameCount");
-                                    let AgendadosCount = document.getElementById("FinalizadosCount");
+                            .then(function (response) {
+                                //ATRIBUI OS VALORES DOS COUNT's
+                                let SolicitadosCount = document.getElementById("PosExameCount");
+                                let AgendadosCount = document.getElementById("FinalizadosCount");
 
-                                    $("#SolicitadosCount").text((+SolicitadosCount.innerText.replace(/\s/g, '')) - 1)
-                                    $("#AgendadosCount").text((+AgendadosCount.innerText.replace(/\s/g, '')) + 1)
-                                })
-                                .catch(function (error) {
-                                    console.error(error);
-                                });
+                                $("#SolicitadosCount").text((+SolicitadosCount.innerText.replace(/\s/g, '')) - 1)
+                                $("#AgendadosCount").text((+AgendadosCount.innerText.replace(/\s/g, '')) + 1)
 
-
+                                window.location.reload()
+                            })
+                            .catch(function (error) {
+                                console.error(error);
+                            });
                         })
                     }
                     //EVENTO DE PASSAGEM DO CARD DE AGENDADOS PARA SOLICITADOS
                     if(item.fromGrid._element.id == 'Agendados' && item.toGrid._element.id == 'Solicitados'){
+                        $('#modalMovimentacaoInvalida').modal('show')
+                        item.toGrid.send(item.item, item.fromGrid, 0, {
+                            layoutReceiver: "instant",
+                        });
+                        window.location.reload()
+                    }
+                    //EVENTO DE PASSAGEM DO CARD DE ATENDIMENTO PARA AGENDADOS
+                    if(item.fromGrid._element.id == 'Atendimento' && item.toGrid._element.id == 'Agendados'){
+                        $('#modalMovimentacaoInvalida').modal('show')
+                        item.toGrid.send(item.item, item.fromGrid, 0, {
+                            layoutReceiver: "instant",
+                        });
+                        window.location.reload()
+                    }
+                    //EVENTO DE PASSAGEM DO CARD DE POSEXAME PARA ATENDIMENTO
+                    if(item.fromGrid._element.id == 'posExame' && item.toGrid._element.id == 'Atendimento'){
                         $('#modalMovimentacaoInvalida').modal('show')
                         item.toGrid.send(item.item, item.fromGrid, 0, {
                             layoutReceiver: "instant",

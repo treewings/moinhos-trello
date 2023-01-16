@@ -7,6 +7,7 @@ import {
 import columnGrids from "./js/Trelo.js";
 import { addEvent } from "./js/cardsTrelo.js";
 import { umov } from "./js/solicitarTransporte.js";
+import { umovFinalizar } from "./js/solicitarTransporteFinal.js";
 import { url } from "./js/url.js";
 
 
@@ -57,7 +58,9 @@ acesso().setor ? x = (axios.post(y+'/api/moinhos/consulta', {codigo_setor_exame:
             let formartarData = formartarHoraData[0].split("-")
             let formatarHora = formartarHoraData[1].split(":")
             dataHora = formartarData[0]+'/'+formartarData[1]+'/'+formartarData[2]+' '+formatarHora[0]+':'+formatarHora[1]
+        
 
+            
             $('#Solicitados').append(`
             <div class="board-item m-0 mt-2 border rounded movercard" data-id="${val.acess_number}">
                 <div class="board-item-content p-0">
@@ -79,9 +82,9 @@ acesso().setor ? x = (axios.post(y+'/api/moinhos/consulta', {codigo_setor_exame:
                                 </div>
                                 <a class="rounded-3 d-flex px-1 pb-0 text-dark align-items-center" style="background-color: #ecebeb; cursor: pointer; display:flex; align-items: cente;">
                                     <div style="font-size: 13px;" class="m-0 d-flex align-items-center"  id="img_icone-${val.acess_number}">
-
+            
                                     </div>
-                                    <div id="counter">00:00</div>
+                                    <div class="">00:00</div>
                                 </a>
                             </div>
                             <div>
@@ -93,6 +96,7 @@ acesso().setor ? x = (axios.post(y+'/api/moinhos/consulta', {codigo_setor_exame:
                                 <input type="hidden" id="agendado-${val.acess_number}" value='' >
                                 <input type="hidden" id="atendimento-${val.acess_number}" value='' >
                                 <input type="hidden" id="posexame-${val.acess_number}" value='' >
+                                <input type="hidden" id="finalizado-${val.acess_number}" value='' >
                                 <input type="hidden" id="atendimento-${val.acess_number}" value="${val.atendimento}" >
                                 <input type="hidden" id="tipo_atendimento-${val.acess_number}" value="${val.tipo_atendimento}" >
                                 <input type="hidden" id="prontuario-${val.acess_number}" value="${val.prontuario}" >
@@ -101,7 +105,7 @@ acesso().setor ? x = (axios.post(y+'/api/moinhos/consulta', {codigo_setor_exame:
                                 <input type="hidden" id="nome_mae-${val.acess_number}" value="${val.nome_mae}" >
                                 <input type="hidden" id="prestador-${val.acess_number}" value="${val.prestador}" >
                                 <input type="hidden" id="codigo_ui-${val.acess_number}" value="${val.codigo_ui}" >
-                                <input type="hidden" id="unidade_internacao-${val.acess_number}" value="${val.unidade_unternacao}" >
+                                <input type="hidden" id="unidade_internacao-${val.acess_number}" value="${val.unidade_internacao}" >
                                 <input type="hidden" id="codigo_leito-${val.acess_number}" value="${val.codigo_leito}" >
                                 <input type="hidden" id="leito-${val.acess_number}" value="${val.leito}" >
                                 <input type="hidden" id="codigo_setor-${val.acess_number}" value="${val.codigo_setor}" >
@@ -133,9 +137,11 @@ acesso().setor ? x = (axios.post(y+'/api/moinhos/consulta', {codigo_setor_exame:
                                 <input type="hidden" id="cor_classificacao-${val.acess_number}" value="${val.cor_classificacao}" >
                                 <input type="hidden" id="tipo_risco-${val.acess_number}" value="${val.tipo_risco}" >
                                 <input type="hidden" id="sala-${val.acess_number}" value="${val.sala}" >
+                                <input type="hidden" id="observacao-${val.acess_number}" value="${val.observacao}" >
+
                             </div>
                             <div class="d-flex justify-content-between">
-                                <p class="m-0" id="agendamento-${val.acess_number}">Solicitado em `+dataHora+`</p>
+                                <p class="m-0 text-dark" id="agendamento-${val.acess_number}">Solicitado em `+dataHora+`</p>
                                 <div class="aparecer" data-id="${val.acess_number}">
                                     <a style="background: transparent;" class="border-0 p-0 btn btn-icon btn-light" data-bs-toggle="modal" data-bs-target="#modalForm">•••</a>
                                 </div>
@@ -145,6 +151,26 @@ acesso().setor ? x = (axios.post(y+'/api/moinhos/consulta', {codigo_setor_exame:
                 </div>
             </div>
             `)
+
+            // const rodar = ()=>{
+            //     setInterval(async ()=> {
+            //       var tempo = new Date();
+            //       var hora = tempo.getHours();
+            //       var minuto = tempo.getMinutes();
+            //       var segundo = tempo.getSeconds();
+            //       var temp = "" + ((hora > 12) ? hora - 12 : hora);
+            //       if (hora == 0)
+            //         temp = "12";
+            //       temp += ((minuto < 10) ? ":0" : ":") + minuto;
+            //       temp += ((segundo < 10) ? ":0" : ":") + segundo;
+            //       temp += (hora >= 12) ? " P.M." : " A.M.";
+            //       console.log(temp)
+            //       return temp;
+            //     }, 1000);
+            //   }
+              
+            //   console.log(rodar())
+
         });
         Object.entries(response.data.agendados).forEach(([key, val]) => {
             //ICONE DE URGENCIA
@@ -175,6 +201,15 @@ acesso().setor ? x = (axios.post(y+'/api/moinhos/consulta', {codigo_setor_exame:
             let formartarData = formartarHoraData[0].split("-")
             let formatarHora = formartarHoraData[1].split(":")
             dataHora = formartarData[0]+'/'+formartarData[1]+'/'+formartarData[2]+' '+formatarHora[0]+':'+formatarHora[1]
+            //CONSIÇÃO CARD AGENDADOS
+            let condicao = val.numero_tarefa == null ? 'solicitarTransporte' : ''
+            //NOME DA SALA
+            let descricaoSala = ''
+            if (val.sala == null) {
+                descricaoSala = ''
+            }else{
+                descricaoSala = val.sala
+            }
 
             $('#Agendados').append(`
             <div class="board-item m-0  mt-2 border rounded"  data-id="${val.acess_number}">
@@ -195,7 +230,7 @@ acesso().setor ? x = (axios.post(y+'/api/moinhos/consulta', {codigo_setor_exame:
                                 <div class="pe-2 mb-0 d-flex align-items-center">At. ${val.atendimento}</div>
                                 <div class="mb-0 d-flex align-items-center">AN. ${val.acess_number}</div>
                             </div>
-                            <a class="rounded-3 d-flex px-1 text-dark align-items-center" id="solicitarTransporte" data-id="${val.acess_number}" style="background-color: #ecebeb; cursor: pointer; display:flex; align-items: cente; padding-top: 1px; padding-bottom: 1px;">
+                            <a class="rounded-3 d-flex px-1 text-dark align-items-center" id="`+condicao+`" data-id="${val.acess_number}" style="background-color: #ecebeb; cursor: pointer; display:flex; align-items: cente; padding-top: 1px; padding-bottom: 1px;">
                                 <div style="font-size: 13px;" class="m-0 d-flex align-items-center" id="img_icone-${val.acess_number}">
                                     <img style="height: 13px; margin-right: 5px; margin-left: 4px;" src="assets/images/Icones/${val.imagem_cadeira}">
                                 </div>
@@ -204,6 +239,7 @@ acesso().setor ? x = (axios.post(y+'/api/moinhos/consulta', {codigo_setor_exame:
                         </div>
                         <div>
                             <p class="mb-0">${val.descricao_exame}</p>
+                            <p class="mb-0">`+descricaoSala+`</p>
                             <input type="hidden" id="solicitar-update-${val.acess_number}" value='${JSON.stringify(val)}'>
                             <input type="hidden" id="numero_tarefa-${val.acess_number}" value='${val.numero_tarefa}'>
                             <input type="hidden" id="status_tarefa-${val.acess_number}" value='${val.status_tarefa}'>
@@ -211,6 +247,7 @@ acesso().setor ? x = (axios.post(y+'/api/moinhos/consulta', {codigo_setor_exame:
                             <input type="hidden" id="agendado-${val.acess_number}" value='agendado'>
                             <input type="hidden" id="atendimento-${val.acess_number}" value=''>
                             <input type="hidden" id="posexame-${val.acess_number}" value=''>
+                            <input type="hidden" id="finalizado-${val.acess_number}" value=''>
                             <input type="hidden" id="atendimento-${val.acess_number}" value="${val.atendimento}">
                             <input type="hidden" id="tipo_atendimento-${val.acess_number}" value="${val.tipo_atendimento}">
                             <input type="hidden" id="prontuario-${val.acess_number}" value="${val.prontuario}">
@@ -219,7 +256,7 @@ acesso().setor ? x = (axios.post(y+'/api/moinhos/consulta', {codigo_setor_exame:
                             <input type="hidden" id="nome_mae-${val.acess_number}" value="${val.nome_mae}">
                             <input type="hidden" id="prestador-${val.acess_number}" value="${val.prestador}">
                             <input type="hidden" id="codigo_ui-${val.acess_number}" value="${val.codigo_ui}">
-                            <input type="hidden" id="unidade_internacao-${val.acess_number}" value="${val.unidade_unternacao}">
+                            <input type="hidden" id="unidade_internacao-${val.acess_number}" value="${val.unidade_internacao}">
                             <input type="hidden" id="codigo_leito-${val.acess_number}" value="${val.codigo_leito}">
                             <input type="hidden" id="leito-${val.acess_number}" value="${val.leito}">
                             <input type="hidden" id="codigo_setor-${val.acess_number}" value="${val.codigo_setor}">
@@ -251,9 +288,11 @@ acesso().setor ? x = (axios.post(y+'/api/moinhos/consulta', {codigo_setor_exame:
                             <input type="hidden" id="cor_classificacao-${val.acess_number}" value="${val.cor_classificacao}">
                             <input type="hidden" id="tipo_risco-${val.acess_number}" value="${val.tipo_risco}">
                             <input type="hidden" id="sala-${val.acess_number}" value="${val.sala}" >
+                            <input type="hidden" id="observacao-${val.acess_number}" value="${val.observacao}" >
+
                         </div>
                         <div class="d-flex justify-content-between">
-                            <p class="m-0 text-primary" id="agendamento-${val.acess_number}">Agendado para ${val.data_movimentacao}</p>
+                            <p class="m-0 text-primary" id="agendamento-${val.acess_number}">Agendado para ${val.data_agendamento} ${val.hora_agendamento}</p>
                             <div class="aparecer" data-id="${val.acess_number}">
                                 <a style="background: transparent;" class="border-0 p-0 btn btn-icon btn-light" data-bs-toggle="modal" data-bs-target="#modalForm">•••</a>
                             </div>
@@ -293,6 +332,13 @@ acesso().setor ? x = (axios.post(y+'/api/moinhos/consulta', {codigo_setor_exame:
             let formartarData = formartarHoraData[0].split("-")
             let formatarHora = formartarHoraData[1].split(":")
             dataHora = formartarData[0]+'/'+formartarData[1]+'/'+formartarData[2]+' '+formatarHora[0]+':'+formatarHora[1]
+            //NOME DA SALA
+            let descricaoSala = ''
+            if (val.sala == null) {
+                descricaoSala = ''
+            }else{
+                descricaoSala = val.sala
+            }
 
             $('#Atendimento').append(`
             <div class="board-item m-0 mt-2 border rounded movercard" data-id="${val.acess_number}">
@@ -322,12 +368,14 @@ acesso().setor ? x = (axios.post(y+'/api/moinhos/consulta', {codigo_setor_exame:
                             </div>
                             <div>
                                 <p class="mb-0">${val.descricao_exame}</p>
+                                <p class="mb-0">`+descricaoSala+`</p>
                                 <input type="hidden" id="solicitar-update-${val.acess_number}" value='${JSON.stringify(val)}' >
                                 <input type="hidden" id="numero_tarefa-${val.acess_number}" value='${val.numero_tarefa}'>
                                 <input type="hidden" id="solicitado-${val.acess_number}" value='solicitado' >
                                 <input type="hidden" id="agendado-${val.acess_number}" value='agendado' >
                                 <input type="hidden" id="atendimento-${val.acess_number}" value='atendimento' >
                                 <input type="hidden" id="posexame-${val.acess_number}" value='' >
+                                <input type="hidden" id="finalizado-${val.acess_number}" value='' >
                                 <input type="hidden" id="atendimento-${val.acess_number}" value="${val.atendimento}" >
                                 <input type="hidden" id="tipo_atendimento-${val.acess_number}" value="${val.tipo_atendimento}" >
                                 <input type="hidden" id="prontuario-${val.acess_number}" value="${val.prontuario}" >
@@ -336,7 +384,7 @@ acesso().setor ? x = (axios.post(y+'/api/moinhos/consulta', {codigo_setor_exame:
                                 <input type="hidden" id="nome_mae-${val.acess_number}" value="${val.nome_mae}" >
                                 <input type="hidden" id="prestador-${val.acess_number}" value="${val.prestador}" >
                                 <input type="hidden" id="codigo_ui-${val.acess_number}" value="${val.codigo_ui}" >
-                                <input type="hidden" id="unidade_internacao-${val.acess_number}" value="${val.unidade_unternacao}" >
+                                <input type="hidden" id="unidade_internacao-${val.acess_number}" value="${val.unidade_internacao}" >
                                 <input type="hidden" id="codigo_leito-${val.acess_number}" value="${val.codigo_leito}" >
                                 <input type="hidden" id="leito-${val.acess_number}" value="${val.leito}" >
                                 <input type="hidden" id="codigo_setor-${val.acess_number}" value="${val.codigo_setor}" >
@@ -368,6 +416,8 @@ acesso().setor ? x = (axios.post(y+'/api/moinhos/consulta', {codigo_setor_exame:
                                 <input type="hidden" id="cor_classificacao-${val.acess_number}" value="${val.cor_classificacao}" >
                                 <input type="hidden" id="tipo_risco-${val.acess_number}" value="${val.tipo_risco}" >
                                 <input type="hidden" id="sala-${val.acess_number}" value="${val.sala}" >
+                                <input type="hidden" id="observacao-${val.acess_number}" value="${val.observacao}" >
+
 
                             </div>
                             <div class="d-flex justify-content-between">
@@ -415,6 +465,15 @@ acesso().setor ? x = (axios.post(y+'/api/moinhos/consulta', {codigo_setor_exame:
             if (val.imagem_cadeira == null || val.imagem_cadeira == undefined) {
                 val.imagem_cadeira = 'cadeira-de-rodas-preto.png'
             }
+            //CONSIÇÃO CARD AGENDADOS
+            let condicao = val.numero_tarefa == null ? 'solicitarTransporteFinal' : ''
+            //NOME DA SALA
+            let descricaoSala = ''
+            if (val.sala == null) {
+                descricaoSala = ''
+            }else{
+                descricaoSala = val.sala
+            }
 
             $('#posExame').append(`
             <div class="board-item m-0  mt-2 border rounded"  data-id="${val.acess_number}">
@@ -435,15 +494,16 @@ acesso().setor ? x = (axios.post(y+'/api/moinhos/consulta', {codigo_setor_exame:
                                 <div class="pe-2 mb-0 d-flex align-items-center">At. ${val.atendimento}</div>
                                 <div class="mb-0 d-flex align-items-center">AN. ${val.acess_number}</div>
                             </div>
-                            <a class="rounded-3 d-flex px-1 text-dark align-items-center" id="solicitarTransporteFinalizar" data-id="${val.acess_number}" style="background-color: #ecebeb; cursor: pointer; display:flex; align-items: cente; padding-top: 1px; padding-bottom: 1px;">
-                                <div style="font-size: 13px;" class="m-0 d-flex align-items-center" id="img_icone-${val.acess_number}">
-                                    <img style="height: 13px; margin-right: 5px; margin-left: 4px;" src="assets/images/Icones/${val.imagem_cadeira}">
-                                </div>
+                            <a class="rounded-3 d-flex px-1 text-dark align-items-center" id="`+condicao+`" data-id="${val.acess_number}" style="background-color: #ecebeb; cursor: pointer; display:flex; align-items: cente; padding-top: 1px; padding-bottom: 1px;">
+                                    <div style="font-size: 13px;" class="m-0 d-flex align-items-center" id="img_icone-${val.acess_number}">
+                                        <img style="height: 13px; margin-right: 5px; margin-left: 4px;" src="assets/images/Icones/${val.imagem_cadeira}">
+                                    </div>
                                 <div class="">00:00</div>
                             </a>
                         </div>
                         <div>
                             <p class="mb-0">${val.descricao_exame}</p>
+                            <p class="mb-0">`+descricaoSala+`</p>
                             <input type="hidden" id="solicitar-update-${val.acess_number}" value='${JSON.stringify(val)}'>
                             <input type="hidden" id="numero_tarefa-${val.acess_number}" value='${val.numero_tarefa}'>
                             <input type="hidden" id="imagem_cadeira-${val.acess_number}" value='${val.imagem_cadeira}'>
@@ -451,6 +511,7 @@ acesso().setor ? x = (axios.post(y+'/api/moinhos/consulta', {codigo_setor_exame:
                             <input type="hidden" id="agendado-${val.acess_number}" value='agendado'>
                             <input type="hidden" id="atendimento-${val.acess_number}" value='atendimento'>
                             <input type="hidden" id="posexame-${val.acess_number}" value='posexame'>
+                            <input type="hidden" id="finalizado-${val.acess_number}" value=''>
                             <input type="hidden" id="atendimento-${val.acess_number}" value="${val.atendimento}">
                             <input type="hidden" id="tipo_atendimento-${val.acess_number}" value="${val.tipo_atendimento}">
                             <input type="hidden" id="prontuario-${val.acess_number}" value="${val.prontuario}">
@@ -459,7 +520,7 @@ acesso().setor ? x = (axios.post(y+'/api/moinhos/consulta', {codigo_setor_exame:
                             <input type="hidden" id="nome_mae-${val.acess_number}" value="${val.nome_mae}">
                             <input type="hidden" id="prestador-${val.acess_number}" value="${val.prestador}">
                             <input type="hidden" id="codigo_ui-${val.acess_number}" value="${val.codigo_ui}">
-                            <input type="hidden" id="unidade_internacao-${val.acess_number}" value="${val.unidade_unternacao}">
+                            <input type="hidden" id="unidade_internacao-${val.acess_number}" value="${val.unidade_internacao}">
                             <input type="hidden" id="codigo_leito-${val.acess_number}" value="${val.codigo_leito}">
                             <input type="hidden" id="leito-${val.acess_number}" value="${val.leito}">
                             <input type="hidden" id="codigo_setor-${val.acess_number}" value="${val.codigo_setor}">
@@ -491,6 +552,8 @@ acesso().setor ? x = (axios.post(y+'/api/moinhos/consulta', {codigo_setor_exame:
                             <input type="hidden" id="cor_classificacao-${val.acess_number}" value="${val.cor_classificacao}">
                             <input type="hidden" id="tipo_risco-${val.acess_number}" value="${val.tipo_risco}">
                             <input type="hidden" id="sala-${val.acess_number}" value="${val.sala}" >
+                            <input type="hidden" id="observacao-${val.acess_number}" value="${val.observacao}" >
+
                         </div>
                         <div class="d-flex justify-content-between">
                             <p class="m-0 text-warning" id="agendamento-${val.acess_number}">Saiu de atendimento ${val.data_movimentacao}</p>
@@ -553,11 +616,6 @@ acesso().setor ? x = (axios.post(y+'/api/moinhos/consulta', {codigo_setor_exame:
                                     <div class="pe-2 mb-0 d-flex align-items-center">At. ${val.atendimento}</div>
                                     <div class="mb-0 d-flex align-items-center">AN. ${val.acess_number}</div>
                                 </div>
-                                <a class="rounded-3 d-flex px-1 text-dark align-items-center" id="solicitarTransporteFinal" data-id="${val.acess_number}" style="background-color: #ecebeb; cursor: pointer; display:flex; align-items: cente; padding-top: 1px; padding-bottom: 1px;">
-                                    <div style="font-size: 13px;" class="m-0 d-flex align-items-center" id="img_icone-${val.acess_number}">
-                                        <img style="height: 13px; margin-right: 5px; margin-left: 4px;" src="assets/images/Icones/${val.imagem_cadeira}">
-                                    </div>
-                                <div class="">00:00</div>
                             </a>
                             </div>
                             <div>
@@ -566,9 +624,10 @@ acesso().setor ? x = (axios.post(y+'/api/moinhos/consulta', {codigo_setor_exame:
                                 <input type="hidden" id="solicitar-update-${val.acess_number}" value='${JSON.stringify(val)}' >
                                 <input type="hidden" id="numero_tarefa-${val.acess_number}" value='${val.numero_tarefa}'>
                                 <input type="hidden" id="solicitado-${val.acess_number}" value='solicitado'>
-                                <input type="hidden" id="agendado-${val.acess_number}" value='' >
-                                <input type="hidden" id="atendimento-${val.acess_number}" value='' >
-                                <input type="hidden" id="posexame-${val.acess_number}" value='' >
+                                <input type="hidden" id="agendado-${val.acess_number}" value='agendado' >
+                                <input type="hidden" id="atendimento-${val.acess_number}" value='atendimento' >
+                                <input type="hidden" id="posexame-${val.acess_number}" value='posexame' >
+                                <input type="hidden" id="finalizado-${val.acess_number}" value='finalizado' >
                                 <input type="hidden" id="atendimento-${val.acess_number}" value="${val.atendimento}" >
                                 <input type="hidden" id="tipo_atendimento-${val.acess_number}" value="${val.tipo_atendimento}" >
                                 <input type="hidden" id="prontuario-${val.acess_number}" value="${val.prontuario}" >
@@ -577,7 +636,7 @@ acesso().setor ? x = (axios.post(y+'/api/moinhos/consulta', {codigo_setor_exame:
                                 <input type="hidden" id="nome_mae-${val.acess_number}" value="${val.nome_mae}" >
                                 <input type="hidden" id="prestador-${val.acess_number}" value="${val.prestador}" >
                                 <input type="hidden" id="codigo_ui-${val.acess_number}" value="${val.codigo_ui}" >
-                                <input type="hidden" id="unidade_internacao-${val.acess_number}" value="${val.unidade_unternacao}" >
+                                <input type="hidden" id="unidade_internacao-${val.acess_number}" value="${val.unidade_internacao}" >
                                 <input type="hidden" id="codigo_leito-${val.acess_number}" value="${val.codigo_leito}" >
                                 <input type="hidden" id="leito-${val.acess_number}" value="${val.leito}" >
                                 <input type="hidden" id="codigo_setor-${val.acess_number}" value="${val.codigo_setor}" >
@@ -609,9 +668,10 @@ acesso().setor ? x = (axios.post(y+'/api/moinhos/consulta', {codigo_setor_exame:
                                 <input type="hidden" id="cor_classificacao-${val.acess_number}" value="${val.cor_classificacao}" >
                                 <input type="hidden" id="tipo_risco-${val.acess_number}" value="${val.tipo_risco}" >
                                 <input type="hidden" id="sala-${val.acess_number}" value="${val.sala}" >
+                                <input type="hidden" id="observacao-${val.acess_number}" value="${val.observacao}" >
                             </div>
                             <div class="d-flex justify-content-between">
-                                <p class="m-0" id="agendamento-${val.acess_number}">Solicitado em ${val.data_movimentacao}</p>
+                                <p class="m-0 text-dark" id="agendamento-${val.acess_number}">Finalizado em em ${val.data_movimentacao}</p>
                                 <div class="aparecer" data-id="${val.acess_number}">
                                     <a style="background: transparent;" class="border-0 p-0 btn btn-icon btn-light" data-bs-toggle="modal" data-bs-target="#modalForm">•••</a>
                                 </div>
@@ -629,6 +689,30 @@ acesso().setor ? x = (axios.post(y+'/api/moinhos/consulta', {codigo_setor_exame:
         $("#PosExameCount").text(`${response.data.count.total_pos_exame}`)
         $("#FinalizadosCount").text(`${response.data.count.total_finalizados}`)
 
+        //ABRE MODAL DE SOLICITAÇÃO DE TRANSPORTE FINAL
+        $('body').on('click', '#solicitarTransporteFinal', function(evento){
+            console.log('dentro')
+            //ABRE MODAL
+            $('#modalTransporteFinal').modal('show')
+            let ID = $(this).data('id')
+            let valor =  document.querySelector('#solicitar-update-'+ID)
+            let codigo_ui =  document.querySelector('#codigo_ui-'+ID)
+            let unidade_internacao =  document.querySelector('#unidade_internacao-'+ID)
+
+            // addOptionTransporteFinal(unidade_internacao.value, codigo_ui.value+'_'+unidade_internacao.value)
+            // function addOptionTransporteFinal(key, valor){
+            //     let option = new Option(key, valor, true, true)
+            //     let transporteFinal = document.getElementById("selectTransporteFinal")
+            //     transporteFinal.add(option)
+            // }
+            $("#formTransporteFinal").submit(function (event) {
+                event.preventDefault()
+                umovFinalizar(valor.value, formTransporteFinal.sala.value)
+            })
+        });
+        $('body').on('click', '#fecharTransporteFinal', function(event){
+            window.location.reload()
+        })
         //ABRE MODAL DE SOLICITAÇÃO DE TRANSPORTE
         $('body').on('click', '#solicitarTransporte', function(evento){
             //ABRE MODAL
@@ -641,24 +725,6 @@ acesso().setor ? x = (axios.post(y+'/api/moinhos/consulta', {codigo_setor_exame:
                 
             })
         })
-        //ABRE MODAL DE SOLICITAÇÃO DE TRANSPORTE FINAL
-        $('body').on('click', '#solicitarTransporteFinal', function(evento){
-            //ABRE MODAL
-            $('#modalTransporteFinal').modal('show')
-            let ID = $(this).data('id')
-            let valor =  document.querySelector('#solicitar-update-'+ID)
-            $("#formTransporteFinal").submit(function (event) {
-                event.preventDefault()
-                umov(valor.value, formTransporte.sala.value)
-                
-            })
-        })
-        // //SOLICITAÇÃO DE TRANSPORTE DE FINALIZAÇÃO DE EXAME
-        // $('body').on('click', '#solicitarTransporteFinalizar', function(evento){
-        //     let ID = $(this).data('id')
-        //     let valor =  document.querySelector('#solicitar-update-'+ID)
-        //     umovFinalizar(valor)
-        // })
 
         //MONTA SESSAO DO FILTRO DE SETOR DE EXAMES
         let selectSetorExame = response.data.filtro
@@ -670,6 +736,8 @@ acesso().setor ? x = (axios.post(y+'/api/moinhos/consulta', {codigo_setor_exame:
             select.add(option)
         }
         trelo.treloRodar();
+
+        
 
         //VERIFICA SE VAI ATUALIZAR A PAGINA DE ACORDO COM OS CARDS
         var configuracaoDeRequisicao = {
@@ -728,20 +796,20 @@ acesso().setor ? x = (axios.post(y+'/api/moinhos/consulta', {codigo_setor_exame:
                             let statusTarefa = xmlDaTarefa.getElementsByTagName('schedule')[0].getElementsByTagName('situation')[0].getElementsByTagName('id')[0].innerText
                             let agenteTarefa = xmlDaTarefa.getElementsByTagName('schedule')[0].getElementsByTagName('executionstarttime')[0]
                             console.log(xmlDaTarefa)
-                            if(statusTarefa == '30' && val.status_tarefa != '30' && tarefa != '30'){
+                            // if(statusTarefa == '30' && val.status_tarefa != '30' && tarefa != '30'){
                                 
-                                axios.post(y+'/api/moinhos/agendar/tarefa/'+acessNumber, {
-                                    numero_tarefa: numeroTarefa,
-                                    imagem_cadeira: 'cadeira-de-rodas-amarelo.png',
-                                    status_tarefa: statusTarefa,
-                                    origem: origem,
-                                    sala: sala,
-                                    cod_sala: cod_sala
-                                })
-                                .then(function (response) {
-                                    window.location.reload()
-                                })
-                            }
+                            //     axios.post(y+'/api/moinhos/agendar/tarefa/'+acessNumber, {
+                            //         numero_tarefa: numeroTarefa,
+                            //         imagem_cadeira: 'cadeira-de-rodas-amarelo.png',
+                            //         status_tarefa: statusTarefa,
+                            //         origem: origem,
+                            //         sala: sala,
+                            //         cod_sala: cod_sala
+                            //     })
+                            //     .then(function (response) {
+                            //         window.location.reload()
+                            //     })
+                            // }
                             // SE O STATUS DA TAREFA FOR EM CAMPOR E EXISTIR A TAG AGENTE
                             if (statusTarefa == '40' && (agenteTarefa != '' && agenteTarefa != null && agenteTarefa != undefined) && tarefa != '40') {
                                 console.log(agenteTarefa)
@@ -796,6 +864,8 @@ acesso().setor ? x = (axios.post(y+'/api/moinhos/consulta', {codigo_setor_exame:
                 });
             }, 3000);
         };checaImagem()
+
+        
 
         //VERICIFA SE EXISTE UM NOVO SOLICITADO
         const busca = async ()=>{

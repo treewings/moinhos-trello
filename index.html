@@ -34,9 +34,9 @@
                           </svg></h3>
                         <div class="form-control-wrap w-100">
                             <select class="form-select js-select2" data-search="on" data-placeholder="Filtro por sala">
-                                <option value="default_option">Filtro por sala</option>
-                                <option value="option_select_name">Option select name</option>
-                                <option value="option_select_name">Option select name</option>
+                                <option value="default_option">Em desenvolvimento</option>
+                                <!-- <option value="option_select_name">Option select name</option>
+                                <option value="option_select_name">Option select name</option> -->
                             </select>
                         </div>
                     </div>
@@ -382,19 +382,20 @@
                     <div class="modal-header">
                         <div>
                             <h5 class="modal-title">Solicitar transporte</h5>
-                            <small>Informe a sala que o paciente irá realizar o exame.</small>
+                            <small>Informe o destino que o paciente.</small>
                         </div>
-                        <a data-bs-dismiss="modal" id="fecharAgendamento">
+                        <a data-bs-dismiss="modal" id="fecharTransporteFinal">
                             <em class="icon ni ni-cross"></em>
                         </a>
                     </div>
                     <div class="modal-body">
-                        <form name="formTransporteform" id="formTransporteForm" class="form-validate is-alter">
+                        <form name="formTransporteFinal" id="formTransporteFinal" class="form-validate is-alter">
                             <div class="col-sm-12 mb-3">
                                 <div class="form-group">
-                                    <label class="form-label">Sala</label>
+                                    <label class="form-label">destino do Paciente</label>
                                     <div class="form-control-wrap">
-                                        <select name="sala" class="form-select js-select2" data-search="on">
+                                        <select name="sala" id="selectTransporteFinal" class="form-select js-select2" data-search="on">
+                                            <option value=""  selected>Selecione o destino</option>
                                             <option value="999-150_ANGIOGRAFIA">ANGIOGRAFIA</option>
                                             <option value="999-31_DIALISE">DIALISE</option>
                                             <option value="999-36_MATERNIDADE 10º ANDAR">MATERNIDADE 10º ANDAR</option>
@@ -472,13 +473,33 @@
                             <h4 class="nk-modal-title">Transporte já solicitado!</h4>
                             <div class="nk-modal-text">
                                 <!-- <p class="lead">We are sorry, we were unable to process your payment. Please try after sometimes.</p> -->
-                                <p class="text-soft">Por favor finalize o transporte para que o paciente realize o atendimento.</p>
+                                <p class="text-soft">Por favor aguarde o transporte ser finalizado para mover o card para atendimento.</p>
                             </div>
                             <div class="nk-modal-action mt-5">
                                 <a href="#" class="btn btn-lg btn-mw btn-light" data-bs-dismiss="modal" onClick="window.location.reload()">Voltar</a>
                             </div>
                         </div>
                     </div><!-- .modal-body -->
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" tabindex="-1" id="modalAtendimentoSucesso">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <a href="#" class="close" data-bs-dismiss="modal"><em class="icon ni ni-cross"></em></a>
+                    <div class="modal-body modal-body-lg text-center">
+                        <div class="nk-modal">
+                            <em class="nk-modal-icon icon icon-circle icon-circle-xxl ni ni-check bg-success"></em>
+                            <h4 class="nk-modal-title">Em Atendimento!</h4>
+                            <div class="nk-modal-text">
+                                <div class="caption-text">Solicitação de exame em <strong>Atendimento</strong>!</div>
+                                <span class="sub-text-sm">Acompanhe na coluna de atendimento.</span>
+                            </div>
+                            <div class="nk-modal-action">
+                                <a href="#" class="btn btn-lg btn-mw btn-primary" data-bs-dismiss="modal" onClick="window.location.reload()">Fechar</a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
