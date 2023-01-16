@@ -5,11 +5,11 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
-        <link rel="stylesheet" href="./src/css/style.css">
+        <link rel="stylesheet" href="css/style.css">
         <title>Moinhos</title>
         <!-- StyleSheets  -->
-        <link rel="stylesheet" href="./assets/css/dashlite.css?ver=3.0.2">
-        <link id="skin-default" rel="stylesheet" href="./assets/css/theme.css?ver=3.0.2">
+        <link rel="stylesheet" href="css/dashlite.css?ver=3.0.2">
+        <link id="skin-default" rel="stylesheet" href="css/theme.css?ver=3.0.2">
 
 
     </head>
@@ -486,26 +486,28 @@
             function mostraAlerta(elemento)
             {   
                 if(elemento.value == '1'){
-                    elemento = 'index.html'
+                    elemento = '/'
                     history.pushState({}, null, elemento);
                 }else{
-                    elemento = 'index.html?setor='+elemento.value
+                    elemento = '?setor='+elemento.value
                     history.pushState({}, null, elemento);
                 }
                 window.location.reload()
             }
         </script>
-        <script src="./assets/js/jquery.min.js"></script>
-        <script src="./assets/js/bundle.js?ver=3.0.2"></script>
-        <script src="./assets/js/jquery.mask.min.js"></script>
-        <script src="./assets/js/sweet-alert.js"></script>   
-        <script src="./assets/js/scripts.js?ver=3.0.2"></script>
-        <script src="./assets/js/web-animation.js"></script>
-        <script src="./assets/js/muuri.js"></script>
-        <script src="./assets/js/jquery-3-6-3.js"></script>
-        <script src="./assets/js/axios.js"></script>
-        <script type="module" src="./src/index.js"></script>
-        <script type="module" src="./src/js/funcoes.js"></script>
+        <script src="/socket.io/socket.io.js"></script>
+        <script src="js/jquery.min.js"></script>
+        <script src="js/bundle.js?ver=3.0.2"></script>
+        <script src="js/jquery.mask.min.js"></script>
+        <script src="js/sweet-alert.js"></script>   
+        <script src="js/scripts.js?ver=3.0.2"></script>
+        <script src="js/web-animation.js"></script>
+        <script src="js/muuri.js"></script>
+        <script src="js/jquery-3-6-3.js"></script>
+        <script src="js/axios.js"></script>
+        <script type="module" src="index.js"></script>
+        <script type="module" src="js/funcoes.js"></script>
+        <script type="module" src="js/websocket.js"></script>
 
     </body>
 </html>

@@ -209,9 +209,7 @@ export class Trelo {
 
                                         //ABRE MODAL DE SUCESSO
                                         $('#modalAgendadoSucesso').modal('show')
-                                        setTimeout(() => {
-                                            socket.send('foi');    
-                                        }, 1000);
+                                        socket.emit('cardRender', 'foi');
                                         
                                     })
                                     .catch(function (error) {
@@ -258,9 +256,7 @@ export class Trelo {
 
                                 $("#SolicitadosCount").text((+SolicitadosCount.innerText.replace(/\s/g, '')) - 1)
                                 $("#AgendadosCount").text((+AgendadosCount.innerText.replace(/\s/g, '')) + 1)
-                                setTimeout(() => {
-                                    socket.send('foi');    
-                                }, 1000);
+                                socket.emit('cardRender', 'foi');
                             })
                             .catch(function (error) {
                                 $('#modalAlgoErrado').modal('show')
@@ -283,9 +279,7 @@ export class Trelo {
                             val = JSON.parse(valor);
                             axios.post(y+'/api/moinhos/posexame',{ acess_number: ID })
                             .then(function (response) {
-                                setTimeout(() => {
-                                    socket.send('foi');    
-                                }, 1000);
+                                socket.emit('cardRender', 'foi');
                             })
                             .catch(function (error) {
                                 console.log(error);
@@ -318,9 +312,7 @@ export class Trelo {
 
                                     $("#SolicitadosCount").text((+SolicitadosCount.innerText.replace(/\s/g, '')) - 1)
                                     $("#AgendadosCount").text((+AgendadosCount.innerText.replace(/\s/g, '')) + 1)
-                                    setTimeout(() => {
-                                        socket.send('foi');    
-                                    }, 1000);
+                                    socket.emit('cardRender', 'foi');
                                 })
                                 .catch(function (error) {
                                     console.error(error);

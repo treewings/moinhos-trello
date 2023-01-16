@@ -10,10 +10,17 @@ import { umov } from "./js/solicitarTransporte.js";
 import { url } from "./js/url.js";
 import socket from "./js/websocket.js";
 
-// Ao receber mensagens do servidor
-socket.addEventListener('message', function (event) {
+
+
+socket.on('cardRender', function(msg) {
+    console.log(msg)
     rodar()
-});
+  });
+
+// Ao receber mensagens do servidor
+// socket.addEventListener('message', function (event) {
+//     rodar()
+// });
 
 function acesso(){
     const urlParams = new URLSearchParams(window.location.search);
@@ -204,7 +211,7 @@ acesso().setor ? x = (axios.post(y+'/api/moinhos/consulta', {codigo_setor_exame:
                             </div>
                             <a class="rounded-3 d-flex px-1 text-dark align-items-center" id="solicitarTransporte" data-id="${val.acess_number}" style="background-color: #ecebeb; cursor: pointer; display:flex; align-items: cente; padding-top: 1px; padding-bottom: 1px;">
                                 <div style="font-size: 13px;" class="m-0 d-flex align-items-center" id="img_icone-${val.acess_number}">
-                                    <img style="height: 13px; margin-right: 5px; margin-left: 4px;" src="assets/images/Icones/${val.imagem_cadeira}">
+                                    <img style="height: 13px; margin-right: 5px; margin-left: 4px;" src="images/Icones/${val.imagem_cadeira}">
                                 </div>
                                 <div class="">00:00</div>
                             </a>
@@ -446,7 +453,7 @@ acesso().setor ? x = (axios.post(y+'/api/moinhos/consulta', {codigo_setor_exame:
                             </div>
                             <a class="rounded-3 d-flex px-1 text-dark align-items-center" id="solicitarTransporteFinalizar" data-id="${val.acess_number}" style="background-color: #ecebeb; cursor: pointer; display:flex; align-items: cente; padding-top: 1px; padding-bottom: 1px;">
                                 <div style="font-size: 13px;" class="m-0 d-flex align-items-center" id="img_icone-${val.acess_number}">
-                                    <img style="height: 13px; margin-right: 5px; margin-left: 4px;" src="assets/images/Icones/${val.imagem_cadeira}">
+                                    <img style="height: 13px; margin-right: 5px; margin-left: 4px;" src="images/Icones/${val.imagem_cadeira}">
                                 </div>
                                 <div class="">00:00</div>
                             </a>
@@ -565,7 +572,7 @@ acesso().setor ? x = (axios.post(y+'/api/moinhos/consulta', {codigo_setor_exame:
                                 </div>
                                 <a class="rounded-3 d-flex px-1 text-dark align-items-center" id="solicitarTransporteFinal" data-id="${val.acess_number}" style="background-color: #ecebeb; cursor: pointer; display:flex; align-items: cente; padding-top: 1px; padding-bottom: 1px;">
                                     <div style="font-size: 13px;" class="m-0 d-flex align-items-center" id="img_icone-${val.acess_number}">
-                                        <img style="height: 13px; margin-right: 5px; margin-left: 4px;" src="assets/images/Icones/${val.imagem_cadeira}">
+                                        <img style="height: 13px; margin-right: 5px; margin-left: 4px;" src="images/Icones/${val.imagem_cadeira}">
                                     </div>
                                 <div class="">00:00</div>
                             </a>

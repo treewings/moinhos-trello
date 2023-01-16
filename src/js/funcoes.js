@@ -214,7 +214,7 @@ $(document).ready(()=>{
                         $('#modalForm').modal('hide')
                         //ABRE MODAL DE SUCESSO
                         $('#modalAgendadoCancelado').modal('show')
-                        socket.send('foi');   
+                        socket.emit('cardRender', 'foi');
                     })
                     .catch(function (error) {
                         $('#modalAlgoErrado').modal('show')
