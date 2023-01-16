@@ -4,12 +4,17 @@ import {
 import {
     cardsTrelo
 } from "./js/cardsTrelo.js";
-import columnGrids from "./js/Trelo.js";
+// import columnGrids from "./js/Trelo.js";
 import { addEvent } from "./js/cardsTrelo.js";
 import { umov } from "./js/solicitarTransporte.js";
 import { umovFinalizar } from "./js/solicitarTransporteFinal.js";
 import { url } from "./js/url.js";
+import socket from "./js/websocket.js";
 
+
+socket.on('cardRender', function(msg) {
+    rodar()
+  });
 
 function acesso(){
     const urlParams = new URLSearchParams(window.location.search);
@@ -29,6 +34,7 @@ acesso().setor ? x = (axios.post(y+'/api/moinhos/consulta', {codigo_setor_exame:
     x
     .then(function(response) {
         $('#modalLoading').modal('hide')
+        $('#Solicitados').empty();
         Object.entries(response.data.solicitados).forEach(([key, val]) => {
             //ICONE DE URGENCIA
             let urgente = ''
@@ -172,6 +178,7 @@ acesso().setor ? x = (axios.post(y+'/api/moinhos/consulta', {codigo_setor_exame:
             //   console.log(rodar())
 
         });
+        $('#Agendados').empty();
         Object.entries(response.data.agendados).forEach(([key, val]) => {
             //ICONE DE URGENCIA
             let urgente = ''
@@ -232,7 +239,7 @@ acesso().setor ? x = (axios.post(y+'/api/moinhos/consulta', {codigo_setor_exame:
                             </div>
                             <a class="rounded-3 d-flex px-1 text-dark align-items-center" id="`+condicao+`" data-id="${val.acess_number}" style="background-color: #ecebeb; cursor: pointer; display:flex; align-items: cente; padding-top: 1px; padding-bottom: 1px;">
                                 <div style="font-size: 13px;" class="m-0 d-flex align-items-center" id="img_icone-${val.acess_number}">
-                                    <img style="height: 13px; margin-right: 5px; margin-left: 4px;" src="assets/images/Icones/${val.imagem_cadeira}">
+                                    <img style="height: 13px; margin-right: 5px; margin-left: 4px;" src="images/Icones/${val.imagem_cadeira}">
                                 </div>
                                 <div class="">00:00</div>
                             </a>
@@ -303,6 +310,7 @@ acesso().setor ? x = (axios.post(y+'/api/moinhos/consulta', {codigo_setor_exame:
             </div>
             `)
         });
+        $('#Atendimento').empty();
         Object.entries(response.data.atendimento).forEach(([key, val]) => {
             //ICONE DE URGENCIA
             let urgente = ''
@@ -432,6 +440,7 @@ acesso().setor ? x = (axios.post(y+'/api/moinhos/consulta', {codigo_setor_exame:
             </div>
             `)
         });
+        $('#posExame').empty();
         Object.entries(response.data.pos_exame).forEach(([key, val]) => {
             //ICONE DE URGENCIA
             let urgente = ''
@@ -496,7 +505,7 @@ acesso().setor ? x = (axios.post(y+'/api/moinhos/consulta', {codigo_setor_exame:
                             </div>
                             <a class="rounded-3 d-flex px-1 text-dark align-items-center" id="`+condicao+`" data-id="${val.acess_number}" style="background-color: #ecebeb; cursor: pointer; display:flex; align-items: cente; padding-top: 1px; padding-bottom: 1px;">
                                     <div style="font-size: 13px;" class="m-0 d-flex align-items-center" id="img_icone-${val.acess_number}">
-                                        <img style="height: 13px; margin-right: 5px; margin-left: 4px;" src="assets/images/Icones/${val.imagem_cadeira}">
+                                        <img style="height: 13px; margin-right: 5px; margin-left: 4px;" src="images/Icones/${val.imagem_cadeira}">
                                     </div>
                                 <div class="">00:00</div>
                             </a>
@@ -567,6 +576,7 @@ acesso().setor ? x = (axios.post(y+'/api/moinhos/consulta', {codigo_setor_exame:
             </div>
             `)
         });
+        $('#finalizados').empty();
         Object.entries(response.data.finalizados).forEach(([key, val]) => {
             //ICONE DE URGENCIA
             let urgente = ''
@@ -739,37 +749,6 @@ acesso().setor ? x = (axios.post(y+'/api/moinhos/consulta', {codigo_setor_exame:
 
         
 
-        //VERIFICA SE VAI ATUALIZAR A PAGINA DE ACORDO COM OS CARDS
-        var configuracaoDeRequisicao = {
-            headers: {
-                'Retry-After': 3000
-            } 
-        }
-        const checaCardsAgendados = async ()=>{
-            let agendado = response.data.count.total_agendados
-            let atendimento = response.data.count.total_atendimento
-            let posexame = response.data.count.total_pos_exame
-            let finalizado = response.data.count.total_finalizados
-            const buscarDados = setInterval(() => {
-                axios.post(y+'/api/moinhos/atualiza/agendado', {
-                    atendimento: atendimento,
-                    finalizado: finalizado,
-                    posexame: posexame,
-                    agendado: agendado,
-                    ...(acesso().setor ? {codigo_setor_exame: acesso().setor} : null)
-                }, configuracaoDeRequisicao).then(()=>{
-                    clearInterval(buscarDados)
-                    checaCardsAgendados()
-                }).catch(function(error) {
-                    clearInterval(buscarDados)
-                    if(error.response.status == 429){
-                        return checaCardsAgendados()
-                    }
-                    window.location.reload()
-                })            
-            }, 3000);
-        };checaCardsAgendados()
-
         //VERIFICA STATUS DA TAREFA
         const checaImagem = async ()=>{
             const buscarDados = setInterval(() => {
@@ -822,7 +801,7 @@ acesso().setor ? x = (axios.post(y+'/api/moinhos/consulta', {codigo_setor_exame:
                                     cod_sala: cod_sala
                                 })
                                 .then(function (response) {
-                                    window.location.reload()
+                                    socket.emit('cardRender', 'foi');
                                     // console.log(xmlDaTarefa)
                                 })
                             }
@@ -837,7 +816,7 @@ acesso().setor ? x = (axios.post(y+'/api/moinhos/consulta', {codigo_setor_exame:
                                     cod_sala: cod_sala
                                 })
                                 .then(function (response) {
-                                    window.location.reload()
+                                    socket.emit('cardRender', 'foi');
                                     // console.log(xmlDaTarefa)
                                 })
                             }
@@ -853,7 +832,7 @@ acesso().setor ? x = (axios.post(y+'/api/moinhos/consulta', {codigo_setor_exame:
                                     cod_sala: cod_sala
                                 })
                                 .then(function (response) {
-                                    window.location.reload()
+                                    socket.emit('cardRender', 'foi');
                                     // console.log(xmlDaTarefa)
                                 })
                             }
@@ -869,7 +848,6 @@ acesso().setor ? x = (axios.post(y+'/api/moinhos/consulta', {codigo_setor_exame:
 
         //VERICIFA SE EXISTE UM NOVO SOLICITADO
         const busca = async ()=>{
-            let solicitadosVal = []
             const buscarDados = setInterval(() => {
                 axios.get(y+'/api/moinhos/diferenca')
                 .then((val)=>{
@@ -877,14 +855,10 @@ acesso().setor ? x = (axios.post(y+'/api/moinhos/consulta', {codigo_setor_exame:
                         solicitadosVal.push(val)
                     })
                     if(val.data.solicitados != ''){
-                        addEvent(solicitadosVal, columnGrids[0])
-                        clearInterval(buscarDados)
-                        solicitadosVal = []
-                        busca()
+                        socket.emit('cardRender', 'foi')
                     }
                 }).catch((error)=>{
                     clearInterval(buscarDados)
-                    solicitadosVal = []
                     busca()
                 })
             }, 3000);
@@ -893,7 +867,7 @@ acesso().setor ? x = (axios.post(y+'/api/moinhos/consulta', {codigo_setor_exame:
     })
     .catch(function(error) {
         // handle error
-        window.location.reload()
+        // window.location.reload()
     })
 }
 

@@ -1,4 +1,5 @@
 import { url } from "./url.js"
+import socket from "./websocket.js"
 $(document).ready(()=>{
     var y = url()
     $('#modalLoading').modal('show')
@@ -247,7 +248,7 @@ $(document).ready(()=>{
                         $('#modalForm').modal('hide')
                         //ABRE MODAL DE SUCESSO
                         $('#modalAgendadoCancelado').modal('show')
-                        window.location.reload()
+                        socket.emit('cardRender', 'foi')
                     })
                     .catch(function (error) {
                         $('#modalAlgoErrado').modal('show')
@@ -302,7 +303,7 @@ $(document).ready(()=>{
                         $('#modalForm').modal('hide')
                         //ABRE MODAL DE SUCESSO
                         $('#modalAtendimentoCancelado').modal('show')
-                        window.location.reload()
+                        socket.emit('cardRender', 'foi')
                     })
                     .catch(function (error) {
                         $('#modalAlgoErrado').modal('show')
@@ -337,7 +338,7 @@ $(document).ready(()=>{
             observacao:  valueObservacao
         })
         .then(function (response) {
-            window.location.reload()
+            socket.emit('cardRender', 'foi')
             // console.log(xmlDaTarefa)
         })
         

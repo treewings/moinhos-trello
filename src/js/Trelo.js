@@ -1,11 +1,12 @@
 import { url } from "./url.js";
-const columnGrids = [];
+import socket from "./websocket.js";
 export class Trelo {
 
     treloRodar() {
 
         var dragContainer = document.querySelector('.drag-container');
         var itemContainers = [].slice.call(document.querySelectorAll('.board-column-content'));
+        var columnGrids = [];
         var boardGrid;
 
         // Init the column grids so we can drag those items around.
@@ -213,6 +214,7 @@ export class Trelo {
 
                                         //ABRE MODAL DE SUCESSO
                                         $('#modalAgendadoSucesso').modal('show')
+                                        socket.emit('cardRender', 'foi');
                                     })
                                     .catch(function (error) {
                                         $('#modalAlgoErrado').modal('show')
@@ -367,16 +369,12 @@ export class Trelo {
                     item.getGrid().refreshItems([item]);
                 })
                 .on('layoutStart', function (item) {
-                    item.forEach((val) => {
-                        if (val._gridId == 5) {
-
-                        }
-                    })
-                    boardGrid.refreshItems().layout();
+                
                 })
                 .on('move', function (data) {
                 });
-
+            
+            grid.refreshItems().layout()
             columnGrids.push(grid);
         });
 
@@ -388,4 +386,4 @@ export class Trelo {
     }
 }
 
-export default columnGrids
+// export default columnGrids
