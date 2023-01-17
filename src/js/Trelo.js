@@ -50,8 +50,8 @@ export class Trelo {
                         ];
                     }
                 },
-            }).on('send', function (item) {
-                grid.on('dragEnd', function (x, event) {
+            }).on('dragStart', function (x) {
+                grid.on('send', function (item, event) {
                     let y = url()
                     //EVENTO DE PASSAGEM DO CARD DE SOLICITADOS PARA AGENDADOS
                     if (item.fromGrid._element.id == 'Solicitados' && item.toGrid._element.id == 'Agendados' ) {
@@ -59,18 +59,21 @@ export class Trelo {
                         // item.toGrid._settings.dragEnabled = false
                         //ABRE A MODAL
                         $('#modalAgendar').modal('show')
+
                         //FECHA MODAL
                         $('body').on('click', '.muuri', function(event){
-                            item.toGrid.send(item.item, item.fromGrid, 0, {
-                                layoutReceiver: "instant",
-                            });
-                            window.location.reload()
+                            // item.toGrid.send(item.item, item.fromGrid, 0, {
+                            //     layoutReceiver: "instant",
+                            // });
+                            
+                            // window.location.reload()
                         })
                         $('body').on('click', '#fecharAgendamento', function(event){
-                            item.toGrid.send(item.item, item.fromGrid, 0, {
-                                layoutReceiver: "instant",
-                            });
-                            window.location.reload()
+                            // item.toGrid.send(item.item, item.fromGrid, 0, {
+                            //     layoutReceiver: "instant",
+                            // });
+                            socket.emit('cardRender', 'foi')
+                            // window.location.reload()
                         })
                         //PEGA A DATA E HORA ATUAL
                         function dataAtualFormatada() {
@@ -178,7 +181,6 @@ export class Trelo {
                                 let ID = item.item._element.getAttribute('data-id');
                                 //DEFINE A VARIAVEL QUE RECEBERÁ OS DADOS DO JSON
                                 let val = '';
-                                $(document).ready(() => {
                                     //PEGA O JSON DO CARD E ENVIA A REQUISIÇÃO DE ALTERAÇÃO
                                     let update = document.querySelector("#solicitar-update-"+ID);
                                     let valor = update.value;
@@ -194,33 +196,17 @@ export class Trelo {
                                     })
                                     //SE UPDATE REALIZADO COM SUCESSO, FAÇA
                                     .then(function (response) {
-                                        //ATRIBUI OS VALORES DOS COUNT's
-                                        let SolicitadosCount = document.getElementById("SolicitadosCount");
-                                        let AgendadosCount = document.getElementById("AgendadosCount");
-                                        $("#SolicitadosCount").text((+SolicitadosCount.innerText.replace(/\s/g, '')) - 1)
-                                        $("#AgendadosCount").text((+AgendadosCount.innerText.replace(/\s/g, '')) + 1)
-
-                                        //ATRIBUI O DADOS DE SOLICITAÇÃO DE TRANSPORTE
-                                        $('#agendamento-'+ID).addClass('text-primary');
-                                        let agendamento = document.getElementById("agendamento-"+ID)
-                                        agendamento.innerHTML = 'Adendado para '+dataHoraAgendamento
-
-                                        //ATRIBUI O VALOR DE AGENDADO PARA O BOTAO DE CANCELAMENTO
-                                        document.getElementById("agendado-"+ID).value = 'agendado'
-
-                                        //ATRIBUI O ICONE DE TRANSPORTE
-                                        let icone = document.getElementById("img_icone-"+ID)
-                                        icone.innerHTML = `<img style="height: 13px; margin-right: 5px; margin-left: 4px;" src="assets/images/Icones/cadeira-de-rodas.png">`
-
                                         //ABRE MODAL DE SUCESSO
                                         $('#modalAgendadoSucesso').modal('show')
-                                        socket.emit('cardRender', 'foi');
+                                        setTimeout(async () => {
+                                            $('#modalAgendadoSucesso').modal('hide')
+                                           return socket.emit('cardRender', 'foi');
+                                        }, 900);
                                     })
                                     .catch(function (error) {
                                         $('#modalAlgoErrado').modal('show')
                                         console.log(error);
                                     });
-                                })
                             }
                         });
                     }
@@ -292,7 +278,8 @@ export class Trelo {
                             val = JSON.parse(valor);
                             axios.post(y+'/api/moinhos/posexame',{ acess_number: ID })
                             .then(function (response) {
-                                window.location.reload()
+                                // window.location.reload()
+                                socket.emit('cardRender', 'foi');
                             })
                             .catch(function (error) {
                                 console.log(error);
@@ -325,7 +312,8 @@ export class Trelo {
                                 $("#SolicitadosCount").text((+SolicitadosCount.innerText.replace(/\s/g, '')) - 1)
                                 $("#AgendadosCount").text((+AgendadosCount.innerText.replace(/\s/g, '')) + 1)
 
-                                window.location.reload()
+                                // window.location.reload()
+                                socket.emit('cardRender', 'foi');
                             })
                             .catch(function (error) {
                                 console.error(error);
@@ -369,7 +357,7 @@ export class Trelo {
                     item.getGrid().refreshItems([item]);
                 })
                 .on('layoutStart', function (item) {
-                
+                    // boardGrid.refreshItems().layout();
                 })
                 .on('move', function (data) {
                 });

@@ -1,4 +1,5 @@
 import { url } from "./url.js"
+import socket from "./websocket.js"
 export function umov(val, destino){
     var y = url()
     let dados = JSON.parse(val)
@@ -125,8 +126,8 @@ export function umov(val, destino){
         let xmlDeCriacao = document.createElement('div')
         xmlDeCriacao.innerHTML = val.data
         let numeroTarefa = xmlDeCriacao.children[0].children[1].innerText
-        console.log(numeroTarefa)
         let linkXmlTarefa = 'https://api.umov.me/CenterWeb/api/26347e33d181559023ab7b32150ca3bfbc572e/schedule/'+numeroTarefa+'.xml'
+
         axios.get(linkXmlTarefa).then((val)=>{
             let xmlDaTarefa = document.createElement('div')
             xmlDaTarefa.innerHTML = val.data
@@ -141,12 +142,14 @@ export function umov(val, destino){
                 numero_tarefa: numeroTarefa,
                 imagem_cadeira: 'cadeira-de-rodas-amarelo.png',
                 sala: nome_destino,
+                status_tarefa: '30',
                 cod_sala: Destino,
                 origem: 'agendado'
             })
             .then(function (response) {
                 $('#modalTransporte').modal('hide')
-                window.location.reload()
+                // window.location.reload()
+                socket.emit('tarefaUmov', 'foi');
             })
             .catch(function (error) {
                 $('#modalTransporte').modal('hide')

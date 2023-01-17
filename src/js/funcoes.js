@@ -61,14 +61,16 @@ $(document).ready(()=>{
 
         let botaoCancelar = ``
         let textAreaObservacao = ``
-        if(valueAgendado == 'agendado'){
+        if(valueAgendado == 'agendado' && valueAtendimento == ''){
             botaoCancelar = `
                 <div class="col-lg-12 col-sm-12 mt-3">
                     <a id="cancelarAgendamentoExame" class="btn btn-dim btn-light mt-2" data-id="`+ID+`">Cancelar horário agendado</a>
                 </div>
             `
 
-            textAreaObservacao = `
+            
+        }
+        textAreaObservacao = `
                 <div class="col-sm-12">
                     <div class="form-group">
                         <label class="form-label" for="default-textarea">Observações</label>
@@ -81,8 +83,7 @@ $(document).ready(()=>{
                     </div>
                 </div>
             `
-        }
-        if(valueAtendimento == 'atendimento'){
+        if(valueAtendimento == 'atendimento' && valuePosExame == ''){
             botaoCancelar = `
                 <div class="col-lg-12 col-sm-12 mt-3">
                     <a id="cancelarAtendimentoExame" class="btn btn-dim btn-light mt-2" data-id="`+ID+`">Cancelar realização do exame</a>
@@ -243,12 +244,15 @@ $(document).ready(()=>{
                         codigo_setor_exame:  val.codigo_setor_exame,
                         data: val.hora_pedidoX,
                         dados: val
-                    }).then(function (response) {~
+                    }).then(function (response) {
                         //ABRE MODAL DE SUCESSO
                         $('#modalForm').modal('hide')
                         //ABRE MODAL DE SUCESSO
                         $('#modalAgendadoCancelado').modal('show')
-                        socket.emit('cardRender', 'foi')
+                        setTimeout(async () => {
+                            $('#modalAgendadoCancelado').modal('hide')
+                            socket.emit('cardRender', 'foi');
+                        }, 900);
                     })
                     .catch(function (error) {
                         $('#modalAlgoErrado').modal('show')

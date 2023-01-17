@@ -16,6 +16,10 @@ socket.on('cardRender', function(msg) {
     rodar()
   });
 
+socket.on('tarefaUmov', function(msg) {
+    window.location.reload()
+  });
+
 function acesso(){
     const urlParams = new URLSearchParams(window.location.search);
     const setor = urlParams.get('setor');
@@ -68,9 +72,9 @@ acesso().setor ? x = (axios.post(y+'/api/moinhos/consulta', {codigo_setor_exame:
 
             
             $('#Solicitados').append(`
-            <div class="board-item m-0 mt-2 border rounded movercard" data-id="${val.acess_number}">
-                <div class="board-item-content p-0">
-                    <div class="kanban-item-title p-1 rounded-2" style="background: #`+corClassificacao+`; width: 279.84px">
+            <div class="board-item m-0 mt-2 border rounded movercard" data-id="${val.acess_number}" style="width: 100% !important;">
+                <div class="board-item-content p-0" style="height: 130px; width: auto;">
+                    <div class="kanban-item-title p-1 rounded-2" style="background: #`+corClassificacao+`; width: 100%; height: 40px;">
                         <div class="d-flex align-items-center">
                             <h6 class="" style="margin-bottom: 3px;">
                                 `+urgente+`
@@ -219,9 +223,9 @@ acesso().setor ? x = (axios.post(y+'/api/moinhos/consulta', {codigo_setor_exame:
             }
 
             $('#Agendados').append(`
-            <div class="board-item m-0  mt-2 border rounded"  data-id="${val.acess_number}">
-                <div class="board-item-content p-0">
-                    <div class="kanban-item-title p-1 rounded-2" style="background: #`+corClassificacao+`; width: 279.84px">
+            <div class="board-item m-0  mt-2 border rounded"  data-id="${val.acess_number}" style="width: 100%;">
+                <div class="board-item-content p-0" style="height: 130px;  width: auto;">
+                    <div class="kanban-item-title p-1 rounded-2" style="background: #`+corClassificacao+`; width: 100%; height: 40px;">
                         <div class="d-flex align-items-center text-danger">
                             <h6 class="" style="margin-bottom: 3px;">
                                 `+urgente+`
@@ -349,9 +353,9 @@ acesso().setor ? x = (axios.post(y+'/api/moinhos/consulta', {codigo_setor_exame:
             }
 
             $('#Atendimento').append(`
-            <div class="board-item m-0 mt-2 border rounded movercard" data-id="${val.acess_number}">
-                <div class="board-item-content p-0">
-                    <div class="kanban-item-title p-1 rounded-2" style="background: #`+corClassificacao+`; width: 279.84px">
+            <div class="board-item m-0 mt-2 border rounded movercard" data-id="${val.acess_number}" style="width: 100% !important;">
+                <div class="board-item-content p-0" style="height: 130px; width: auto;">
+                    <div class="kanban-item-title p-1 rounded-2" style="background: #`+corClassificacao+`; width: 100%; height: 40px;">
                         <div class="d-flex align-items-center text-danger">
                             <h6 class="" style="margin-bottom: 3px;">
                                 `+urgente+`
@@ -485,9 +489,9 @@ acesso().setor ? x = (axios.post(y+'/api/moinhos/consulta', {codigo_setor_exame:
             }
 
             $('#posExame').append(`
-            <div class="board-item m-0  mt-2 border rounded"  data-id="${val.acess_number}">
-                <div class="board-item-content p-0">
-                    <div class="kanban-item-title p-1 rounded-2" style="background: #`+corClassificacao+`; width: 279.84px">
+            <div class="board-item m-0  mt-2 border rounded"  data-id="${val.acess_number}" style="width: 100% !important;">
+                <div class="board-item-content p-0" style="height: 130px; width: auto;">
+                    <div class="kanban-item-title p-1 rounded-2" style="background: #`+corClassificacao+`; width: 100%; height: 40px;">
                         <div class="d-flex align-items-center text-danger">
                             <h6 class="" style="margin-bottom: 3px;">
                                 `+urgente+`
@@ -608,9 +612,9 @@ acesso().setor ? x = (axios.post(y+'/api/moinhos/consulta', {codigo_setor_exame:
             dataHora = formartarData[0]+'/'+formartarData[1]+'/'+formartarData[2]+' '+formatarHora[0]+':'+formatarHora[1]
 
             $('#finalizados').append(`
-            <div class="board-item m-0 mt-2 border rounded movercard" data-id="${val.acess_number}">
-                <div class="board-item-content p-0">
-                    <div class="kanban-item-title p-1 rounded-2" style="background: #`+corClassificacao+`; width: 279.84px">
+            <div class="board-item m-0 mt-2 border rounded movercard" data-id="${val.acess_number}" style="width: 100% !important;">
+                <div class="board-item-content p-0" style="height: 130px; width: auto;">
+                    <div class="kanban-item-title p-1 rounded-2" style="background: #`+corClassificacao+`; width: 100%; height: 40px;">
                         <div class="d-flex align-items-center">
                             <h6 class="" style="margin-bottom: 3px;">
                                 `+urgente+`
@@ -737,14 +741,19 @@ acesso().setor ? x = (axios.post(y+'/api/moinhos/consulta', {codigo_setor_exame:
         })
 
         //MONTA SESSAO DO FILTRO DE SETOR DE EXAMES
+        $("#selectSetorExame").empty()
         let selectSetorExame = response.data.filtro
         Object.entries(selectSetorExame).forEach(function(key, valor){
             addOptionSetorExame(key, valor)
-        });function addOptionSetorExame(key, valor){
+        });
+        
+        function addOptionSetorExame(key, valor){
             let option = new Option(key[1],  key[0])
             let select = document.getElementById("selectSetorExame")
             select.add(option)
         }
+
+
         trelo.treloRodar();
 
         
@@ -752,7 +761,8 @@ acesso().setor ? x = (axios.post(y+'/api/moinhos/consulta', {codigo_setor_exame:
         //VERIFICA STATUS DA TAREFA
         const checaImagem = async ()=>{
             const buscarDados = setInterval(() => {
-                Object.entries(response.data.umovCheca).forEach(([key, val]) => {
+                if(response.data.umovCheca != ''){
+                    Object.entries(response.data.umovCheca).forEach(([key, val]) => {
                         let numeroTarefa = val.numero_tarefa
                         let acessNumber = val.acess_number
                         
@@ -767,31 +777,38 @@ acesso().setor ? x = (axios.post(y+'/api/moinhos/consulta', {codigo_setor_exame:
                         var cod_sala = val.cod_sala
                         var sala = val.sala
                         var tarefa = val.status_tarefa
+
                         let linkXmlConsultaImagem = 'https://api.umov.me/CenterWeb/api/26347e33d181559023ab7b32150ca3bfbc572e/schedule/'+numeroTarefa+'.xml'
                         axios.get(linkXmlConsultaImagem).then((val)=>{
+
                             clearInterval(buscarDados)
+
                             let xmlDaTarefa = document.createElement('div')
                             xmlDaTarefa.innerHTML = val.data
+
                             let statusTarefa = xmlDaTarefa.getElementsByTagName('schedule')[0].getElementsByTagName('situation')[0].getElementsByTagName('id')[0].innerText
                             let agenteTarefa = xmlDaTarefa.getElementsByTagName('schedule')[0].getElementsByTagName('executionstarttime')[0]
-                            console.log(xmlDaTarefa)
-                            // if(statusTarefa == '30' && val.status_tarefa != '30' && tarefa != '30'){
+                
+
+                            if(statusTarefa == '30' && tarefa != '30'){
                                 
-                            //     axios.post(y+'/api/moinhos/agendar/tarefa/'+acessNumber, {
-                            //         numero_tarefa: numeroTarefa,
-                            //         imagem_cadeira: 'cadeira-de-rodas-amarelo.png',
-                            //         status_tarefa: statusTarefa,
-                            //         origem: origem,
-                            //         sala: sala,
-                            //         cod_sala: cod_sala
-                            //     })
-                            //     .then(function (response) {
-                            //         window.location.reload()
-                            //     })
-                            // }
+                                axios.post(y+'/api/moinhos/agendar/tarefa/'+acessNumber, {
+                                    numero_tarefa: numeroTarefa,
+                                    imagem_cadeira: 'cadeira-de-rodas-amarelo.png',
+                                    status_tarefa: statusTarefa,
+                                    origem: origem,
+                                    sala: sala,
+                                    cod_sala: cod_sala
+                                })
+                                .then(function (response) {
+                                    // window.location.reload()
+                                    socket.emit('tarefaUmov', 'foi');
+                                })
+                            }
+
                             // SE O STATUS DA TAREFA FOR EM CAMPOR E EXISTIR A TAG AGENTE
                             if (statusTarefa == '40' && (agenteTarefa != '' && agenteTarefa != null && agenteTarefa != undefined) && tarefa != '40') {
-                                console.log(agenteTarefa)
+                                console.log('ta aqui em 40')
                                 axios.post(y+'/api/moinhos/agendar/tarefa/'+acessNumber, {
                                     numero_tarefa: numeroTarefa,
                                     imagem_cadeira: 'cadeira-de-rodas-azul.png',
@@ -801,27 +818,22 @@ acesso().setor ? x = (axios.post(y+'/api/moinhos/consulta', {codigo_setor_exame:
                                     cod_sala: cod_sala
                                 })
                                 .then(function (response) {
-                                    socket.emit('cardRender', 'foi');
+                                    socket.emit('tarefaUmov', 'foi');
                                     // console.log(xmlDaTarefa)
                                 })
                             }
                             // SE O STATUS DA TAREFA FOR IGUAL A FINALIZADO
-                            if(statusTarefa == '50' && val.status_tarefa != '50' && tarefa != '50'){
-                                axios.post(y+'/api/moinhos/agendar/tarefa/'+acessNumber, {
-                                    numero_tarefa: numeroTarefa,
-                                    imagem_cadeira: 'cadeira-de-rodas-verde.png',
-                                    status_tarefa: statusTarefa,
-                                    origem: origem,
-                                    sala: sala,
-                                    cod_sala: cod_sala
-                                })
-                                .then(function (response) {
-                                    socket.emit('cardRender', 'foi');
-                                    // console.log(xmlDaTarefa)
-                                })
+                            if(statusTarefa == '50' && tarefa != '50'){
+                                    axios.post(y+'/api/moinhos/atendimento', {
+                                        acess_number: acessNumber,
+                                    })
+                                    .then(function (response) {
+                                        socket.emit('tarefaUmov', 'foi');
+                                        // console.log(xmlDaTarefa)
+                                    })
                             }
                             //SE O STATUS DA TAREFA FOR IGUAL A CANCELADA
-                            if(statusTarefa == '70' && val.status_tarefa != '70' && tarefa != '70'){
+                            if(statusTarefa == '70' && tarefa != '70'){
                                 
                                 axios.post(y+'/api/moinhos/agendar/tarefa/'+acessNumber, {
                                     numero_tarefa: numeroTarefa,
@@ -832,7 +844,7 @@ acesso().setor ? x = (axios.post(y+'/api/moinhos/consulta', {codigo_setor_exame:
                                     cod_sala: cod_sala
                                 })
                                 .then(function (response) {
-                                    socket.emit('cardRender', 'foi');
+                                    socket.emit('tarefaUmov', 'foi');
                                     // console.log(xmlDaTarefa)
                                 })
                             }
@@ -840,9 +852,14 @@ acesso().setor ? x = (axios.post(y+'/api/moinhos/consulta', {codigo_setor_exame:
                             checaImagem()
                         })
                     
-                });
+                    });
+                }else{
+                    clearInterval(buscarDados)
+                    checaImagem()
+                }
+                
             }, 3000);
-        };checaImagem()
+        }; checaImagem()
 
         
 
@@ -861,7 +878,7 @@ acesso().setor ? x = (axios.post(y+'/api/moinhos/consulta', {codigo_setor_exame:
                     clearInterval(buscarDados)
                     busca()
                 })
-            }, 3000);
+            }, 30000);
         }
         busca()
     })

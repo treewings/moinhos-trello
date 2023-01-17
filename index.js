@@ -15,9 +15,14 @@ app.get('/', (req, res) => {
 
 
 io.on('connection', (socket) => {
-    console.log('conectado')
+    console.log(socket.id+', conectado ...')
+
     socket.on('cardRender', (msg) => {
       io.emit('cardRender', msg);
+    });
+
+    socket.on('tarefaUmov', (msg) => {
+      io.emit('tarefaUmov', msg);
     });
   });
 
