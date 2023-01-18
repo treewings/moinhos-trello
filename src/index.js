@@ -11,32 +11,40 @@ import { umovFinalizar } from "./js/solicitarTransporteFinal.js";
 import { url } from "./js/url.js";
 import socket from "./js/websocket.js";
 
+var x  = ''
+var y = url()
+const trelo = new Trelo()
 
 socket.on('cardRender', function(msg) {
-    rodar()
-  });
+    window.location.reload()
+});
 
 socket.on('tarefaUmov', function(msg) {
     window.location.reload()
-  });
+});
 
+ 
 function acesso(){
     const urlParams = new URLSearchParams(window.location.search);
-    const setor = urlParams.get('setor');
-  
-      return {setor}
+    var filtro = []
+    if(urlParams.get('setor')){
+        filtro = {codigo_setor_exame: urlParams.get('setor')}
+    }
+
+    if(urlParams.get('sala')){
+        filtro = {cod_sala: urlParams.get('sala')}
+    }
+   
+      return {filtro}
   }
 
 function rodar(){
-    
-const trelo = new Trelo()
-let x  = ''
-let y = url()
-acesso().setor ? x = (axios.post(y+'/api/moinhos/consulta', {codigo_setor_exame: acesso().setor}) )
+
+acesso().filtro != '' ? x = (axios.post(y+'/api/moinhos/consulta', acesso().filtro) )
 : x = (axios.get(y+'/api/moinhos'))
 
-    x
-    .then(function(response) {
+    x.then(function(response) {
+        
         $('#modalLoading').modal('hide')
         $('#Solicitados').empty();
         Object.entries(response.data.solicitados).forEach(([key, val]) => {
@@ -73,7 +81,7 @@ acesso().setor ? x = (axios.post(y+'/api/moinhos/consulta', {codigo_setor_exame:
             
             $('#Solicitados').append(`
             <div class="board-item m-0 mt-2 border rounded movercard" data-id="${val.acess_number}" style="width: 100% !important;">
-                <div class="board-item-content p-0" style="height: 130px; width: auto;">
+                <div class="board-item-content p-0" style="height: 152px; width: auto;">
                     <div class="kanban-item-title p-1 rounded-2" style="background: #`+corClassificacao+`; width: 100%; height: 40px;">
                         <div class="d-flex align-items-center">
                             <h6 class="" style="margin-bottom: 3px;">
@@ -161,27 +169,8 @@ acesso().setor ? x = (axios.post(y+'/api/moinhos/consulta', {codigo_setor_exame:
                 </div>
             </div>
             `)
-
-            // const rodar = ()=>{
-            //     setInterval(async ()=> {
-            //       var tempo = new Date();
-            //       var hora = tempo.getHours();
-            //       var minuto = tempo.getMinutes();
-            //       var segundo = tempo.getSeconds();
-            //       var temp = "" + ((hora > 12) ? hora - 12 : hora);
-            //       if (hora == 0)
-            //         temp = "12";
-            //       temp += ((minuto < 10) ? ":0" : ":") + minuto;
-            //       temp += ((segundo < 10) ? ":0" : ":") + segundo;
-            //       temp += (hora >= 12) ? " P.M." : " A.M.";
-            //       console.log(temp)
-            //       return temp;
-            //     }, 1000);
-            //   }
-              
-            //   console.log(rodar())
-
         });
+
         $('#Agendados').empty();
         Object.entries(response.data.agendados).forEach(([key, val]) => {
             //ICONE DE URGENCIA
@@ -224,7 +213,7 @@ acesso().setor ? x = (axios.post(y+'/api/moinhos/consulta', {codigo_setor_exame:
 
             $('#Agendados').append(`
             <div class="board-item m-0  mt-2 border rounded"  data-id="${val.acess_number}" style="width: 100%;">
-                <div class="board-item-content p-0" style="height: 130px;  width: auto;">
+                <div class="board-item-content p-0" style="height: 152px;  width: auto;">
                     <div class="kanban-item-title p-1 rounded-2" style="background: #`+corClassificacao+`; width: 100%; height: 40px;">
                         <div class="d-flex align-items-center text-danger">
                             <h6 class="" style="margin-bottom: 3px;">
@@ -354,7 +343,7 @@ acesso().setor ? x = (axios.post(y+'/api/moinhos/consulta', {codigo_setor_exame:
 
             $('#Atendimento').append(`
             <div class="board-item m-0 mt-2 border rounded movercard" data-id="${val.acess_number}" style="width: 100% !important;">
-                <div class="board-item-content p-0" style="height: 130px; width: auto;">
+                <div class="board-item-content p-0" style="height: 152px; width: auto;">
                     <div class="kanban-item-title p-1 rounded-2" style="background: #`+corClassificacao+`; width: 100%; height: 40px;">
                         <div class="d-flex align-items-center text-danger">
                             <h6 class="" style="margin-bottom: 3px;">
@@ -490,7 +479,7 @@ acesso().setor ? x = (axios.post(y+'/api/moinhos/consulta', {codigo_setor_exame:
 
             $('#posExame').append(`
             <div class="board-item m-0  mt-2 border rounded"  data-id="${val.acess_number}" style="width: 100% !important;">
-                <div class="board-item-content p-0" style="height: 130px; width: auto;">
+                <div class="board-item-content p-0" style="height: 152px; width: auto;">
                     <div class="kanban-item-title p-1 rounded-2" style="background: #`+corClassificacao+`; width: 100%; height: 40px;">
                         <div class="d-flex align-items-center text-danger">
                             <h6 class="" style="margin-bottom: 3px;">
@@ -613,7 +602,7 @@ acesso().setor ? x = (axios.post(y+'/api/moinhos/consulta', {codigo_setor_exame:
 
             $('#finalizados').append(`
             <div class="board-item m-0 mt-2 border rounded movercard" data-id="${val.acess_number}" style="width: 100% !important;">
-                <div class="board-item-content p-0" style="height: 130px; width: auto;">
+                <div class="board-item-content p-0" style="height: 152px; width: auto;">
                     <div class="kanban-item-title p-1 rounded-2" style="background: #`+corClassificacao+`; width: 100%; height: 40px;">
                         <div class="d-flex align-items-center">
                             <h6 class="" style="margin-bottom: 3px;">
@@ -705,7 +694,6 @@ acesso().setor ? x = (axios.post(y+'/api/moinhos/consulta', {codigo_setor_exame:
 
         //ABRE MODAL DE SOLICITAÇÃO DE TRANSPORTE FINAL
         $('body').on('click', '#solicitarTransporteFinal', function(evento){
-            console.log('dentro')
             //ABRE MODAL
             $('#modalTransporteFinal').modal('show')
             let ID = $(this).data('id')
@@ -724,9 +712,11 @@ acesso().setor ? x = (axios.post(y+'/api/moinhos/consulta', {codigo_setor_exame:
                 umovFinalizar(valor.value, formTransporteFinal.sala.value)
             })
         });
+
         $('body').on('click', '#fecharTransporteFinal', function(event){
             window.location.reload()
         })
+
         //ABRE MODAL DE SOLICITAÇÃO DE TRANSPORTE
         $('body').on('click', '#solicitarTransporte', function(evento){
             //ABRE MODAL
@@ -741,7 +731,7 @@ acesso().setor ? x = (axios.post(y+'/api/moinhos/consulta', {codigo_setor_exame:
         })
 
         //MONTA SESSAO DO FILTRO DE SETOR DE EXAMES
-        $("#selectSetorExame").empty()
+        // $("#selectSetorExame").empty()
         let selectSetorExame = response.data.filtro
         Object.entries(selectSetorExame).forEach(function(key, valor){
             addOptionSetorExame(key, valor)
@@ -753,6 +743,19 @@ acesso().setor ? x = (axios.post(y+'/api/moinhos/consulta', {codigo_setor_exame:
             select.add(option)
         }
 
+        
+        if(response.data.filtroSala != ''){
+            Object.entries(response.data.filtroSala).forEach(function(key, valor){
+                addOptionSala(key, valor)
+            });
+            
+            function addOptionSala(key, valor){
+                let option = new Option(key[1],  key[0])
+                let select = document.getElementById("filtroSala")
+                select.add(option)
+            }
+        }
+        
 
         trelo.treloRodar();
 
@@ -826,6 +829,7 @@ acesso().setor ? x = (axios.post(y+'/api/moinhos/consulta', {codigo_setor_exame:
                             if(statusTarefa == '50' && tarefa != '50'){
                                     axios.post(y+'/api/moinhos/atendimento', {
                                         acess_number: acessNumber,
+                                        origem: origem,
                                     })
                                     .then(function (response) {
                                         socket.emit('tarefaUmov', 'foi');

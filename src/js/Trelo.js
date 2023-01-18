@@ -3,12 +3,12 @@ import socket from "./websocket.js";
 export class Trelo {
 
     treloRodar() {
-
+       
         var dragContainer = document.querySelector('.drag-container');
         var itemContainers = [].slice.call(document.querySelectorAll('.board-column-content'));
         var columnGrids = [];
         var boardGrid;
-
+       
         // Init the column grids so we can drag those items around.
         itemContainers.forEach(function (container) {
             var grid = new Muuri(container, {
@@ -221,21 +221,17 @@ export class Trelo {
                         let numeroTarefa = tagNumeroTarefa.value
                         let statusTarefa = document.querySelector("#status_tarefa-" + ID);
                         let status = statusTarefa.value
-                        if(numeroTarefa == 'null'){
-                            $('#modalTransporteNaoSolicitado').modal('show')
-                            item.toGrid.send(item.item, item.fromGrid, 0, {
-                                layoutReceiver: "instant",
-                            });
-                            // window.location.reload()
-                            return
-                        }
-                        if(status != '50' && status != '70'){
+                        // if(numeroTarefa == 'null'){
+                        //     // $('#modalTransporteNaoSolicitado').modal('show')
+                        //     // item.toGrid.send(item.item, item.fromGrid, 0, {
+                        //     //     layoutReceiver: "instant",
+                        //     // });
+                        //     // window.location.reload()
+                        //     return
+                        // }
+                        if(status == '40' || status == '30'){
                             $('#modalTransporteSolicitado').modal('show')
-                            item.toGrid.send(item.item, item.fromGrid, 0, {
-                                layoutReceiver: "instant",
-                            });
-                            // window.location.reload()
-                            return
+                            socket.emit('cardRender', 'foi')
                         }
                         let val = '';
                         $(document).ready(() => {
@@ -250,12 +246,13 @@ export class Trelo {
                             .then(function (response) {
                                 $('#modalAtendimentoSucesso').modal('show')
 
-                                //ATRIBUI OS VALORES DOS COUNT's
-                                let SolicitadosCount = document.getElementById("AgendadosCount");
-                                let AgendadosCount = document.getElementById("AtendimentoCount");
+                                // //ATRIBUI OS VALORES DOS COUNT's
+                                // let SolicitadosCount = document.getElementById("AgendadosCount");
+                                // let AgendadosCount = document.getElementById("AtendimentoCount");
 
-                                $("#SolicitadosCount").text((+SolicitadosCount.innerText.replace(/\s/g, '')) - 1)
-                                $("#AgendadosCount").text((+AgendadosCount.innerText.replace(/\s/g, '')) + 1)
+                                // $("#SolicitadosCount").text((+SolicitadosCount.innerText.replace(/\s/g, '')) - 1)
+                                // $("#AgendadosCount").text((+AgendadosCount.innerText.replace(/\s/g, '')) + 1)
+                                socket.emit('cardRender', 'foi')
                             })
                             .catch(function (error) {
                                 $('#modalAlgoErrado').modal('show')
@@ -344,14 +341,14 @@ export class Trelo {
                         });
                         window.location.reload()
                     }
+                    })
                 })
-            })
                 .on('dragInit', function (item) {
                     item.getElement().style.width = item.getWidth() + 'px';
                     item.getElement().style.height = item.getHeight() + 'px';
+                   
                 })
                 .on('dragReleaseEnd', function (item) {
-                    // item._migrate._container = true
                     item.getElement().style.width = '';
                     item.getElement().style.height = '';
                     item.getGrid().refreshItems([item]);
@@ -359,8 +356,6 @@ export class Trelo {
                 .on('layoutStart', function (item) {
                     // boardGrid.refreshItems().layout();
                 })
-                .on('move', function (data) {
-                });
             
             grid.refreshItems().layout()
             columnGrids.push(grid);

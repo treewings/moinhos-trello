@@ -22,7 +22,7 @@
                         <div class="form-control-wrap w-100">
                             <select class="form-select js-select2" data-search="on" id="selectSetorExame" onchange="javascript:mostraAlerta(this)" data-placeholder="Filtro por sala">
                                 <option value="0">Filtro por setor de exame</option>
-                                <option value="1">TODOS SETORES</option>
+                                <option value="1">TODOS</option>
                             </select>
                         </div>
                     </div>
@@ -33,8 +33,9 @@
                             <path d="M1.5 15a.5.5 0 0 0 0 1h13a.5.5 0 0 0 0-1H13V2.5A1.5 1.5 0 0 0 11.5 1H11V.5a.5.5 0 0 0-.57-.495l-7 1A.5.5 0 0 0 3 1.5V15H1.5zM11 2h.5a.5.5 0 0 1 .5.5V15h-1V2zm-2.5 8c-.276 0-.5-.448-.5-1s.224-1 .5-1 .5.448.5 1-.224 1-.5 1z"/>
                           </svg></h3>
                         <div class="form-control-wrap w-100">
-                            <select class="form-select js-select2" data-search="on" data-placeholder="Filtro por sala">
-                                <option value="default_option">Em desenvolvimento</option>
+                            <select class="form-select js-select2" data-search="on" data-placeholder="Filtro por sala" onchange="javascript:mostraAlertaDois(this)" id="filtroSala">
+                                <option value="0">Filtro por sala</option>
+                                <option value="1">TODOS</option>
                                 <!-- <option value="option_select_name">Option select name</option>
                                 <option value="option_select_name">Option select name</option> -->
                             </select>
@@ -57,7 +58,7 @@
                         </header>
                     </div>
                     <div class="board-column-content-wrapper">
-                        <div class="board-column-content" id="Solicitados" style="min-height: 500px; margin-bottom: 100px;">
+                        <div class="board-column-content" id="Solicitados">
                         </div>
                     </div>
                 </div>
@@ -75,7 +76,7 @@
                           </header>
                       </div>
                     <div class="board-column-content-wrapper">
-                        <div class="board-column-content" id="Agendados" style="min-height: 500px; margin-bottom: 100px;">
+                        <div class="board-column-content" id="Agendados">
                         </div>
                     </div>
                 </div>
@@ -93,7 +94,7 @@
                           </header>
                     </div>
                     <div class="board-column-content-wrapper">
-                        <div class="board-column-content" id="Atendimento" style="min-height: 500px;">
+                        <div class="board-column-content" id="Atendimento" >
                         </div>
                     </div>
                 </div>
@@ -111,7 +112,7 @@
                           </header>
                       </div>
                     <div class="board-column-content-wrapper">
-                        <div class="board-column-content" id="posExame" style="min-height: 500px;">
+                        <div class="board-column-content" id="posExame">
                         </div>
                     </div>
                 </div>
@@ -129,7 +130,7 @@
                           </header>
                       </div>
                     <div class="board-column-content-wrapper">
-                        <div class="board-column-content" id="finalizados" style="min-height: 500px;">
+                        <div class="board-column-content" id="finalizados">
                         </div>
                     </div>
                 </div>
@@ -475,9 +476,9 @@
                                 <!-- <p class="lead">We are sorry, we were unable to process your payment. Please try after sometimes.</p> -->
                                 <p class="text-soft">Por favor aguarde o transporte ser finalizado para mover o card para atendimento.</p>
                             </div>
-                            <div class="nk-modal-action mt-5">
+                            <!-- <div class="nk-modal-action mt-5">
                                 <a href="#" class="btn btn-lg btn-mw btn-light" data-bs-dismiss="modal" onClick="window.location.reload()">Voltar</a>
-                            </div>
+                            </div> -->
                         </div>
                     </div><!-- .modal-body -->
                 </div>
@@ -486,7 +487,7 @@
         <div class="modal fade" tabindex="-1" id="modalAtendimentoSucesso">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
-                    <a href="#" class="close" data-bs-dismiss="modal"><em class="icon ni ni-cross"></em></a>
+                    <!-- <a href="#" class="close" data-bs-dismiss="modal"><em class="icon ni ni-cross"></em></a> -->
                     <div class="modal-body modal-body-lg text-center">
                         <div class="nk-modal">
                             <em class="nk-modal-icon icon icon-circle icon-circle-xxl ni ni-check bg-success"></em>
@@ -495,9 +496,9 @@
                                 <div class="caption-text">Solicitação de exame em <strong>Atendimento</strong>!</div>
                                 <span class="sub-text-sm">Acompanhe na coluna de atendimento.</span>
                             </div>
-                            <div class="nk-modal-action">
+                            <!-- <div class="nk-modal-action">
                                 <a href="#" class="btn btn-lg btn-mw btn-primary" data-bs-dismiss="modal" onClick="window.location.reload()">Fechar</a>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                 </div>
@@ -511,6 +512,17 @@
                     history.pushState({}, null, elemento);
                 }else{
                     elemento = '?setor='+elemento.value
+                    history.pushState({}, null, elemento);
+                }
+                window.location.reload()
+            }
+            function mostraAlertaDois(elemento)
+            {   
+                if(elemento.value == '1'){
+                    elemento = '/'
+                    history.pushState({}, null, elemento);
+                }else{
+                    elemento = '?sala='+elemento.value
                     history.pushState({}, null, elemento);
                 }
                 window.location.reload()
