@@ -80,8 +80,8 @@ acesso().filtro != '' ? x = (axios.post(y+'/api/moinhos/consulta', acesso().filt
 
             
             $('#Solicitados').append(`
-            <div class="board-item m-0 mt-2 border rounded movercard" data-id="${val.acess_number}" style="width: 100% !important;">
-                <div class="board-item-content p-0" style="height: 152px; width: auto;">
+            <div class="board-item m-0 mt-2 border rounded movercard" data-id="${val.acess_number}">
+                <div class="board-item-content p-0" style="height: 152px;">
                     <div class="kanban-item-title p-1 rounded-2" style="background: #`+corClassificacao+`; width: 100%; height: 40px;">
                         <div class="d-flex align-items-center">
                             <h6 class="" style="margin-bottom: 3px;">
@@ -212,8 +212,8 @@ acesso().filtro != '' ? x = (axios.post(y+'/api/moinhos/consulta', acesso().filt
             }
 
             $('#Agendados').append(`
-            <div class="board-item m-0  mt-2 border rounded"  data-id="${val.acess_number}" style="width: 100%;">
-                <div class="board-item-content p-0" style="height: 152px;  width: auto;">
+            <div class="board-item m-0  mt-2 border rounded"  data-id="${val.acess_number}">
+                <div class="board-item-content p-0" style="height: 152px;">
                     <div class="kanban-item-title p-1 rounded-2" style="background: #`+corClassificacao+`; width: 100%; height: 40px;">
                         <div class="d-flex align-items-center text-danger">
                             <h6 class="" style="margin-bottom: 3px;">
@@ -342,8 +342,8 @@ acesso().filtro != '' ? x = (axios.post(y+'/api/moinhos/consulta', acesso().filt
             }
 
             $('#Atendimento').append(`
-            <div class="board-item m-0 mt-2 border rounded movercard" data-id="${val.acess_number}" style="width: 100% !important;">
-                <div class="board-item-content p-0" style="height: 152px; width: auto;">
+            <div class="board-item m-0 mt-2 border rounded movercard" data-id="${val.acess_number}">
+                <div class="board-item-content p-0" style="height: 152px;">
                     <div class="kanban-item-title p-1 rounded-2" style="background: #`+corClassificacao+`; width: 100%; height: 40px;">
                         <div class="d-flex align-items-center text-danger">
                             <h6 class="" style="margin-bottom: 3px;">
@@ -478,8 +478,8 @@ acesso().filtro != '' ? x = (axios.post(y+'/api/moinhos/consulta', acesso().filt
             }
 
             $('#posExame').append(`
-            <div class="board-item m-0  mt-2 border rounded"  data-id="${val.acess_number}" style="width: 100% !important;">
-                <div class="board-item-content p-0" style="height: 152px; width: auto;">
+            <div class="board-item m-0  mt-2 border rounded"  data-id="${val.acess_number}">
+                <div class="board-item-content p-0" style="height: 152px;">
                     <div class="kanban-item-title p-1 rounded-2" style="background: #`+corClassificacao+`; width: 100%; height: 40px;">
                         <div class="d-flex align-items-center text-danger">
                             <h6 class="" style="margin-bottom: 3px;">
@@ -601,8 +601,8 @@ acesso().filtro != '' ? x = (axios.post(y+'/api/moinhos/consulta', acesso().filt
             dataHora = formartarData[0]+'/'+formartarData[1]+'/'+formartarData[2]+' '+formatarHora[0]+':'+formatarHora[1]
 
             $('#finalizados').append(`
-            <div class="board-item m-0 mt-2 border rounded movercard" data-id="${val.acess_number}" style="width: 100% !important;">
-                <div class="board-item-content p-0" style="height: 152px; width: auto;">
+            <div class="board-item m-0 mt-2 border rounded movercard" data-id="${val.acess_number}">
+                <div class="board-item-content p-0" style="height: 152px;">
                     <div class="kanban-item-title p-1 rounded-2" style="background: #`+corClassificacao+`; width: 100%; height: 40px;">
                         <div class="d-flex align-items-center">
                             <h6 class="" style="margin-bottom: 3px;">
