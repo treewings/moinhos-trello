@@ -1,4 +1,6 @@
 import { url } from "./url.js"
+import socket from "./websocket.js"
+
 export function umovFinalizar(val, destino){
     var y = url()
     let dados = JSON.parse(val)
@@ -138,7 +140,7 @@ export function umovFinalizar(val, destino){
             })
             .then(function (response) {
                 $('#modalTransporteFinal').modal('hide')
-                window.location.reload()
+                socket.emit('cardRender', 'foi')
             })
             .catch(function (error) {
                 $('#modalTransporteFinal').modal('hide')

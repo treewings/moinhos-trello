@@ -1,8 +1,7 @@
 import { url } from "./url.js";
 import socket from "./websocket.js";
-export class Trelo {
 
-    treloRodar() {
+ const treloRodar = ()=> {
        
         var dragContainer = document.querySelector('.drag-container');
         var itemContainers = [].slice.call(document.querySelectorAll('.board-column-content'));
@@ -186,6 +185,9 @@ export class Trelo {
                                     let valor = update.value;
                                     val = JSON.parse(valor);
                                     let imagem = 'cadeira-de-rodas-preto.png'
+                                    let conf =  {'Cache-Control': 'no-cache',
+                                    'Pragma': 'no-cache',
+                                    'Expires': '0'}
                                     axios.post(y+'/api/moinhos/agendar', {
                                         acess_number: ID,
                                         dados: val,
@@ -193,15 +195,12 @@ export class Trelo {
                                         data_agendamento: dt,
                                         hora_agendamento: hr,
                                         imagem_cadeira: imagem
-                                    })
+                                    }, conf)
                                     //SE UPDATE REALIZADO COM SUCESSO, FAÇA
                                     .then(function (response) {
                                         //ABRE MODAL DE SUCESSO
                                         $('#modalAgendadoSucesso').modal('show')
-                                        setTimeout(async () => {
-                                            $('#modalAgendadoSucesso').modal('hide')
-                                           return socket.emit('cardRender', 'foi');
-                                        }, 900);
+                                        socket.emit('cardRender', 'foi');
                                     })
                                     .catch(function (error) {
                                         $('#modalAlgoErrado').modal('show')
@@ -367,6 +366,6 @@ export class Trelo {
             dragHandle: '.board-column-header'
         });
     }
-}
 
-// export default columnGrids
+
+ export default treloRodar

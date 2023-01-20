@@ -1,19 +1,14 @@
-import {
-    Trelo
-} from "./js/Trelo.js";
-import {
-    cardsTrelo
-} from "./js/cardsTrelo.js";
-// import columnGrids from "./js/Trelo.js";
-import { addEvent } from "./js/cardsTrelo.js";
-import { umov } from "./js/solicitarTransporte.js";
-import { umovFinalizar } from "./js/solicitarTransporteFinal.js";
+import treloRodar from "./js/treloRodar.js";
+import filtro from "./js/filtros/filtro.js";
+import solicitacoes from "./js/funcoes/solicitacoes.js";
 import { url } from "./js/url.js";
 import socket from "./js/websocket.js";
+import solicitadosSet from "./js/setInterval/solicitadosSet.js";
+
 
 var x  = ''
 var y = url()
-const trelo = new Trelo()
+
 
 socket.on('cardRender', function(msg) {
     window.location.reload()
@@ -102,7 +97,7 @@ acesso().filtro != '' ? x = (axios.post(y+'/api/moinhos/consulta', acesso().filt
                                     <div style="font-size: 13px;" class="m-0 d-flex align-items-center"  id="img_icone-${val.acess_number}">
             
                                     </div>
-                                    <div class="">00:00</div>
+                                    <div class="">${val.data_diferenca}</div>
                                 </a>
                             </div>
                             <div>
@@ -234,7 +229,7 @@ acesso().filtro != '' ? x = (axios.post(y+'/api/moinhos/consulta', acesso().filt
                                 <div style="font-size: 13px;" class="m-0 d-flex align-items-center" id="img_icone-${val.acess_number}">
                                     <img style="height: 13px; margin-right: 5px; margin-left: 4px;" src="images/Icones/${val.imagem_cadeira}">
                                 </div>
-                                <div class="">00:00</div>
+                                <div class="">${val.data_diferenca}</div>
                             </a>
                         </div>
                         <div>
@@ -364,7 +359,7 @@ acesso().filtro != '' ? x = (axios.post(y+'/api/moinhos/consulta', acesso().filt
                                     <div style="font-size: 13px;" class="m-0 d-flex align-items-center"  id="img_icone-${val.acess_number}">
                                         <em class="icon ni ni-activity-round-fill"></em>
                                     </div>
-                                    <div class="">00:00</div>
+                                    <div class="">${val.data_diferenca}</div>
                                 </a>
                             </div>
                             <div>
@@ -500,7 +495,7 @@ acesso().filtro != '' ? x = (axios.post(y+'/api/moinhos/consulta', acesso().filt
                                     <div style="font-size: 13px;" class="m-0 d-flex align-items-center" id="img_icone-${val.acess_number}">
                                         <img style="height: 13px; margin-right: 5px; margin-left: 4px;" src="images/Icones/${val.imagem_cadeira}">
                                     </div>
-                                <div class="">00:00</div>
+                                <div class="">${val.data_diferenca}</div>
                             </a>
                         </div>
                         <div>
@@ -692,74 +687,11 @@ acesso().filtro != '' ? x = (axios.post(y+'/api/moinhos/consulta', acesso().filt
         $("#PosExameCount").text(`${response.data.count.total_pos_exame}`)
         $("#FinalizadosCount").text(`${response.data.count.total_finalizados}`)
 
-        //ABRE MODAL DE SOLICITAÇÃO DE TRANSPORTE FINAL
-        $('body').on('click', '#solicitarTransporteFinal', function(evento){
-            //ABRE MODAL
-            $('#modalTransporteFinal').modal('show')
-            let ID = $(this).data('id')
-            let valor =  document.querySelector('#solicitar-update-'+ID)
-            let codigo_ui =  document.querySelector('#codigo_ui-'+ID)
-            let unidade_internacao =  document.querySelector('#unidade_internacao-'+ID)
+        filtro(response.data.filtro, response.data.filtroSala)
 
-            // addOptionTransporteFinal(unidade_internacao.value, codigo_ui.value+'_'+unidade_internacao.value)
-            // function addOptionTransporteFinal(key, valor){
-            //     let option = new Option(key, valor, true, true)
-            //     let transporteFinal = document.getElementById("selectTransporteFinal")
-            //     transporteFinal.add(option)
-            // }
-            $("#formTransporteFinal").submit(function (event) {
-                event.preventDefault()
-                umovFinalizar(valor.value, formTransporteFinal.sala.value)
-            })
-        });
-
-        $('body').on('click', '#fecharTransporteFinal', function(event){
-            window.location.reload()
-        })
-
-        //ABRE MODAL DE SOLICITAÇÃO DE TRANSPORTE
-        $('body').on('click', '#solicitarTransporte', function(evento){
-            //ABRE MODAL
-            $('#modalTransporte').modal('show')
-            let ID = $(this).data('id')
-            let valor =  document.querySelector('#solicitar-update-'+ID)
-            $("#formTransporte").submit(function (event) {
-                event.preventDefault()
-                umov(valor.value, formTransporte.sala.value)
-                
-            })
-        })
-
-        //MONTA SESSAO DO FILTRO DE SETOR DE EXAMES
-        // $("#selectSetorExame").empty()
-        let selectSetorExame = response.data.filtro
-        Object.entries(selectSetorExame).forEach(function(key, valor){
-            addOptionSetorExame(key, valor)
-        });
-        
-        function addOptionSetorExame(key, valor){
-            let option = new Option(key[1],  key[0])
-            let select = document.getElementById("selectSetorExame")
-            select.add(option)
-        }
-
-        
-        if(response.data.filtroSala != ''){
-            Object.entries(response.data.filtroSala).forEach(function(key, valor){
-                addOptionSala(key, valor)
-            });
-            
-            function addOptionSala(key, valor){
-                let option = new Option(key[1],  key[0])
-                let select = document.getElementById("filtroSala")
-                select.add(option)
-            }
-        }
-        
-
-        trelo.treloRodar();
-
-        
+        solicitacoes()
+        treloRodar()
+        solicitadosSet()
 
         //VERIFICA STATUS DA TAREFA
         const checaImagem = async ()=>{
@@ -864,27 +796,8 @@ acesso().filtro != '' ? x = (axios.post(y+'/api/moinhos/consulta', acesso().filt
                 
             }, 3000);
         }; checaImagem()
-
+    
         
-
-        //VERICIFA SE EXISTE UM NOVO SOLICITADO
-        const busca = async ()=>{
-            const buscarDados = setInterval(() => {
-                axios.get(y+'/api/moinhos/diferenca')
-                .then((val)=>{
-                    val.data.solicitados.forEach((val)=>{
-                        solicitadosVal.push(val)
-                    })
-                    if(val.data.solicitados != ''){
-                        socket.emit('cardRender', 'foi')
-                    }
-                }).catch((error)=>{
-                    clearInterval(buscarDados)
-                    busca()
-                })
-            }, 30000);
-        }
-        busca()
     })
     .catch(function(error) {
         // handle error
