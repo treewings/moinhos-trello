@@ -75,7 +75,7 @@ acesso().filtro != '' ? x = (axios.post(y+'/api/moinhos/consulta', acesso().filt
 
             
             $('#Solicitados').append(`
-            <div class="board-item m-0 mt-2 border rounded movercard" data-id="${val.acess_number}">
+            <div class="board-item m-0 mb-2 border rounded movercard" data-id="${val.acess_number}">
                 <div class="board-item-content p-0" style="height: 152px;">
                     <div class="kanban-item-title p-1 rounded-2" style="background: #`+corClassificacao+`; width: 100%; height: 40px;">
                         <div class="d-flex align-items-center">
@@ -165,7 +165,6 @@ acesso().filtro != '' ? x = (axios.post(y+'/api/moinhos/consulta', acesso().filt
             </div>
             `)
         });
-
         $('#Agendados').empty();
         Object.entries(response.data.agendados).forEach(([key, val]) => {
             //ICONE DE URGENCIA
@@ -207,7 +206,7 @@ acesso().filtro != '' ? x = (axios.post(y+'/api/moinhos/consulta', acesso().filt
             }
 
             $('#Agendados').append(`
-            <div class="board-item m-0  mt-2 border rounded"  data-id="${val.acess_number}">
+            <div class="board-item m-0  mb-2 border rounded"  data-id="${val.acess_number}">
                 <div class="board-item-content p-0" style="height: 152px;">
                     <div class="kanban-item-title p-1 rounded-2" style="background: #`+corClassificacao+`; width: 100%; height: 40px;">
                         <div class="d-flex align-items-center text-danger">
@@ -337,7 +336,7 @@ acesso().filtro != '' ? x = (axios.post(y+'/api/moinhos/consulta', acesso().filt
             }
 
             $('#Atendimento').append(`
-            <div class="board-item m-0 mt-2 border rounded movercard" data-id="${val.acess_number}">
+            <div class="board-item m-0 mb-2 border rounded movercard" data-id="${val.acess_number}">
                 <div class="board-item-content p-0" style="height: 152px;">
                     <div class="kanban-item-title p-1 rounded-2" style="background: #`+corClassificacao+`; width: 100%; height: 40px;">
                         <div class="d-flex align-items-center text-danger">
@@ -473,7 +472,7 @@ acesso().filtro != '' ? x = (axios.post(y+'/api/moinhos/consulta', acesso().filt
             }
 
             $('#posExame').append(`
-            <div class="board-item m-0  mt-2 border rounded"  data-id="${val.acess_number}">
+            <div class="board-item m-0  mb-2 border rounded"  data-id="${val.acess_number}">
                 <div class="board-item-content p-0" style="height: 152px;">
                     <div class="kanban-item-title p-1 rounded-2" style="background: #`+corClassificacao+`; width: 100%; height: 40px;">
                         <div class="d-flex align-items-center text-danger">
@@ -596,7 +595,7 @@ acesso().filtro != '' ? x = (axios.post(y+'/api/moinhos/consulta', acesso().filt
             dataHora = formartarData[0]+'/'+formartarData[1]+'/'+formartarData[2]+' '+formatarHora[0]+':'+formatarHora[1]
 
             $('#finalizados').append(`
-            <div class="board-item m-0 mt-2 border rounded movercard" data-id="${val.acess_number}">
+            <div class="board-item m-0 mb-2 border rounded movercard" data-id="${val.acess_number}">
                 <div class="board-item-content p-0" style="height: 152px;">
                     <div class="kanban-item-title p-1 rounded-2" style="background: #`+corClassificacao+`; width: 100%; height: 40px;">
                         <div class="d-flex align-items-center">
@@ -687,7 +686,7 @@ acesso().filtro != '' ? x = (axios.post(y+'/api/moinhos/consulta', acesso().filt
         $("#PosExameCount").text(`${response.data.count.total_pos_exame}`)
         $("#FinalizadosCount").text(`${response.data.count.total_finalizados}`)
 
-        filtro(response.data.filtro, response.data.filtroSala)
+        // filtro(response.data.filtro, response.data.filtroSala)
 
         solicitacoes()
         treloRodar()
@@ -801,7 +800,7 @@ acesso().filtro != '' ? x = (axios.post(y+'/api/moinhos/consulta', acesso().filt
     })
     .catch(function(error) {
         // handle error
-        // window.location.reload()
+        window.location.reload()
     })
 }
 

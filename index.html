@@ -16,28 +16,45 @@
     <body id="body">
         <div class="nk-header nk-header-fixed is-light">
             <div class="container-fluid d-flex flex-row-reverse">
-                <div class="col-sm-2 m-2">
+                <div class="col-sm-3 m-2">
                     <div class="form-group d-flex align-items-center">
                         <h3 class="mr-2 mb-0 d-flex align-items-center"><em class="icon ni ni-activity-round-fill"></em></h3>
                         <div class="form-control-wrap w-100">
                             <select class="form-select js-select2" data-search="on" id="selectSetorExame" onchange="javascript:mostraAlerta(this)" data-placeholder="Filtro por sala">
-                                <option value="0">Filtro por setor de exame</option>
-                                <option value="1">TODOS</option>
+                                <option value="1" >Todos os setores</option>
+                                <option value="19">Tomografia Computadorizada</option>
+                                <option value="20">Raio X</option>
+                                <option value="23">Ecografia Geral</option>
+                                <option value="24">Ressonancia Magnetica</option>
+                                <option value="26">Ecografia GO</option>
                             </select>
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-2 m-2">
+                <div class="col-sm-3 m-2">
                     <div class="form-group d-flex align-items-center">
                         <h3 class="mr-2 mb-0 d-flex align-items-center"><svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-door-open-fill" viewBox="0 0 16 16">
                             <path d="M1.5 15a.5.5 0 0 0 0 1h13a.5.5 0 0 0 0-1H13V2.5A1.5 1.5 0 0 0 11.5 1H11V.5a.5.5 0 0 0-.57-.495l-7 1A.5.5 0 0 0 3 1.5V15H1.5zM11 2h.5a.5.5 0 0 1 .5.5V15h-1V2zm-2.5 8c-.276 0-.5-.448-.5-1s.224-1 .5-1 .5.448.5 1-.224 1-.5 1z"/>
                           </svg></h3>
                         <div class="form-control-wrap w-100">
-                            <select class="form-select js-select2" data-search="on" data-placeholder="Filtro por sala" onchange="javascript:mostraAlertaDois(this)" id="filtroSala">
-                                <option value="0">Filtro por sala</option>
-                                <option value="1">TODOS</option>
-                                <!-- <option value="option_select_name">Option select name</option>
-                                <option value="option_select_name">Option select name</option> -->
+                            <select class="form-select js-select2" data-search="on" id="selectSalaExame" data-placeholder="Filtro por sala" onchange="javascript:mostraAlertaDois(this)">
+                                <option value="1">Todas as salas</option>
+                                <option value="999-169">Sala de ressonância – Bloco C - 2º Andar</option>
+                                <option value="999-170">Sala de ressonância – Bloco C - 3º Andar</option>
+                                <option value="999-168">Sala de ressonância – Bloco D</option>
+                                <option value="999-61">Tomografia – Bloco A</option>
+                                <option value="999-130">Tomografia da emergência</option>
+                                <option value="999-46">Tomografia da internação</option>
+                                <option value="999-60">Procedimento invasivos da ecografia</option>
+                                <option value="999-7">Ecografia transvaginal – Bloco A</option>
+                                <option value="999-8">Ecografia mamária – Bloco A</option>
+                                <option value="999-121">Ecografia da emergência</option>
+                                <option value="999-20">Ecografia pediátrica – Bloco A</option>
+                                <option value="999-9">Mamografia</option>
+                                <option value="999-6">Densitometria óssea</option>
+                                <option value="999-45">Raio X – Bloco  A</option>
+                                <option value="999-118">Raio X da emergência</option>
+                                <option value="999-38">Medicina Nuclear</option>
                             </select>
                         </div>
                     </div>
@@ -45,9 +62,9 @@
             </div>
         </div>
         <div class="board"  style="margin-top: 60px;">
-            <div class="board-column solicitados mb-5">
+            <div class="board-column solicitados mb-5 pr-0">
                 <div class="board-column-container">
-                    <div class="board-column-header">
+                    <div class="board-column-header px-0">
                       <header class="kanban-board-header kanban-primary m-0">
                               <div class="kanban-title-board">
                                 <div class="kanban-title-content">
@@ -57,15 +74,15 @@
                             </div>
                         </header>
                     </div>
-                    <div class="board-column-content-wrapper">
+                    <div class="board-column-content-wrapper p-0">
                         <div class="board-column-content" id="Solicitados">
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="board-column agendado mb-5">
+            <div class="board-column agendado mb-5 pr-0">
                 <div class="board-column-container">
-                    <div class="board-column-header">
+                    <div class="board-column-header px-0">
                         <header class="kanban-board-header kanban-primary m-0">
                             <div class="kanban-title-board">
                                   <div class="kanban-title-content">
@@ -75,15 +92,15 @@
                               </div>
                           </header>
                       </div>
-                    <div class="board-column-content-wrapper">
+                    <div class="board-column-content-wrapper p-0">
                         <div class="board-column-content" id="Agendados">
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="board-column atendimento mb-5">
+            <div class="board-column atendimento mb-5 pr-0">
                 <div class="board-column-container">
-                    <div class="board-column-header">
+                    <div class="board-column-header px-0">
                         <header class="kanban-board-header kanban-primary m-0">
                             <div class="kanban-title-board">
                                   <div class="kanban-title-content">
@@ -93,15 +110,15 @@
                               </div>
                           </header>
                     </div>
-                    <div class="board-column-content-wrapper">
+                    <div class="board-column-content-wrapper p-0">
                         <div class="board-column-content" id="Atendimento" >
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="board-column posExame mb-5">
+            <div class="board-column posExame mb-5 pr-0">
                 <div class="board-column-container">
-                    <div class="board-column-header">
+                    <div class="board-column-header px-0">
                         <header class="kanban-board-header kanban-primary m-0">
                               <div class="kanban-title-board">
                                   <div class="kanban-title-content">
@@ -111,15 +128,15 @@
                               </div>
                           </header>
                       </div>
-                    <div class="board-column-content-wrapper">
+                    <div class="board-column-content-wrapper p-0">
                         <div class="board-column-content" id="posExame">
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="board-column finalizados mb-5">
+            <div class="board-column finalizados mb-5 pr-0">
                 <div class="board-column-container">
-                    <div class="board-column-header">
+                    <div class="board-column-header px-0">
                         <header class="kanban-board-header kanban-primary m-0">
                               <div class="kanban-title-board">
                                   <div class="kanban-title-content">
@@ -129,7 +146,7 @@
                               </div>
                           </header>
                       </div>
-                    <div class="board-column-content-wrapper">
+                    <div class="board-column-content-wrapper p-0">
                         <div class="board-column-content" id="finalizados">
                         </div>
                     </div>
@@ -505,6 +522,7 @@
             </div>
         </div>
         <script type="text/javascript">
+            //ADICIONA O FILTRO POR SETOR DE EXAME
             function mostraAlerta(elemento)
             {   
                 if(elemento.value == '1'){
@@ -516,6 +534,8 @@
                 }
                 window.location.reload()
             }
+        
+            //ADICIOCA O FILTRO POR SALA DE EXAME
             function mostraAlertaDois(elemento)
             {   
                 if(elemento.value == '1'){
@@ -526,6 +546,98 @@
                     history.pushState({}, null, elemento);
                 }
                 window.location.reload()
+            }
+        
+            //ADICIONA OS ITENS SELECIONADOS NOS CARDS
+            if(window.location.href == 'http://localhost:3000/'){
+            }if(window.location.href == 'http://localhost:3000/?setor=19'){
+                var select = document.getElementById('selectSetorExame');
+                var text = select.options[1]
+                text.setAttribute('selected', '')
+            }if(window.location.href == 'http://localhost:3000/?setor=20'){
+                var select = document.getElementById('selectSetorExame');
+                var text = select.options[2]
+                text.setAttribute('selected', '')
+            }if(window.location.href == 'http://localhost:3000/?setor=23'){
+                var select = document.getElementById('selectSetorExame');
+                var text = select.options[3]
+                text.setAttribute('selected', '')
+            }if(window.location.href == 'http://localhost:3000/?setor=24'){
+                var select = document.getElementById('selectSetorExame');
+                var text = select.options[4]
+                text.setAttribute('selected', '')
+            }if(window.location.href == 'http://localhost:3000/?setor=26'){
+                var select = document.getElementById('selectSetorExame');
+                var text = select.options[5]
+                text.setAttribute('selected', '')
+            }
+        
+            //ADICIONA OS ITENS SELECIONADOS NOS CARDS
+            if(window.location.href == 'http://localhost:3000/'){
+            }if(window.location.href == 'http://localhost:3000/?sala=999-169'){
+                var select = document.getElementById('selectSalaExame');
+                var text = select.options[1]
+                text.setAttribute('selected', '')
+            }if(window.location.href == 'http://localhost:3000/?sala=999-170'){
+                var select = document.getElementById('selectSalaExame');
+                var text = select.options[2]
+                text.setAttribute('selected', '')
+            }if(window.location.href == 'http://localhost:3000/?sala=999-168'){
+                var select = document.getElementById('selectSalaExame');
+                var text = select.options[3]
+                text.setAttribute('selected', '')
+            }if(window.location.href == 'http://localhost:3000/?sala=999-61'){
+                var select = document.getElementById('selectSalaExame');
+                var text = select.options[4]
+                text.setAttribute('selected', '')
+            }if(window.location.href == 'http://localhost:3000/?sala=999-130'){
+                var select = document.getElementById('selectSalaExame');
+                var text = select.options[5]
+                text.setAttribute('selected', '')
+            }if(window.location.href == 'http://localhost:3000/?sala=999-46'){
+                var select = document.getElementById('selectSalaExame');
+                var text = select.options[6]
+                text.setAttribute('selected', '')
+            }if(window.location.href == 'http://localhost:3000/?sala=999-60'){
+                var select = document.getElementById('selectSalaExame');
+                var text = select.options[7]
+                text.setAttribute('selected', '')
+            }if(window.location.href == 'http://localhost:3000/?sala=999-7'){
+                var select = document.getElementById('selectSalaExame');
+                var text = select.options[8]
+                text.setAttribute('selected', '')
+            }if(window.location.href == 'http://localhost:3000/?sala=999-8'){
+                var select = document.getElementById('selectSalaExame');
+                var text = select.options[9]
+                text.setAttribute('selected', '')
+            }if(window.location.href == 'http://localhost:3000/?sala=999-121'){
+                var select = document.getElementById('selectSalaExame');
+                var text = select.options[10]
+                text.setAttribute('selected', '')
+            }if(window.location.href == 'http://localhost:3000/?sala=999-20'){
+                var select = document.getElementById('selectSalaExame');
+                var text = select.options[11]
+                text.setAttribute('selected', '')
+            }if(window.location.href == 'http://localhost:3000/?sala=999-9'){
+                var select = document.getElementById('selectSalaExame');
+                var text = select.options[12]
+                text.setAttribute('selected', '')
+            }if(window.location.href == 'http://localhost:3000/?sala=999-6'){
+                var select = document.getElementById('selectSalaExame');
+                var text = select.options[13]
+                text.setAttribute('selected', '')
+            }if(window.location.href == 'http://localhost:3000/?sala=999-45'){
+                var select = document.getElementById('selectSalaExame');
+                var text = select.options[14]
+                text.setAttribute('selected', '')
+            }if(window.location.href == 'http://localhost:3000/?sala=999-118'){
+                var select = document.getElementById('selectSalaExame');
+                var text = select.options[15]
+                text.setAttribute('selected', '')
+            }if(window.location.href == 'http://localhost:3000/?sala=999-38'){
+                var select = document.getElementById('selectSalaExame');
+                var text = select.options[16]
+                text.setAttribute('selected', '')
             }
         </script>
         
