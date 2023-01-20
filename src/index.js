@@ -76,7 +76,7 @@ acesso().filtro != '' ? x = (axios.post(y+'/api/moinhos/consulta', acesso().filt
             
             $('#Solicitados').append(`
             <div class="board-item m-0 mb-2 border rounded movercard" data-id="${val.acess_number}">
-                <div class="board-item-content p-0" style="height: 152px;">
+                <div class="board-item-content p-0" style="min-height: 152px;">
                     <div class="kanban-item-title p-1 rounded-2" style="background: #`+corClassificacao+`; width: 100%; height: 40px;">
                         <div class="d-flex align-items-center">
                             <h6 class="" style="margin-bottom: 3px;">
@@ -93,7 +93,7 @@ acesso().filtro != '' ? x = (axios.post(y+'/api/moinhos/consulta', acesso().filt
                                     <div class="pe-2 mb-0 d-flex align-items-center">At. ${val.atendimento}</div>
                                     <div class="mb-0 d-flex align-items-center">AN. ${val.acess_number}</div>
                                 </div>
-                                <a class="rounded-3 d-flex px-1 pb-0 text-dark align-items-center" style="background-color: #ecebeb; cursor: pointer; display:flex; align-items: cente;">
+                                <a class="rounded-3 d-flex px-1 pb-0 text-dark align-items-center" style="background-color: #ecebeb; cursor: pointer; display:flex; align-items: cente; font-size:smaller">
                                     <div style="font-size: 13px;" class="m-0 d-flex align-items-center"  id="img_icone-${val.acess_number}">
             
                                     </div>
@@ -207,7 +207,7 @@ acesso().filtro != '' ? x = (axios.post(y+'/api/moinhos/consulta', acesso().filt
 
             $('#Agendados').append(`
             <div class="board-item m-0  mb-2 border rounded"  data-id="${val.acess_number}">
-                <div class="board-item-content p-0" style="height: 152px;">
+                <div class="board-item-content p-0" style="min-height: 152px;">
                     <div class="kanban-item-title p-1 rounded-2" style="background: #`+corClassificacao+`; width: 100%; height: 40px;">
                         <div class="d-flex align-items-center text-danger">
                             <h6 class="" style="margin-bottom: 3px;">
@@ -224,7 +224,7 @@ acesso().filtro != '' ? x = (axios.post(y+'/api/moinhos/consulta', acesso().filt
                                 <div class="pe-2 mb-0 d-flex align-items-center">At. ${val.atendimento}</div>
                                 <div class="mb-0 d-flex align-items-center">AN. ${val.acess_number}</div>
                             </div>
-                            <a class="rounded-3 d-flex px-1 text-dark align-items-center" id="`+condicao+`" data-id="${val.acess_number}" style="background-color: #ecebeb; cursor: pointer; display:flex; align-items: cente; padding-top: 1px; padding-bottom: 1px;">
+                            <a class="rounded-3 d-flex px-1 text-dark align-items-center" id="`+condicao+`" data-id="${val.acess_number}" style="background-color: #ecebeb; cursor: pointer; display:flex; align-items: cente; padding-top: 1px; padding-bottom: 1px; font-size:smaller">
                                 <div style="font-size: 13px;" class="m-0 d-flex align-items-center" id="img_icone-${val.acess_number}">
                                     <img style="height: 13px; margin-right: 5px; margin-left: 4px;" src="images/Icones/${val.imagem_cadeira}">
                                 </div>
@@ -337,7 +337,7 @@ acesso().filtro != '' ? x = (axios.post(y+'/api/moinhos/consulta', acesso().filt
 
             $('#Atendimento').append(`
             <div class="board-item m-0 mb-2 border rounded movercard" data-id="${val.acess_number}">
-                <div class="board-item-content p-0" style="height: 152px;">
+                <div class="board-item-content p-0" style="min-height: 152px;">
                     <div class="kanban-item-title p-1 rounded-2" style="background: #`+corClassificacao+`; width: 100%; height: 40px;">
                         <div class="d-flex align-items-center text-danger">
                             <h6 class="" style="margin-bottom: 3px;">
@@ -354,7 +354,7 @@ acesso().filtro != '' ? x = (axios.post(y+'/api/moinhos/consulta', acesso().filt
                                     <div class="pe-2 mb-0 d-flex align-items-center">At. ${val.atendimento}</div>
                                     <div class="mb-0 d-flex align-items-center">AN. ${val.acess_number}</div>
                                 </div>
-                                <a class="rounded-3 d-flex px-1 pb-0 text-dark align-items-center" style="background-color: #ecebeb; cursor: pointer; display:flex; align-items: cente;">
+                                <a class="rounded-3 d-flex px-1 pb-0 text-dark align-items-center" style="background-color: #ecebeb; cursor: pointer; display:flex; align-items: cente; font-size:smaller">
                                     <div style="font-size: 13px;" class="m-0 d-flex align-items-center"  id="img_icone-${val.acess_number}">
                                         <em class="icon ni ni-activity-round-fill"></em>
                                     </div>
@@ -473,7 +473,7 @@ acesso().filtro != '' ? x = (axios.post(y+'/api/moinhos/consulta', acesso().filt
 
             $('#posExame').append(`
             <div class="board-item m-0  mb-2 border rounded"  data-id="${val.acess_number}">
-                <div class="board-item-content p-0" style="height: 152px;">
+                <div class="board-item-content p-0" style="min-height: 152px;">
                     <div class="kanban-item-title p-1 rounded-2" style="background: #`+corClassificacao+`; width: 100%; height: 40px;">
                         <div class="d-flex align-items-center text-danger">
                             <h6 class="" style="margin-bottom: 3px;">
@@ -490,7 +490,7 @@ acesso().filtro != '' ? x = (axios.post(y+'/api/moinhos/consulta', acesso().filt
                                 <div class="pe-2 mb-0 d-flex align-items-center">At. ${val.atendimento}</div>
                                 <div class="mb-0 d-flex align-items-center">AN. ${val.acess_number}</div>
                             </div>
-                            <a class="rounded-3 d-flex px-1 text-dark align-items-center" id="`+condicao+`" data-id="${val.acess_number}" style="background-color: #ecebeb; cursor: pointer; display:flex; align-items: cente; padding-top: 1px; padding-bottom: 1px;">
+                            <a class="rounded-3 d-flex px-1 text-dark align-items-center" id="`+condicao+`" data-id="${val.acess_number}" style="background-color: #ecebeb; cursor: pointer; display:flex; align-items: cente; padding-top: 1px; padding-bottom: 1px; font-size:smaller">
                                     <div style="font-size: 13px;" class="m-0 d-flex align-items-center" id="img_icone-${val.acess_number}">
                                         <img style="height: 13px; margin-right: 5px; margin-left: 4px;" src="images/Icones/${val.imagem_cadeira}">
                                     </div>
@@ -596,7 +596,7 @@ acesso().filtro != '' ? x = (axios.post(y+'/api/moinhos/consulta', acesso().filt
 
             $('#finalizados').append(`
             <div class="board-item m-0 mb-2 border rounded movercard" data-id="${val.acess_number}">
-                <div class="board-item-content p-0" style="height: 152px;">
+                <div class="board-item-content p-0" style="min-height: 152px;">
                     <div class="kanban-item-title p-1 rounded-2" style="background: #`+corClassificacao+`; width: 100%; height: 40px;">
                         <div class="d-flex align-items-center">
                             <h6 class="" style="margin-bottom: 3px;">
