@@ -26,6 +26,7 @@ $(document).ready(()=>{
         let observacaoitem = document.querySelector("#observacao_item-"+ID);
         let justificativaitem = document.querySelector("#justificativa_item-"+ID);
         let obsercacao = document.querySelector("#observacao-"+ID);
+        let obsercacao_select = document.querySelector("#observacao_select-"+ID);
 
         let valueNome = nome.value == '' || nome.value == 'null' || nome.value == undefined ? '' : nome.value;
         let valueDtNascimento = dtnascimento.value == '' || dtnascimento.value == null || dtnascimento.value == undefined ? '' : dtnascimento.value;
@@ -46,6 +47,7 @@ $(document).ready(()=>{
         let valueObservacaoItem = observacaoitem.value == '' || observacaoitem.value == 'null' || observacaoitem.value == undefined ? '' : observacaoitem.value;
         let valueJustificativaItem = justificativaitem.value == '' || justificativaitem.value == 'null' || justificativaitem.value == undefined ? '' : justificativaitem.value;
         let valueObservacao = obsercacao.value == '' || obsercacao.value == 'null' || obsercacao.value == undefined ? '' : obsercacao.value;
+        let valueObservacaoSelect = obsercacao_select.value == '' || obsercacao_select.value == 'null' || obsercacao_select.value == undefined ? '' : obsercacao_select.value;
 
         let origemtextArea =  ''
         if (valueAgendado == 'agendado') {
@@ -71,9 +73,25 @@ $(document).ready(()=>{
             
         }
         textAreaObservacao = `
-                <div class="col-sm-12">
+            <label class="form-label">Observações</label>
+            <div class="col-lg-12 col-sm-12 mb-3 d-flex justify-content-between">
+                <div class="col-sm-5">
                     <div class="form-group">
-                        <label class="form-label" for="default-textarea">Observações</label>
+                        <div class="form-control-wrap">
+                            <select class="form-select js-select2" id="default-observacao_select-`+valueAcessionNumber+`" data-search="on">
+                                <option value="0" `+(valueObservacaoSelect == 'null' || valueObservacaoSelect == '0' ? 'selected' : '')+`>Sem observações</option>
+                                <option value="1" `+(valueObservacaoSelect == '1' ? 'selected' : '')+`>Paciente almoçando/ jantando/ banho</option>
+                                <option value="2" `+(valueObservacaoSelect == '2' ? 'selected' : '')+`>Paciente não quer realizar o exame</option>
+                                <option value="3" `+(valueObservacaoSelect == '3' ? 'selected' : '')+`>Paciente quer aguardar o familiar</option>
+                                <option value="4" `+(valueObservacaoSelect == '4' ? 'selected' : '')+`>Paciente está em outro setor</option>
+                                <option value="5" `+(valueObservacaoSelect == '5' ? 'selected' : '')+`>Paciente em intercorrência</option>
+                                <option value="6" `+(valueObservacaoSelect == '6' ? 'selected' : '')+`>Outros</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>    
+                <div class="col-sm-6">
+                    <div class="form-group">
                         <div class="form-control-wrap">
                             <textarea class="form-control no-resize" id="default-textarea-`+valueAcessionNumber+`">`+valueObservacao+`</textarea>
                         </div>
@@ -82,7 +100,8 @@ $(document).ready(()=>{
                         <button type="submit" data-origem="`+origemtextArea+`" data-id="`+valueAcessionNumber+`" id="salvarObservacaoPreview" class="btn btn-sm btn-dim btn-outline-primary">Salvar Observações</button>
                     </div>
                 </div>
-            `
+            </div>        
+        `
         if(valueAtendimento == 'atendimento' && valuePosExame == ''){
             botaoCancelar = `
                 <div class="col-lg-12 col-sm-12 mt-3">
@@ -145,49 +164,55 @@ $(document).ready(()=>{
                     </div>
                 </div>
             </div>
-            <div class="col-lg-12 col-sm-12 mb-3">
-                <div class="form-control-wrap">
-                    <label class="form-label m-0" for="outlined-normal">Tipo de Isolamento</label>
-                    <input type="text" class="form-control form-control form-control-outlined" disabled value=" `+valueTipoIsolamento+`" id="outlined-normal">
-                </div>
-            </div>
-            <div class="col-lg-12 col-sm-12 mb-3">
-                <div class="form-group">
+            <div class="col-lg-12 col-sm-12 mb-3 d-flex justify-content-between">
+                <div class="col-lg-5 col-sm-5 m-0">
                     <div class="form-control-wrap">
-                        <label class="form-label m-0" for="outlined-normal">Prestador</label>
-                        <input type="text" class="form-control form-control form-control-outlined" disabled value=" `+valuePrestador+`" id="outlined-normal">
+                        <label class="form-label m-0" for="outlined-normal">Tipo de Isolamento</label>
+                        <input type="text" class="form-control form-control form-control-outlined" disabled value=" `+valueTipoIsolamento+`" id="outlined-normal">
+                    </div>
+                </div>
+                <div class="col-lg-6 col-sm-6 m-0">
+                    <div class="form-group">
+                        <div class="form-control-wrap">
+                            <label class="form-label m-0" for="outlined-normal">Prestador</label>
+                            <input type="text" class="form-control form-control form-control-outlined" disabled value=" `+valuePrestador+`" id="outlined-normal">
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="col-lg-12 col-sm-12 mb-3">
-                <div class="form-group">
-                    <div class="form-control-wrap">
-                        <label class="form-label m-0" for="outlined-normal">Setor Solicitante</label>
-                        <input type="text" class="form-control form-control form-control-outlined" disabled value=" `+valueSetorSolicitante+`" id="outlined-normal">
+            <div class="col-lg-12 col-sm-12 mb-3 d-flex justify-content-between">
+                <div class="col-lg-5 col-sm-5 m-0">
+                    <div class="form-group">
+                        <div class="form-control-wrap">
+                            <label class="form-label m-0" for="outlined-normal">Setor Solicitante</label>
+                            <input type="text" class="form-control form-control form-control-outlined" disabled value=" `+valueSetorSolicitante+`" id="outlined-normal">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-sm-6 m-0">
+                    <div class="form-group">
+                        <div class="form-control-wrap">
+                            <label class="form-label m-0" for="outlined-normal">Observação do Item</label>
+                            <input type="text" class="form-control form-control form-control-outlined" disabled value=" `+valueObservacaoItem+`" id="outlined-normal">
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="col-lg-12 col-sm-12 mb-3">
-                <div class="form-group">
-                    <div class="form-control-wrap">
-                        <label class="form-label m-0" for="outlined-normal">Observação do Item</label>
-                        <input type="text" class="form-control form-control form-control-outlined" disabled value=" `+valueObservacaoItem+`" id="outlined-normal">
+            <div class="col-lg-12 col-sm-12 mb-3 d-flex justify-content-between">
+                <div class="col-lg-5 col-sm-5 m-0">
+                    <div class="form-group">
+                        <div class="form-control-wrap">
+                            <label class="form-label m-0" for="outlined-normal">Justificativa do Item</label>
+                            <input type="text" class="form-control form-control form-control-outlined" disabled value=" `+valueJustificativaItem+`" id="outlined-normal">
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-lg-12 col-sm-12 mb-3">
-                <div class="form-group">
-                    <div class="form-control-wrap">
-                        <label class="form-label m-0" for="outlined-normal">Justificativa do Item</label>
-                        <input type="text" class="form-control form-control form-control-outlined" disabled value=" `+valueJustificativaItem+`" id="outlined-normal">
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-12 col-sm-12 mb-3">
-                <div class="form-group">
-                    <div class="form-control-wrap">
-                        <label class="form-label m-0" for="outlined-normal">Sala de Exame</label>
-                        <input type="text" class="form-control form-control form-control-outlined" disabled value=" `+valueSala+`" id="outlined-normal">
+                <div class="col-lg-6 col-sm-6 m-0">
+                    <div class="form-group">
+                        <div class="form-control-wrap">
+                            <label class="form-label m-0" for="outlined-normal">Sala de Exame</label>
+                            <input type="text" class="form-control form-control form-control-outlined" disabled value=" `+valueSala+`" id="outlined-normal">
+                        </div>
                     </div>
                 </div>
             </div>
@@ -331,19 +356,18 @@ $(document).ready(()=>{
     $('body').on('click', '#salvarObservacaoPreview', function(event) {
         event.preventDefault()
         let ID = $(this).data("id")
-        console.log(ID)
         let origem = $(this).data("origem")
-        console.log(origem)
-
+        let observacao_select = document.getElementById('default-observacao_select-'+ID)
+        let valueObservacaoSelect = observacao_select.value
         let observacao = document.getElementById('default-textarea-'+ID)
         let valueObservacao = observacao.value
         axios.post(y+'/api/moinhos/observacao/'+ID, {
             origem: origem,
-            observacao:  valueObservacao
+            observacao:  valueObservacao,
+            observacao_select: valueObservacaoSelect
         })
         .then(function (response) {
             socket.emit('cardRender', 'foi')
-            // console.log(xmlDaTarefa)
         })
         
     })

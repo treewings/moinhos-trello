@@ -14,7 +14,10 @@
 
     </head>
     <body id="body">
-        <div class="nk-header nk-header-fixed is-light">
+        <div class="nk-header nk-header-fixed is-light d-flex justify-content-between">
+            <button class="border-0  btn btn-outline-primary d-flex flex-column justify-content-center align-items-center botao-tela-cheia" onclick="abrirFull()">
+                <em class="icon ni ni-maximize" style="font-size: 25px;"></em><span class="m-0 p-0" style="font-size: 10px;">Tela cheia</span>
+            </button>
             <div class="container-fluid d-flex flex-row-reverse">
                 <div class="col-sm-3 m-2">
                     <div class="form-group d-flex align-items-center">
@@ -173,7 +176,7 @@
             </div>
         </div>
         <div class="modal" tabindex="-1" id="modalForm">
-            <div class="modal-dialog" role="document">
+            <div class="modal-dialog modal-xl" role="document">
                 <div class="modal-content overflow-hidden">
                     <div class="modal-header">
                         <h5 class="modal-title">Detalhes do Exame</h5>
@@ -522,6 +525,15 @@
             </div>
         </div>
         <script type="text/javascript">
+
+
+            var trelo = document.getElementById('trelo')
+
+            function abrirFull(){
+                trelo.requestFullscreen()
+            }
+
+
             //ADICIONA O FILTRO POR SETOR DE EXAME
             function mostraAlerta(elemento)
             {   

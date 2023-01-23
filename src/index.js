@@ -151,7 +151,7 @@ acesso().filtro != '' ? x = (axios.post(y+'/api/moinhos/consulta', acesso().filt
                                 <input type="hidden" id="tipo_risco-${val.acess_number}" value="${val.tipo_risco}" >
                                 <input type="hidden" id="sala-${val.acess_number}" value="${val.sala}" >
                                 <input type="hidden" id="observacao-${val.acess_number}" value="${val.observacao}" >
-
+                                <input type="hidden" id="observacao_select-${val.acess_number}" value="${val.observacao_select}" >
                             </div>
                             <div class="d-flex justify-content-between">
                                 <p class="m-0 text-dark" id="agendamento-${val.acess_number}">Solicitado em `+dataHora+`</p>
@@ -283,7 +283,7 @@ acesso().filtro != '' ? x = (axios.post(y+'/api/moinhos/consulta', acesso().filt
                             <input type="hidden" id="tipo_risco-${val.acess_number}" value="${val.tipo_risco}">
                             <input type="hidden" id="sala-${val.acess_number}" value="${val.sala}" >
                             <input type="hidden" id="observacao-${val.acess_number}" value="${val.observacao}" >
-
+                            <input type="hidden" id="observacao_select-${val.acess_number}" value="${val.observacao_select}" >
                         </div>
                         <div class="d-flex justify-content-between">
                             <p class="m-0 text-primary" id="agendamento-${val.acess_number}">Agendado para ${val.data_agendamento} ${val.hora_agendamento}</p>
@@ -412,8 +412,7 @@ acesso().filtro != '' ? x = (axios.post(y+'/api/moinhos/consulta', acesso().filt
                                 <input type="hidden" id="tipo_risco-${val.acess_number}" value="${val.tipo_risco}" >
                                 <input type="hidden" id="sala-${val.acess_number}" value="${val.sala}" >
                                 <input type="hidden" id="observacao-${val.acess_number}" value="${val.observacao}" >
-
-
+                                <input type="hidden" id="observacao_select-${val.acess_number}" value="${val.observacao_select}" >
                             </div>
                             <div class="d-flex justify-content-between">
                                 <p class="m-0 text-success"  id="agendamento-${val.acess_number}">Em atendimento ${val.data_movimentacao}</p>
@@ -549,7 +548,7 @@ acesso().filtro != '' ? x = (axios.post(y+'/api/moinhos/consulta', acesso().filt
                             <input type="hidden" id="tipo_risco-${val.acess_number}" value="${val.tipo_risco}">
                             <input type="hidden" id="sala-${val.acess_number}" value="${val.sala}" >
                             <input type="hidden" id="observacao-${val.acess_number}" value="${val.observacao}" >
-
+                            <input type="hidden" id="observacao_select-${val.acess_number}" value="${val.observacao_select}" >
                         </div>
                         <div class="d-flex justify-content-between">
                             <p class="m-0 text-warning" id="agendamento-${val.acess_number}">Saiu de atendimento ${val.data_movimentacao}</p>
@@ -666,6 +665,7 @@ acesso().filtro != '' ? x = (axios.post(y+'/api/moinhos/consulta', acesso().filt
                                 <input type="hidden" id="tipo_risco-${val.acess_number}" value="${val.tipo_risco}" >
                                 <input type="hidden" id="sala-${val.acess_number}" value="${val.sala}" >
                                 <input type="hidden" id="observacao-${val.acess_number}" value="${val.observacao}" >
+                                <input type="hidden" id="observacao_select-${val.acess_number}" value="${val.observacao_select}" >
                             </div>
                             <div class="d-flex justify-content-between">
                                 <p class="m-0 text-dark" id="agendamento-${val.acess_number}">Finalizado em em ${val.data_movimentacao}</p>
