@@ -64,7 +64,7 @@ const solicitacoes = ()=>{
             // let AgendadosCount = document.getElementById("AtendimentoCount");
             // $("#SolicitadosCount").text((+SolicitadosCount.innerText.replace(/\s/g, '')) - 1)
             // $("#AgendadosCount").text((+AgendadosCount.innerText.replace(/\s/g, '')) + 1)
-            // socket.emit('cardRender', 'foi')
+            socket.emit('cardRender', 'foi')
         })
         .catch(function (error) {
             $('#modalAlgoErrado').modal('show')

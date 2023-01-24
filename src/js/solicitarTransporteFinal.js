@@ -55,7 +55,7 @@ export function umovFinalizar(val, destino){
             <status>2</status>
         </image>
         <serviceLocal>
-            <alternativeIdentifier>`+Destino+`</alternativeIdentifier>
+            <alternativeIdentifier>`+dados.cod_sala+`</alternativeIdentifier>
         </serviceLocal>
         <team>
             <alternativeIdentifier>eqp_transporte</alternativeIdentifier>

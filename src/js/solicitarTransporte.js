@@ -54,7 +54,7 @@ export function umov(val, destino){
             <status>2</status>
         </image>
         <serviceLocal>
-            <alternativeIdentifier>`+Destino+`</alternativeIdentifier>
+            <alternativeIdentifier>`+dados.codigo_setor+`</alternativeIdentifier>
         </serviceLocal>
         <team>
             <alternativeIdentifier>eqp_transporte</alternativeIdentifier>
@@ -119,7 +119,6 @@ export function umov(val, destino){
     var config = {
         headers: {'Content-Type': 'application/x-www-form-urlencoded'}
     };
-    console.log(corpo)
     axios.post(url_data, {
         data: corpo
     }, config).then((val)=>{
@@ -131,13 +130,9 @@ export function umov(val, destino){
         axios.get(linkXmlTarefa).then((val)=>{
             let xmlDaTarefa = document.createElement('div')
             xmlDaTarefa.innerHTML = val.data
-            // console.log(xmlDaTarefa)
             let atividadesUm = xmlDaTarefa.children[0].children[15].children[0].innerHTML
             // let atividadesDois = xmlDaTarefa.children[0].children[21].children[0].children[0].id
             // let atividadesTres = xmlDaTarefa.children[0].children[21].children[0].children[0].children[0].id
-            console.log(atividadesUm)
-            // console.log(atividadesDois)
-            // console.log(atividadesTres)
             axios.post(y+'/api/moinhos/agendar/tarefa/'+dados.acess_number, {
                 numero_tarefa: numeroTarefa,
                 imagem_cadeira: 'cadeira-de-rodas-amarelo.png',
