@@ -98,7 +98,7 @@ export function umovFinalizar(val, destino){
             <tsk_carrinho></tsk_carrinho>
             <tsk_higienizado></tsk_higienizado>
             <tsk_completo></tsk_completo>
-            <tsk_ramal>7070</tsk_ramal>
+            <tsk_ramal></tsk_ramal>
             <tsk_nm_classificacao></tsk_nm_classificacao>
             <tsk_cd_classificacao></tsk_cd_classificacao>
             <tsk_enfermeiro>`+dados.acom_enf+`</tsk_enfermeiro>
@@ -110,8 +110,8 @@ export function umovFinalizar(val, destino){
             <tsk.motivo_urgente></tsk.motivo_urgente>
             <tsk.tipo_isolamento>`+dados.tipo_isolamento+`</tsk.tipo_isolamento>
             <cmp_transporte_equipamento></cmp_transporte_equipamento>
-            <cd_leito>`+dados.codigo_leito+`</cd_leito>
-            <nm_leito>`+dados.leito+`</nm_leito>
+            <cd_leito>`+dados.cod_sala+`</cd_leito>
+            <nm_leito>`+dados.sala+`</nm_leito>
             <tsk.o2_litros></tsk.o2_litros>
         </customFields>
     </schedule>

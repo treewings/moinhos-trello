@@ -87,7 +87,7 @@ export function umov(val, destino){
             <con.cd_convenio></con.cd_convenio>
             <con.nm_convenio></con.nm_convenio>
             <usr.cd_login></usr.cd_login>
-            <tarefa.desc>teste</tarefa.desc>
+            <tarefa.desc></tarefa.desc>
             <pac.cd_atendimento>`+dados.atendimento+`</pac.cd_atendimento>
             <pac.dt_nascimento>`+dados.data_nasc+`</pac.dt_nascimento>
             <tarefa.classif>`+dados.isolamento+`</tarefa.classif>
@@ -97,7 +97,7 @@ export function umov(val, destino){
             <tsk_carrinho></tsk_carrinho>
             <tsk_higienizado></tsk_higienizado>
             <tsk_completo></tsk_completo>
-            <tsk_ramal>7070</tsk_ramal>
+            <tsk_ramal></tsk_ramal>
             <tsk_nm_classificacao></tsk_nm_classificacao>
             <tsk_cd_classificacao></tsk_cd_classificacao>
             <tsk_enfermeiro>`+dados.acom_enf+`</tsk_enfermeiro>

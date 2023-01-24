@@ -8,40 +8,29 @@ import solicitadosSet from "./js/setInterval/solicitadosSet.js";
 
 var x  = ''
 var y = url()
-
-
 socket.on('cardRender', function(msg) {
     window.location.reload()
 });
-
 socket.on('tarefaUmov', function(msg) {
     window.location.reload()
 });
-
- 
 function acesso(){
     const urlParams = new URLSearchParams(window.location.search);
     var filtro = []
     if(urlParams.get('setor')){
         filtro = {codigo_setor_exame: urlParams.get('setor')}
     }
-
     if(urlParams.get('sala')){
         filtro = {cod_sala: urlParams.get('sala')}
     }
-   
-      return {filtro}
-  }
-
+    return {filtro}
+}
 function rodar(){
-
-acesso().filtro != '' ? x = (axios.post(y+'/api/moinhos/consulta', acesso().filtro) )
-: x = (axios.get(y+'/api/moinhos'))
-
+    acesso().filtro != '' ? x = (axios.post(y+'/api/moinhos/consulta', acesso().filtro) ) : x = (axios.get(y+'/api/moinhos'))
     x.then(function(response) {
-        
         $('#modalLoading').modal('hide')
         $('#Solicitados').empty();
+        //DEFINE O CARD DA COLUNA DE SOLICITADOS
         Object.entries(response.data.solicitados).forEach(([key, val]) => {
             //ICONE DE URGENCIA
             let urgente = ''
@@ -54,7 +43,7 @@ acesso().filtro != '' ? x = (axios.post(y+'/api/moinhos/consulta', acesso().filt
             let nomePaciente = nomeSeparado[0]+' '+nomeSeparado[1]
             //DEFINE A COR DO CARD
             let corClassificacao = '';
-            if (val.cor_classificacao == null) {corClassificacao = 'f9f3f3';}
+            if (val.cor_classificacao == null || val.cor_classificacao == 'VERDE') {corClassificacao = 'f9f3f3';}
             if (val.cor_classificacao == 'AMARELO') {corClassificacao = 'f6f5cc';}
             if (val.cor_classificacao == 'LARANJA') {corClassificacao = 'ffe090';}
             if (val.cor_classificacao == 'VERMELHO') {corClassificacao = 'f5cbc1';}
@@ -71,12 +60,10 @@ acesso().filtro != '' ? x = (axios.post(y+'/api/moinhos/consulta', acesso().filt
             let formartarData = formartarHoraData[0].split("-")
             let formatarHora = formartarHoraData[1].split(":")
             dataHora = formartarData[0]+'/'+formartarData[1]+'/'+formartarData[2]+' '+formatarHora[0]+':'+formatarHora[1]
-        
-
-            
+            //HTML DO CARD DE SOLICITADOS
             $('#Solicitados').append(`
             <div class="board-item m-0 mb-2 border rounded movercard" data-id="${val.acess_number}">
-                <div class="board-item-content p-0" style="min-height: 152px;">
+                <div class="board-item-content p-0" style="min-height: 128px;">
                     <div class="kanban-item-title p-1 rounded-2" style="background: #`+corClassificacao+`; width: 100%; height: 40px;">
                         <div class="d-flex align-items-center">
                             <h6 class="" style="margin-bottom: 3px;">
@@ -166,6 +153,7 @@ acesso().filtro != '' ? x = (axios.post(y+'/api/moinhos/consulta', acesso().filt
             `)
         });
         $('#Agendados').empty();
+        //DEFINE O CARD DA COLUNA DE AGENDADOS
         Object.entries(response.data.agendados).forEach(([key, val]) => {
             //ICONE DE URGENCIA
             let urgente = ''
@@ -178,7 +166,7 @@ acesso().filtro != '' ? x = (axios.post(y+'/api/moinhos/consulta', acesso().filt
             let nomePaciente = nomeSeparado[0]+' '+nomeSeparado[1]
             //DEFINE A COR DO CARD
             let corClassificacao = '';
-            if (val.cor_classificacao == null) {corClassificacao = 'f9f3f3';}
+            if (val.cor_classificacao == null || val.cor_classificacao == 'VERDE') {corClassificacao = 'f9f3f3';}
             if (val.cor_classificacao == 'AMARELO') {corClassificacao = 'f6f5cc';}
             if (val.cor_classificacao == 'LARANJA') {corClassificacao = 'ffe090';}
             if (val.cor_classificacao == 'VERMELHO') {corClassificacao = 'f5cbc1';}
@@ -204,10 +192,10 @@ acesso().filtro != '' ? x = (axios.post(y+'/api/moinhos/consulta', acesso().filt
             }else{
                 descricaoSala = val.sala
             }
-
+            //HTML DO CARD DE AGENDADOS
             $('#Agendados').append(`
             <div class="board-item m-0  mb-2 border rounded"  data-id="${val.acess_number}">
-                <div class="board-item-content p-0" style="min-height: 152px;">
+                <div class="board-item-content p-0" style="min-height: 128px;">
                     <div class="kanban-item-title p-1 rounded-2" style="background: #`+corClassificacao+`; width: 100%; height: 40px;">
                         <div class="d-flex align-items-center text-danger">
                             <h6 class="" style="margin-bottom: 3px;">
@@ -298,6 +286,7 @@ acesso().filtro != '' ? x = (axios.post(y+'/api/moinhos/consulta', acesso().filt
             `)
         });
         $('#Atendimento').empty();
+        //
         Object.entries(response.data.atendimento).forEach(([key, val]) => {
             //ICONE DE URGENCIA
             let urgente = ''
@@ -310,7 +299,7 @@ acesso().filtro != '' ? x = (axios.post(y+'/api/moinhos/consulta', acesso().filt
             let nomePaciente = nomeSeparado[0]+' '+nomeSeparado[1]
             //DEFINE A COR DO CARD
             let corClassificacao = '';
-            if (val.cor_classificacao == null) {corClassificacao = 'f9f3f3';}
+            if (val.cor_classificacao == null || val.cor_classificacao == 'VERDE') {corClassificacao = 'f9f3f3';}
             if (val.cor_classificacao == 'AMARELO') {corClassificacao = 'f6f5cc';}
             if (val.cor_classificacao == 'LARANJA') {corClassificacao = 'ffe090';}
             if (val.cor_classificacao == 'VERMELHO') {corClassificacao = 'f5cbc1';}
@@ -337,7 +326,7 @@ acesso().filtro != '' ? x = (axios.post(y+'/api/moinhos/consulta', acesso().filt
 
             $('#Atendimento').append(`
             <div class="board-item m-0 mb-2 border rounded movercard" data-id="${val.acess_number}">
-                <div class="board-item-content p-0" style="min-height: 152px;">
+                <div class="board-item-content p-0" style="min-height: 128px;">
                     <div class="kanban-item-title p-1 rounded-2" style="background: #`+corClassificacao+`; width: 100%; height: 40px;">
                         <div class="d-flex align-items-center text-danger">
                             <h6 class="" style="margin-bottom: 3px;">
@@ -439,7 +428,7 @@ acesso().filtro != '' ? x = (axios.post(y+'/api/moinhos/consulta', acesso().filt
             let nomePaciente = nomeSeparado[0]+' '+nomeSeparado[1]
             //DEFINE A COR DO CARD
             let corClassificacao = '';
-            if (val.cor_classificacao == null) {corClassificacao = 'f9f3f3';}
+            if (val.cor_classificacao == null || val.cor_classificacao == 'VERDE') {corClassificacao = 'f9f3f3';}
             if (val.cor_classificacao == 'AMARELO') {corClassificacao = 'f6f5cc';}
             if (val.cor_classificacao == 'LARANJA') {corClassificacao = 'ffe090';}
             if (val.cor_classificacao == 'VERMELHO') {corClassificacao = 'f5cbc1';}
@@ -472,7 +461,7 @@ acesso().filtro != '' ? x = (axios.post(y+'/api/moinhos/consulta', acesso().filt
 
             $('#posExame').append(`
             <div class="board-item m-0  mb-2 border rounded"  data-id="${val.acess_number}">
-                <div class="board-item-content p-0" style="min-height: 152px;">
+                <div class="board-item-content p-0" style="min-height: 128px;">
                     <div class="kanban-item-title p-1 rounded-2" style="background: #`+corClassificacao+`; width: 100%; height: 40px;">
                         <div class="d-flex align-items-center text-danger">
                             <h6 class="" style="margin-bottom: 3px;">
@@ -575,7 +564,7 @@ acesso().filtro != '' ? x = (axios.post(y+'/api/moinhos/consulta', acesso().filt
             let nomePaciente = nomeSeparado[0]+' '+nomeSeparado[1]
             //DEFINE A COR DO CARD
             let corClassificacao = '';
-            if (val.cor_classificacao == null) {corClassificacao = 'f9f3f3';}
+            if (val.cor_classificacao == null || val.cor_classificacao == 'VERDE') {corClassificacao = 'f9f3f3';}
             if (val.cor_classificacao == 'AMARELO') {corClassificacao = 'f6f5cc';}
             if (val.cor_classificacao == 'LARANJA') {corClassificacao = 'ffe090';}
             if (val.cor_classificacao == 'VERMELHO') {corClassificacao = 'f5cbc1';}
@@ -595,7 +584,7 @@ acesso().filtro != '' ? x = (axios.post(y+'/api/moinhos/consulta', acesso().filt
 
             $('#finalizados').append(`
             <div class="board-item m-0 mb-2 border rounded movercard" data-id="${val.acess_number}">
-                <div class="board-item-content p-0" style="min-height: 152px;">
+                <div class="board-item-content p-0" style="min-height: 128px;">
                     <div class="kanban-item-title p-1 rounded-2" style="background: #`+corClassificacao+`; width: 100%; height: 40px;">
                         <div class="d-flex align-items-center">
                             <h6 class="" style="margin-bottom: 3px;">
@@ -800,7 +789,7 @@ acesso().filtro != '' ? x = (axios.post(y+'/api/moinhos/consulta', acesso().filt
     })
     .catch(function(error) {
         // handle error
-        window.location.reload()
+        // window.location.reload()
     })
 }
 

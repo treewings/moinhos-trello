@@ -10,14 +10,9 @@
         <!-- StyleSheets  -->
         <link rel="stylesheet" href="css/dashlite.css?ver=3.0.2">
         <link id="skin-default" rel="stylesheet" href="css/theme.css?ver=3.0.2">
-
-
     </head>
     <body id="body">
         <div class="nk-header nk-header-fixed is-light d-flex justify-content-between">
-            <button class="border-0  btn btn-outline-primary d-flex flex-column justify-content-center align-items-center botao-tela-cheia" onclick="abrirFull()">
-                <em class="icon ni ni-maximize" style="font-size: 25px;"></em><span class="m-0 p-0" style="font-size: 10px;">Tela cheia</span>
-            </button>
             <div class="container-fluid d-flex flex-row-reverse">
                 <div class="col-sm-3 m-2">
                     <div class="form-group d-flex align-items-center">
@@ -184,9 +179,7 @@
                             <em class="icon ni ni-cross"></em>
                         </a>
                     </div>
-                    <div class="modal-body js-dados-preview overflow-auto" id="js-modal-dados-preview">
-                        
-                    </div>
+                    <div class="modal-body js-dados-preview overflow-auto" id="js-modal-dados-preview"></div>
                 </div>
             </div>
         </div>
@@ -240,14 +233,13 @@
                             <em class="nk-modal-icon icon icon-circle icon-circle-xxl ni ni-cross bg-danger"></em>
                             <h4 class="nk-modal-title">Horário inválido!</h4>
                             <div class="nk-modal-text">
-                                <!-- <p class="lead">We are sorry, we were unable to process your payment. Please try after sometimes.</p> -->
                                 <p class="text-soft">Por favor, informe um horário válido.</p>
                             </div>
                             <div class="nk-modal-action mt-5">
                                 <a href="#" class="btn btn-lg btn-mw btn-light" data-bs-dismiss="modal" onClick="window.location.reload()">Voltar</a>
                             </div>
                         </div>
-                    </div><!-- .modal-body -->
+                    </div>
                 </div>
             </div>
         </div>
@@ -259,14 +251,13 @@
                             <em class="nk-modal-icon icon icon-circle icon-circle-xxl ni ni-cross bg-danger"></em>
                             <h4 class="nk-modal-title">Data inválida!</h4>
                             <div class="nk-modal-text">
-                                <!-- <p class="lead">We are sorry, we were unable to process your payment. Please try after sometimes.</p> -->
                                 <p class="text-soft">Por favor, informe uma data válida.</p>
                             </div>
                             <div class="nk-modal-action mt-5">
                                 <a href="#" class="btn btn-lg btn-mw btn-light" data-bs-dismiss="modal" onClick="window.location.reload()">Voltar</a>
                             </div>
                         </div>
-                    </div><!-- .modal-body -->
+                    </div>
                 </div>
             </div>
         </div>
@@ -278,21 +269,19 @@
                             <em class="nk-modal-icon icon icon-circle icon-circle-xxl ni ni-cross bg-danger"></em>
                             <h4 class="nk-modal-title">Movimentação inválida!</h4>
                             <div class="nk-modal-text">
-                                <!-- <p class="lead">We are sorry, we were unable to process your payment. Please try after sometimes.</p> -->
                                 <p class="text-soft">Essa movimentação não é válida.</p>
                             </div>
                             <div class="nk-modal-action mt-5">
                                 <a href="#" class="btn btn-lg btn-mw btn-light" data-bs-dismiss="modal" onClick="window.location.reload()">Voltar</a>
                             </div>
                         </div>
-                    </div><!-- .modal-body -->
+                    </div>
                 </div>
             </div>
         </div>
         <div class="modal fade" tabindex="-1" id="modalAgendadoSucesso">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
-                    <!-- <a href="#" class="close" data-bs-dismiss="modal"><em class="icon ni ni-cross"></em></a> -->
                     <div class="modal-body modal-body-lg text-center">
                         <div class="nk-modal">
                             <em class="nk-modal-icon icon icon-circle icon-circle-xxl ni ni-check bg-success"></em>
@@ -301,9 +290,6 @@
                                 <div class="caption-text">Solicitação de exame agendada com <strong>Sucesso</strong>!</div>
                                 <span class="sub-text-sm">Acompanhe seus agendamentos na coluna de agendados.</span>
                             </div>
-                            <!-- <div class="nk-modal-action">
-                                <a href="#" class="btn btn-lg btn-mw btn-primary" data-bs-dismiss="modal" onClick="window.location.reload()">Fechar</a>
-                            </div> -->
                         </div>
                     </div>
                 </div>
@@ -312,7 +298,6 @@
         <div class="modal fade" tabindex="-1" id="modalAgendadoCancelado">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
-                    <!-- <a href="#" class="close" data-bs-dismiss="modal"><em class="icon ni ni-cross"></em></a> -->
                     <div class="modal-body modal-body-lg text-center">
                         <div class="nk-modal">
                             <em class="nk-modal-icon icon icon-circle icon-circle-xxl ni ni-check bg-success"></em>
@@ -321,9 +306,6 @@
                                 <div class="caption-text">Agendamento cancelado com <strong>Sucesso</strong>!</div>
                                 <span class="sub-text-sm">Acompanhe o card na coluna de solicitados.</span>
                             </div>
-                            <!-- <div class="nk-modal-action">
-                                <a href="#" class="btn btn-lg btn-mw btn-primary" data-bs-dismiss="modal" onClick="window.location.reload()">Fechar</a>
-                            </div> -->
                         </div>
                     </div>
                 </div>
@@ -363,6 +345,55 @@
                     </div>
                     <div class="modal-body">
                         <form name="formTransporte"  id="formTransporte" class="form-validate is-alter">
+                            <div class="col-sm-12 mb-3">
+                                <div class="form-group">
+                                    <label class="form-label">Sala</label>
+                                    <div class="form-control-wrap">
+                                        <select name="sala" class="form-select js-select2" data-search="on">
+                                            <option value="default_option">Escolha uma sala</option>
+                                            <option value="999-169_Sala de ressonância – Bloco C - 2º Andar">Sala de ressonância – Bloco C - 2º Andar</option>
+                                            <option value="999-170_Sala de ressonância – Bloco C - 3º Andar">Sala de ressonância – Bloco C - 3º Andar</option>
+                                            <option value="999-168_Sala de ressonância – Bloco D">Sala de ressonância – Bloco D</option>
+                                            <option value="999-61_Tomografia – Bloco A">Tomografia – Bloco A</option>
+                                            <option value="999-130_Tomografia da emergência">Tomografia da emergência</option>
+                                            <option value="999-46_Tomografia da internação">Tomografia da internação</option>
+                                            <option value="999-60_Procedimento invasivos da ecografia">Procedimento invasivos da ecografia</option>
+                                            <option value="999-7_Ecografia transvaginal – Bloco A">Ecografia transvaginal – Bloco A</option>
+                                            <option value="999-8_Ecografia mamária – Bloco A">Ecografia mamária – Bloco A</option>
+                                            <option value="999-121_Ecografia da emergência">Ecografia da emergência</option>
+                                            <option value="999-20_Ecografia pediátrica – Bloco A">Ecografia pediátrica – Bloco A</option>
+                                            <option value="999-9_Mamografia">Mamografia</option>
+                                            <option value="999-6_Densitometria óssea">Densitometria óssea</option>
+                                            <option value="999-45_Raio X – Bloco  A">Raio X – Bloco  A</option>
+                                            <option value="999-118_Raio X da emergência">Raio X da emergência</option>
+                                            <option value="999-38_Medicina Nuclear">Medicina Nuclear</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>                            
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-dim btn-outline-primary">Solicitar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal" tabindex="-1" id="modalSalaRealizarExame">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <div>
+                            <h5 class="modal-title">Sala para Realização de Exame</h5>
+                            <small>Informe a sala que o paciente irá realizar o exame.</small>
+                        </div>
+                        <a data-bs-dismiss="modal" id="fecharAgendamento">
+                            <em class="icon ni ni-cross"></em>
+                        </a>
+                    </div>
+                    <div class="modal-body">
+                        <form name="formRealizarExame"  id="formRealizarExame" class="form-validate is-alter">
+                            <input name="valorIdRealizarExame" type="hidden" value="">
                             <div class="col-sm-12 mb-3">
                                 <div class="form-group">
                                     <label class="form-label">Sala</label>
@@ -455,14 +486,13 @@
                             <em class="nk-modal-icon icon icon-circle icon-circle-xxl ni ni-cross bg-danger"></em>
                             <h4 class="nk-modal-title">Algo deu errado!</h4>
                             <div class="nk-modal-text">
-                                <!-- <p class="lead">We are sorry, we were unable to process your payment. Please try after sometimes.</p> -->
                                 <p class="text-soft">Reinicie a página e tente novamente.</p>
                             </div>
                             <div class="nk-modal-action mt-5">
                                 <a href="#" class="btn btn-lg btn-mw btn-light" data-bs-dismiss="modal" onClick="window.location.reload()">Voltar</a>
                             </div>
                         </div>
-                    </div><!-- .modal-body -->
+                    </div>
                 </div>
             </div>
         </div>
@@ -474,14 +504,13 @@
                             <em class="nk-modal-icon icon icon-circle icon-circle-xxl ni ni-cross bg-danger"></em>
                             <h4 class="nk-modal-title">Transporte não solicitado!</h4>
                             <div class="nk-modal-text">
-                                <!-- <p class="lead">We are sorry, we were unable to process your payment. Please try after sometimes.</p> -->
                                 <p class="text-soft">Por favor solicite o transporte para que o paciente realize o exame.</p>
                             </div>
                             <div class="nk-modal-action mt-5">
                                 <a href="#" class="btn btn-lg btn-mw btn-light" data-bs-dismiss="modal" onClick="window.location.reload()">Voltar</a>
                             </div>
                         </div>
-                    </div><!-- .modal-body -->
+                    </div>
                 </div>
             </div>
         </div>
@@ -493,21 +522,16 @@
                             <em class="nk-modal-icon icon icon-circle icon-circle-xxl ni ni-cross bg-danger"></em>
                             <h4 class="nk-modal-title">Transporte já solicitado!</h4>
                             <div class="nk-modal-text">
-                                <!-- <p class="lead">We are sorry, we were unable to process your payment. Please try after sometimes.</p> -->
                                 <p class="text-soft">Por favor aguarde o transporte ser finalizado para mover o card para atendimento.</p>
                             </div>
-                            <!-- <div class="nk-modal-action mt-5">
-                                <a href="#" class="btn btn-lg btn-mw btn-light" data-bs-dismiss="modal" onClick="window.location.reload()">Voltar</a>
-                            </div> -->
                         </div>
-                    </div><!-- .modal-body -->
+                    </div>
                 </div>
             </div>
         </div>
         <div class="modal fade" tabindex="-1" id="modalAtendimentoSucesso">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
-                    <!-- <a href="#" class="close" data-bs-dismiss="modal"><em class="icon ni ni-cross"></em></a> -->
                     <div class="modal-body modal-body-lg text-center">
                         <div class="nk-modal">
                             <em class="nk-modal-icon icon icon-circle icon-circle-xxl ni ni-check bg-success"></em>
@@ -516,24 +540,12 @@
                                 <div class="caption-text">Solicitação de exame em <strong>Atendimento</strong>!</div>
                                 <span class="sub-text-sm">Acompanhe na coluna de atendimento.</span>
                             </div>
-                            <!-- <div class="nk-modal-action">
-                                <a href="#" class="btn btn-lg btn-mw btn-primary" data-bs-dismiss="modal" onClick="window.location.reload()">Fechar</a>
-                            </div> -->
                         </div>
                     </div>
                 </div>
             </div>
         </div>
         <script type="text/javascript">
-
-
-            var trelo = document.getElementById('trelo')
-
-            function abrirFull(){
-                trelo.requestFullscreen()
-            }
-
-
             //ADICIONA O FILTRO POR SETOR DE EXAME
             function mostraAlerta(elemento)
             {   
@@ -546,7 +558,6 @@
                 }
                 window.location.reload()
             }
-        
             //ADICIOCA O FILTRO POR SALA DE EXAME
             function mostraAlertaDois(elemento)
             {   
@@ -559,7 +570,6 @@
                 }
                 window.location.reload()
             }
-        
             //ADICIONA OS ITENS SELECIONADOS NOS CARDS
             if(window.location.href == 'http://52.22.17.129:3000/'){
             }if(window.location.href == 'http://52.22.17.129:3000/?setor=19'){
@@ -583,7 +593,6 @@
                 var text = select.options[5]
                 text.setAttribute('selected', '')
             }
-        
             //ADICIONA OS ITENS SELECIONADOS NOS CARDS
             if(window.location.href == 'http://52.22.17.129:3000/'){
             }if(window.location.href == 'http://52.22.17.129:3000/?sala=999-169'){
@@ -665,6 +674,5 @@
         <script src="js/axios.js"></script>
         <script type="module" src="index.js"></script>
         <script type="module" src="js/funcoes.js"></script>
-
     </body>
 </html>

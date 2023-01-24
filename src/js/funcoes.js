@@ -59,8 +59,7 @@ $(document).ready(()=>{
         }if (valueFinalizado == 'finalizado') {
             origemtextArea = 'finalizado'
         }
-
-
+        //BOTAO DE CANCELAR AGENDAMENTO OU ATENDIMENTO
         let botaoCancelar = ``
         let textAreaObservacao = ``
         if(valueAgendado == 'agendado' && valueAtendimento == ''){
@@ -68,45 +67,50 @@ $(document).ready(()=>{
                 <div class="col-lg-12 col-sm-12 mt-3">
                     <a id="cancelarAgendamentoExame" class="btn btn-dim btn-light mt-2" data-id="`+ID+`">Cancelar horário agendado</a>
                 </div>
-            `
-
-            
+            ` 
         }
-        textAreaObservacao = `
-            <label class="form-label">Observações</label>
-            <div class="col-lg-12 col-sm-12 mb-3 d-flex justify-content-between">
-                <div class="col-sm-5">
-                    <div class="form-group">
-                        <div class="form-control-wrap">
-                            <select class="form-select js-select2" id="default-observacao_select-`+valueAcessionNumber+`" data-search="on">
-                                <option value="0" `+(valueObservacaoSelect == 'null' || valueObservacaoSelect == '0' ? 'selected' : '')+`>Sem observações</option>
-                                <option value="1" `+(valueObservacaoSelect == '1' ? 'selected' : '')+`>Paciente almoçando/ jantando/ banho</option>
-                                <option value="2" `+(valueObservacaoSelect == '2' ? 'selected' : '')+`>Paciente não quer realizar o exame</option>
-                                <option value="3" `+(valueObservacaoSelect == '3' ? 'selected' : '')+`>Paciente quer aguardar o familiar</option>
-                                <option value="4" `+(valueObservacaoSelect == '4' ? 'selected' : '')+`>Paciente está em outro setor</option>
-                                <option value="5" `+(valueObservacaoSelect == '5' ? 'selected' : '')+`>Paciente em intercorrência</option>
-                                <option value="6" `+(valueObservacaoSelect == '6' ? 'selected' : '')+`>Outros</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>    
-                <div class="col-sm-6">
-                    <div class="form-group">
-                        <div class="form-control-wrap">
-                            <textarea class="form-control no-resize" id="default-textarea-`+valueAcessionNumber+`">`+valueObservacao+`</textarea>
-                        </div>
-                    </div>
-                    <div class="form-group mb-0 mt-1 d-flex flex-row-reverse">
-                        <button type="submit" data-origem="`+origemtextArea+`" data-id="`+valueAcessionNumber+`" id="salvarObservacaoPreview" class="btn btn-sm btn-dim btn-outline-primary">Salvar Observações</button>
-                    </div>
-                </div>
-            </div>        
-        `
         if(valueAtendimento == 'atendimento' && valuePosExame == ''){
             botaoCancelar = `
                 <div class="col-lg-12 col-sm-12 mt-3">
                     <a id="cancelarAtendimentoExame" class="btn btn-dim btn-light mt-2" data-id="`+ID+`">Cancelar realização do exame</a>
                 </div>
+            `
+        }
+        //FIM BOTAO DE CANCELAR AGENDAMENTO OU ATENDIMENTO
+
+        textAreaObservacao = ''
+        if(valueAgendado == 'agendado' && valueAgendado ==  ''){
+            textAreaObservacao = ''
+        }if(valueAgendado == 'agendado' && valueAgendado == 'agendado'){
+            textAreaObservacao = `
+                <label class="form-label">Observações</label>
+                <div class="col-lg-12 col-sm-12 mb-3 d-flex justify-content-between">
+                    <div class="col-sm-5">
+                        <div class="form-group">
+                            <div class="form-control-wrap">
+                                <select class="form-select js-select2" id="default-observacao_select-`+valueAcessionNumber+`" data-search="on">
+                                    <option value="0" `+(valueObservacaoSelect == 'null' || valueObservacaoSelect == '0' ? 'selected' : '')+`>Sem observações</option>
+                                    <option value="1" `+(valueObservacaoSelect == '1' ? 'selected' : '')+`>Paciente almoçando/ jantando/ banho</option>
+                                    <option value="2" `+(valueObservacaoSelect == '2' ? 'selected' : '')+`>Paciente não quer realizar o exame</option>
+                                    <option value="3" `+(valueObservacaoSelect == '3' ? 'selected' : '')+`>Paciente quer aguardar o familiar</option>
+                                    <option value="4" `+(valueObservacaoSelect == '4' ? 'selected' : '')+`>Paciente está em outro setor</option>
+                                    <option value="5" `+(valueObservacaoSelect == '5' ? 'selected' : '')+`>Paciente em intercorrência</option>
+                                    <option value="6" `+(valueObservacaoSelect == '6' ? 'selected' : '')+`>Outros</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>    
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <div class="form-control-wrap">
+                                <textarea class="form-control no-resize" id="default-textarea-`+valueAcessionNumber+`">`+valueObservacao+`</textarea>
+                            </div>
+                        </div>
+                        <div class="form-group mb-0 mt-1 d-flex flex-row-reverse">
+                            <button type="submit" data-origem="`+origemtextArea+`" data-id="`+valueAcessionNumber+`" id="salvarObservacaoPreview" class="btn btn-sm btn-dim btn-outline-primary">Salvar Observações</button>
+                        </div>
+                    </div>
+                </div>        
             `
         }
 
@@ -351,8 +355,6 @@ $(document).ready(()=>{
             }
         })
     })
-
-
     $('body').on('click', '#salvarObservacaoPreview', function(event) {
         event.preventDefault()
         let ID = $(this).data("id")
