@@ -1,5 +1,6 @@
 import { url } from "./url.js"
 import socket from "./websocket.js"
+import { usuarioLogado } from "./funcoes/usuario.js"
 export function umov(val, destino){
     var y = url()
     let dados = JSON.parse(val)
@@ -130,7 +131,7 @@ export function umov(val, destino){
         axios.get(linkXmlTarefa).then((val)=>{
             let xmlDaTarefa = document.createElement('div')
             xmlDaTarefa.innerHTML = val.data
-            let atividadesUm = xmlDaTarefa.children[0].children[15].children[0].innerHTML
+            // let atividadesUm = xmlDaTarefa.children[0].children[15].children[0].innerHTML
             // let atividadesDois = xmlDaTarefa.children[0].children[21].children[0].children[0].id
             // let atividadesTres = xmlDaTarefa.children[0].children[21].children[0].children[0].children[0].id
             axios.post(y+'/api/moinhos/agendar/tarefa/'+dados.acess_number, {
@@ -139,7 +140,8 @@ export function umov(val, destino){
                 sala: nome_destino,
                 status_tarefa: '30',
                 cod_sala: Destino,
-                origem: 'agendado'
+                origem: 'agendado',
+                // user: usuarioLogado()
             })
             .then(function (response) {
                 $('#modalTransporte').modal('hide')
@@ -151,7 +153,6 @@ export function umov(val, destino){
                 $('#modalAlgoErrado').modal('show')
                 console.log(error);
             });
-            // /api/moinhos/agendar/tarefa/{acess_number}
         })
     }).catch(function(error) {
         $('#modalTransporte').modal('hide')

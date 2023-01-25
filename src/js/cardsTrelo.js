@@ -1,3 +1,4 @@
+import { usuarioLogado } from "./funcoes/usuario";
 export function cardsTrelo(val){
     //DEFINE A COR DO CARD
     let corClassificacao = '';

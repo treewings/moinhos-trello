@@ -4,7 +4,7 @@ import solicitacoes from "./js/funcoes/solicitacoes.js";
 import { url } from "./js/url.js";
 import socket from "./js/websocket.js";
 import solicitadosSet from "./js/setInterval/solicitadosSet.js";
-
+import { usuarioLogado } from "./js/funcoes/usuario.js";
 
 var x  = ''
 var y = url()
@@ -711,7 +711,7 @@ function rodar(){
 
                             let statusTarefa = xmlDaTarefa.getElementsByTagName('schedule')[0].getElementsByTagName('situation')[0].getElementsByTagName('id')[0].innerText
                             let agenteTarefa = xmlDaTarefa.getElementsByTagName('schedule')[0].getElementsByTagName('executionstarttime')[0]
-                
+                            let realizou = xmlDaTarefa.getElementsByTagName('schedule')[0].getElementsByTagName('customFields')[0].getElementsByTagName('retro__realizou')[0].innerText
 
                             if(statusTarefa == '30' && tarefa != '30'){
                                 
@@ -747,18 +747,24 @@ function rodar(){
                             }
                             // SE O STATUS DA TAREFA FOR IGUAL A FINALIZADO
                             if(statusTarefa == '50' && tarefa != '50'){
-                                    axios.post(y+'/api/moinhos/atendimento', {
+                                // console.log(realizou)
+                                // if(realizou == 'sim'){
+                                    axios.post(url()+'/api/moinhos/atendimento', {
                                         acess_number: acessNumber,
                                         origem: origem,
+                                        user: usuarioLogado()
                                     })
                                     .then(function (response) {
                                         socket.emit('tarefaUmov', 'foi');
                                         // console.log(xmlDaTarefa)
                                     })
+                                // }
+                                // if(realizou == 'nao'){
+                                //     console.log('deu certo')
+                                // }
                             }
                             //SE O STATUS DA TAREFA FOR IGUAL A CANCELADA
-                            if(statusTarefa == '70' && tarefa != '70'){
-                                
+                            if(statusTarefa == '70' && tarefa != '70'){ 
                                 axios.post(y+'/api/moinhos/agendar/tarefa/'+acessNumber, {
                                     numero_tarefa: numeroTarefa,
                                     imagem_cadeira: 'cadeira-de-rodas-preto.png',
@@ -789,7 +795,7 @@ function rodar(){
     })
     .catch(function(error) {
         // handle error
-        // window.location.reload()
+        window.location.reload()
     })
 }
 

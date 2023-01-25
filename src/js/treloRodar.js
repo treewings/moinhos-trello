@@ -1,6 +1,6 @@
 import { url } from "./url.js";
 import socket from "./websocket.js";
-
+import { usuarioLogado } from "./funcoes/usuario.js";
 const treloRodar = ()=> {
         var dragContainer = document.querySelector('.drag-container');
         var itemContainers = [].slice.call(document.querySelectorAll('.board-column-content'));
@@ -180,7 +180,8 @@ const treloRodar = ()=> {
                                         codigo_setor_exame: val.codigo_setor_exame,
                                         data_agendamento: dt,
                                         hora_agendamento: hr,
-                                        imagem_cadeira: imagem
+                                        imagem_cadeira: imagem,
+                                        user: usuarioLogado()
                                     }, conf)
                                     //SE UPDATE REALIZADO COM SUCESSO, FAÇA
                                     .then(function (response) {
@@ -252,7 +253,10 @@ const treloRodar = ()=> {
                             let update = document.querySelector("#solicitar-update-" + ID);
                             let valor = update.value;
                             val = JSON.parse(valor);
-                            axios.post(y+'/api/moinhos/posexame',{ acess_number: ID })
+                            axios.post(y+'/api/moinhos/posexame',{
+                                acess_number: ID,
+                                user: usuarioLogado()
+                            })
                             .then(function (response) {
                                 // window.location.reload()
                                 socket.emit('cardRender', 'foi');
@@ -275,7 +279,8 @@ const treloRodar = ()=> {
                             let valor = update.value;
                             val = JSON.parse(valor);
                             axios.post(y+'/api/moinhos/finalizar', {
-                                acess_number: ID
+                                acess_number: ID,
+                                user: usuarioLogado()
                             })
                             .then(function (response) {
                                 //ATRIBUI OS VALORES DOS COUNT's

@@ -1,6 +1,6 @@
 import { url } from "./url.js"
 import socket from "./websocket.js"
-
+import { usuarioLogado } from "./funcoes/usuario.js"
 export function umovFinalizar(val, destino){
     var y = url()
     let dados = JSON.parse(val)
@@ -136,7 +136,8 @@ export function umovFinalizar(val, destino){
                 imagem_cadeira: 'cadeira-de-rodas-amarelo.png',
                 sala: nome_destino,
                 cod_sala: Destino,
-                origem: 'posexame'
+                origem: 'posexame',
+                // user: usuarioLogado()
             })
             .then(function (response) {
                 $('#modalTransporteFinal').modal('hide')

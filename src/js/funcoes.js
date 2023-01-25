@@ -1,5 +1,6 @@
 import { url } from "./url.js"
 import socket from "./websocket.js"
+import { usuarioLogado } from "./funcoes/usuario.js"
 $(document).ready(()=>{
     var y = url()
     $('#modalLoading').modal('show')
@@ -272,7 +273,7 @@ $(document).ready(()=>{
                         identificacao: 1,
                         codigo_setor_exame:  val.codigo_setor_exame,
                         data: val.hora_pedidoX,
-                        dados: val
+                        dados: val,
                     }).then(function (response) {
                         //ABRE MODAL DE SUCESSO
                         $('#modalForm').modal('hide')
@@ -366,7 +367,8 @@ $(document).ready(()=>{
         axios.post(y+'/api/moinhos/observacao/'+ID, {
             origem: origem,
             observacao:  valueObservacao,
-            observacao_select: valueObservacaoSelect
+            observacao_select: valueObservacaoSelect,
+            // user: usuarioLogado()
         })
         .then(function (response) {
             socket.emit('cardRender', 'foi')

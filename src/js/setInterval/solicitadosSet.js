@@ -1,5 +1,6 @@
 import socket from "../websocket.js";
 import { url } from "../url.js";
+import { usuarioLogado } from "../funcoes/usuario.js";
 //VERICIFA SE EXISTE UM NOVO SOLICITADO
 const solicitadosSet = async ()=>{
     const buscarDados = setInterval(() => {

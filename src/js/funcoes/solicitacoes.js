@@ -2,6 +2,7 @@ import { umovFinalizar } from "../solicitarTransporteFinal.js";
 import { umov } from "../solicitarTransporte.js";
 import { url } from "../url.js";
 import socket from "../websocket.js";
+import { usuarioLogado } from "./usuario.js";
 var y  =  url()
 const solicitacoes = ()=>{
     //ABRE MODAL DE SOLICITAÇÃO DE TRANSPORTE FINAL
@@ -19,8 +20,13 @@ const solicitacoes = ()=>{
         //     let transporteFinal = document.getElementById("selectTransporteFinal")
         //     transporteFinal.add(option)
         // }
+        let botao = $(".botaoTransporteFinal")
+        let form =  document.getElementById("formTransporteFinal")
         $("#formTransporteFinal").submit(function (event) {
             event.preventDefault()
+            if (form.checkValidity()) {
+                botao.attr('disabled', 'disabled');
+            }
             umovFinalizar(valor.value, formTransporteFinal.sala.value)
         })
     });
@@ -35,8 +41,13 @@ const solicitacoes = ()=>{
         $('#modalTransporte').modal('show')
         let ID = $(this).data('id')
         let valor =  document.querySelector('#solicitar-update-'+ID)
+        let botao = $(".botaoTransporteinicial")
+        let form = document.getElementById("formTransporte")
         $("#formTransporte").submit(function (event) {
             event.preventDefault()
+            if (form.checkValidity()) {
+                botao.attr('disabled', 'disabled');
+            }
             umov(valor.value, formTransporte.sala.value)
         })
     })
@@ -54,7 +65,8 @@ const solicitacoes = ()=>{
             acess_number: ID,
             codigo_setor_exame: val.codigo_setor_exame,
             cod_sala : salaEnvio[0],
-            sala : salaEnvio[1]
+            sala : salaEnvio[1],
+            user: usuarioLogado()
         })
         .then(function (response) {
             $('#modalAtendimentoSucesso').modal('show')
