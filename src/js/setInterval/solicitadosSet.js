@@ -16,7 +16,7 @@ const solicitadosSet = async ()=>{
             clearInterval(buscarDados)
             busca()
         })
-    }, 30000);
+    }, 120000);
 }
 
 export default solicitadosSet

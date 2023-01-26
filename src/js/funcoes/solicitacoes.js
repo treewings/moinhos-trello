@@ -3,6 +3,10 @@ import { umov } from "../solicitarTransporte.js";
 import { url } from "../url.js";
 import socket from "../websocket.js";
 import { usuarioLogado } from "./usuario.js";
+import { token } from "../url.js";
+const config = {
+    headers: { Authorization: `Bearer ${token()}` }
+};
 var y  =  url()
 const solicitacoes = ()=>{
     //ABRE MODAL DE SOLICITAÇÃO DE TRANSPORTE FINAL
@@ -67,7 +71,7 @@ const solicitacoes = ()=>{
             cod_sala : salaEnvio[0],
             sala : salaEnvio[1],
             user: usuarioLogado()
-        })
+        }, config)
         .then(function (response) {
             $('#modalAtendimentoSucesso').modal('show')
             console.log('teste')

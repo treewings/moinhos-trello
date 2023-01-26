@@ -1,6 +1,10 @@
 import { url } from "./url.js"
 import socket from "./websocket.js"
 import { usuarioLogado } from "./funcoes/usuario.js"
+import { token } from "./url.js"
+const config = {
+    headers: { Authorization: `Bearer ${token()}` }
+};
 $(document).ready(()=>{
     var y = url()
     $('#modalLoading').modal('show')
@@ -249,7 +253,7 @@ $(document).ready(()=>{
                 var tarefa = numerotarefa.value
                 
                 if(tarefa != 'null'){
-                    var config = {
+                    let config = {
                         headers: {'Content-Type': 'application/x-www-form-urlencoded'}
                     };
                     console.log(tarefa)
@@ -274,7 +278,7 @@ $(document).ready(()=>{
                         codigo_setor_exame:  val.codigo_setor_exame,
                         data: val.hora_pedidoX,
                         dados: val,
-                    }).then(function (response) {
+                    }, config).then(function (response) {
                         //ABRE MODAL DE SUCESSO
                         $('#modalForm').modal('hide')
                         //ABRE MODAL DE SUCESSO
@@ -330,7 +334,7 @@ $(document).ready(()=>{
                         codigo_setor_exame:  val.codigo_setor_exame,
                         data: val.hora_pedidoX,
                         dados: val
-                    })
+                    }, config)
                     //SE UPDATE REALIZADO COM SUCESSO, FAÇA
                     .then(function (response) {
                         //ABRE MODAL DE SUCESSO
@@ -369,7 +373,7 @@ $(document).ready(()=>{
             observacao:  valueObservacao,
             observacao_select: valueObservacaoSelect,
             // user: usuarioLogado()
-        })
+        }, config)
         .then(function (response) {
             socket.emit('cardRender', 'foi')
         })

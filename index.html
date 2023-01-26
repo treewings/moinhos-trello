@@ -627,6 +627,56 @@
                 </div>
             </div>
         </div>
+
+        <div class="modal fade" tabindex="-1" id="modalAlgoToken">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-body modal-body-lg text-center">
+                        <div class="nk-modal">
+                            <em class="nk-modal-icon icon icon-circle icon-circle-xxl ni ni-cross bg-danger"></em>
+                            <h4 class="nk-modal-title">Token invalido!</h4>
+                            <div class="nk-modal-text">
+                                <p class="text-soft">coloque um token valido.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" tabindex="-1" id="modalAlgoTokenExpirou">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-body modal-body-lg text-center">
+                        <div class="nk-modal">
+                            <em class="nk-modal-icon icon icon-circle icon-circle-xxl ni ni-cross bg-danger"></em>
+                            <h4 class="nk-modal-title">Token expirou!</h4>
+                            <div class="nk-modal-text">
+                                <p class="text-soft">coloque um token valido.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" tabindex="-1" id="modalAlgoTokenSem">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-body modal-body-lg text-center">
+                        <div class="nk-modal">
+                            <em class="nk-modal-icon icon icon-circle icon-circle-xxl ni ni-cross bg-danger"></em>
+                            <h4 class="nk-modal-title">Você não colocou nenhum token!</h4>
+                            <div class="nk-modal-text">
+                                <p class="text-soft">coloque um token valido.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
         <script type="text/javascript">
             //ADICIONA O FILTRO POR SETOR DE EXAME
             function mostraAlerta(elemento)
@@ -653,91 +703,91 @@
                 window.location.reload()
             }
             //ADICIONA OS ITENS SELECIONADOS NOS CARDS
-            if(window.location.href == 'http://52.22.17.129:3000/'){
-            }if(window.location.href == 'http://52.22.17.129:3000/?setor=19'){
+            if(window.location.href == 'http://localhost:3000/'){
+            }if(window.location.href == 'http://localhost:3000/?setor=19'){
                 var select = document.getElementById('selectSetorExame');
                 var text = select.options[1]
                 text.setAttribute('selected', '')
-            }if(window.location.href == 'http://52.22.17.129:3000/?setor=20'){
+            }if(window.location.href == 'http://localhost:3000/?setor=20'){
                 var select = document.getElementById('selectSetorExame');
                 var text = select.options[2]
                 text.setAttribute('selected', '')
-            }if(window.location.href == 'http://52.22.17.129:3000/?setor=23'){
+            }if(window.location.href == 'http://localhost:3000/?setor=23'){
                 var select = document.getElementById('selectSetorExame');
                 var text = select.options[3]
                 text.setAttribute('selected', '')
-            }if(window.location.href == 'http://52.22.17.129:3000/?setor=24'){
+            }if(window.location.href == 'http://localhost:3000/?setor=24'){
                 var select = document.getElementById('selectSetorExame');
                 var text = select.options[4]
                 text.setAttribute('selected', '')
-            }if(window.location.href == 'http://52.22.17.129:3000/?setor=26'){
+            }if(window.location.href == 'http://localhost:3000/?setor=26'){
                 var select = document.getElementById('selectSetorExame');
                 var text = select.options[5]
                 text.setAttribute('selected', '')
             }
             //ADICIONA OS ITENS SELECIONADOS NOS CARDS
-            if(window.location.href == 'http://52.22.17.129:3000/'){
-            }if(window.location.href == 'http://52.22.17.129:3000/?sala=999-169'){
+            if(window.location.href == 'http://localhost:3000'){
+            }if(window.location.href == 'http://localhost:3000/?sala=999-169'){
                 var select = document.getElementById('selectSalaExame');
                 var text = select.options[1]
                 text.setAttribute('selected', '')
-            }if(window.location.href == 'http://52.22.17.129:3000/?sala=999-170'){
+            }if(window.location.href == 'http://localhost:3000/?sala=999-170'){
                 var select = document.getElementById('selectSalaExame');
                 var text = select.options[2]
                 text.setAttribute('selected', '')
-            }if(window.location.href == 'http://52.22.17.129:3000/?sala=999-168'){
+            }if(window.location.href == 'http://localhost:3000/?sala=999-168'){
                 var select = document.getElementById('selectSalaExame');
                 var text = select.options[3]
                 text.setAttribute('selected', '')
-            }if(window.location.href == 'http://52.22.17.129:3000/?sala=999-61'){
+            }if(window.location.href == 'http://localhost:3000/?sala=999-61'){
                 var select = document.getElementById('selectSalaExame');
                 var text = select.options[4]
                 text.setAttribute('selected', '')
-            }if(window.location.href == 'http://52.22.17.129:3000/?sala=999-130'){
+            }if(window.location.href == 'http://localhost:3000/?sala=999-130'){
                 var select = document.getElementById('selectSalaExame');
                 var text = select.options[5]
                 text.setAttribute('selected', '')
-            }if(window.location.href == 'http://52.22.17.129:3000/?sala=999-46'){
+            }if(window.location.href == 'http://localhost:3000/?sala=999-46'){
                 var select = document.getElementById('selectSalaExame');
                 var text = select.options[6]
                 text.setAttribute('selected', '')
-            }if(window.location.href == 'http://52.22.17.129:3000/?sala=999-60'){
+            }if(window.location.href == 'http://localhost:3000/?sala=999-60'){
                 var select = document.getElementById('selectSalaExame');
                 var text = select.options[7]
                 text.setAttribute('selected', '')
-            }if(window.location.href == 'http://52.22.17.129:3000/?sala=999-7'){
+            }if(window.location.href == 'http://localhost:3000/?sala=999-7'){
                 var select = document.getElementById('selectSalaExame');
                 var text = select.options[8]
                 text.setAttribute('selected', '')
-            }if(window.location.href == 'http://52.22.17.129:3000/?sala=999-8'){
+            }if(window.location.href == 'http://localhost:3000/?sala=999-8'){
                 var select = document.getElementById('selectSalaExame');
                 var text = select.options[9]
                 text.setAttribute('selected', '')
-            }if(window.location.href == 'http://52.22.17.129:3000/?sala=999-121'){
+            }if(window.location.href == 'http://localhost:3000/?sala=999-121'){
                 var select = document.getElementById('selectSalaExame');
                 var text = select.options[10]
                 text.setAttribute('selected', '')
-            }if(window.location.href == 'http://52.22.17.129:3000/?sala=999-20'){
+            }if(window.location.href == 'http://localhost:3000/?sala=999-20'){
                 var select = document.getElementById('selectSalaExame');
                 var text = select.options[11]
                 text.setAttribute('selected', '')
-            }if(window.location.href == 'http://52.22.17.129:3000/?sala=999-9'){
+            }if(window.location.href == 'http://localhost:3000/?sala=999-9'){
                 var select = document.getElementById('selectSalaExame');
                 var text = select.options[12]
                 text.setAttribute('selected', '')
-            }if(window.location.href == 'http://52.22.17.129:3000/?sala=999-6'){
+            }if(window.location.href == 'http://localhost:3000/?sala=999-6'){
                 var select = document.getElementById('selectSalaExame');
                 var text = select.options[13]
                 text.setAttribute('selected', '')
-            }if(window.location.href == 'http://52.22.17.129:3000/?sala=999-45'){
+            }if(window.location.href == 'http://localhost:3000/?sala=999-45'){
                 var select = document.getElementById('selectSalaExame');
                 var text = select.options[14]
                 text.setAttribute('selected', '')
-            }if(window.location.href == 'http://52.22.17.129:3000/?sala=999-118'){
+            }if(window.location.href == 'http://localhost:3000/?sala=999-118'){
                 var select = document.getElementById('selectSalaExame');
                 var text = select.options[15]
                 text.setAttribute('selected', '')
-            }if(window.location.href == 'http://52.22.17.129:3000/?sala=999-38'){
+            }if(window.location.href == 'http://localhost:3000/?sala=999-38'){
                 var select = document.getElementById('selectSalaExame');
                 var text = select.options[16]
                 text.setAttribute('selected', '')

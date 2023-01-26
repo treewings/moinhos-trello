@@ -1,6 +1,11 @@
 import { url } from "./url.js";
 import socket from "./websocket.js";
 import { usuarioLogado } from "./funcoes/usuario.js";
+import { token } from "./url.js";
+const config = {
+    headers: { Authorization: `Bearer ${token()}` }
+};
+
 const treloRodar = ()=> {
         var dragContainer = document.querySelector('.drag-container');
         var itemContainers = [].slice.call(document.querySelectorAll('.board-column-content'));
@@ -171,9 +176,6 @@ const treloRodar = ()=> {
                                     let valor = update.value;
                                     val = JSON.parse(valor);
                                     let imagem = 'cadeira-de-rodas-preto.png'
-                                    let conf =  {'Cache-Control': 'no-cache',
-                                    'Pragma': 'no-cache',
-                                    'Expires': '0'}
                                     axios.post(y+'/api/moinhos/agendar', {
                                         acess_number: ID,
                                         dados: val,
@@ -182,7 +184,7 @@ const treloRodar = ()=> {
                                         hora_agendamento: hr,
                                         imagem_cadeira: imagem,
                                         user: usuarioLogado()
-                                    }, conf)
+                                    }, config)
                                     //SE UPDATE REALIZADO COM SUCESSO, FAÇA
                                     .then(function (response) {
                                         //ABRE MODAL DE SUCESSO
@@ -256,7 +258,7 @@ const treloRodar = ()=> {
                             axios.post(y+'/api/moinhos/posexame',{
                                 acess_number: ID,
                                 user: usuarioLogado()
-                            })
+                            }, config)
                             .then(function (response) {
                                 // window.location.reload()
                                 socket.emit('cardRender', 'foi');
@@ -281,7 +283,7 @@ const treloRodar = ()=> {
                             axios.post(y+'/api/moinhos/finalizar', {
                                 acess_number: ID,
                                 user: usuarioLogado()
-                            })
+                            }, config)
                             .then(function (response) {
                                 //ATRIBUI OS VALORES DOS COUNT's
                                 let SolicitadosCount = document.getElementById("PosExameCount");

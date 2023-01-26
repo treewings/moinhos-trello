@@ -5,15 +5,19 @@ import { url } from "./js/url.js";
 import socket from "./js/websocket.js";
 import solicitadosSet from "./js/setInterval/solicitadosSet.js";
 import { usuarioLogado } from "./js/funcoes/usuario.js";
+import { token } from "./js/url.js";
 
 var x  = ''
 var y = url()
+
 socket.on('cardRender', function(msg) {
     window.location.reload()
 });
+
 socket.on('tarefaUmov', function(msg) {
     window.location.reload()
 });
+
 function acesso(){
     const urlParams = new URLSearchParams(window.location.search);
     var filtro = []
@@ -25,8 +29,13 @@ function acesso(){
     }
     return {filtro}
 }
+
+const config = {
+    headers: { Authorization: `Bearer ${token()}` }
+};
+
 function rodar(){
-    acesso().filtro != '' ? x = (axios.post(y+'/api/moinhos/consulta', acesso().filtro) ) : x = (axios.get(y+'/api/moinhos'))
+    acesso().filtro != '' ? x = (axios.post(y+'/api/moinhos/consulta', acesso().filtro, config) ) : x = (axios.get(y+'/api/moinhos', config))
     x.then(function(response) {
         $('#modalLoading').modal('hide')
         $('#Solicitados').empty();
@@ -722,7 +731,7 @@ function rodar(){
                                     origem: origem,
                                     sala: sala,
                                     cod_sala: cod_sala
-                                })
+                                },config)
                                 .then(function (response) {
                                     // window.location.reload()
                                     socket.emit('tarefaUmov', 'foi');
@@ -739,7 +748,7 @@ function rodar(){
                                     origem: origem,
                                     sala: sala,
                                     cod_sala: cod_sala
-                                })
+                                }, config)
                                 .then(function (response) {
                                     socket.emit('tarefaUmov', 'foi');
                                     // console.log(xmlDaTarefa)
@@ -772,7 +781,7 @@ function rodar(){
                                     origem: origem,
                                     sala: sala,
                                     cod_sala: cod_sala
-                                })
+                                }, config)
                                 .then(function (response) {
                                     socket.emit('tarefaUmov', 'foi');
                                     // console.log(xmlDaTarefa)
@@ -795,7 +804,19 @@ function rodar(){
     })
     .catch(function(error) {
         // handle error
-        window.location.reload()
+        if(error.response.data.status == 'Token invalido.'){
+            $('#modalLoading').modal('hide')
+            $('#modalAlgoToken').modal('show')
+        }
+        if(error.response.data.status == 'Token expirado'){
+            $('#modalLoading').modal('hide')
+            $('#modalAlgoTokenExpirado').modal('show')
+        }
+        if(error.response.data.status == 'Token não existe.'){
+            $('#modalLoading').modal('hide')
+            $('#modalAlgoTokenSem').modal('show')
+        }
+        // window.location.reload()
     })
 }
 
