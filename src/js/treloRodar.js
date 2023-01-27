@@ -211,7 +211,7 @@ const treloRodar = ()=> {
                         if(numeroTarefa != 'null'){
                             if(status == '40' || status == '30'){
                                 $('#modalTransporteSolicitado').modal('show')
-                                socket.emit('cardRender', 'foi')
+                                window.location.reload()
                             }
                         }
                         if(numeroTarefa == 'null'){

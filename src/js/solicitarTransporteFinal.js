@@ -1,6 +1,10 @@
 import { url } from "./url.js"
 import socket from "./websocket.js"
 import { usuarioLogado } from "./funcoes/usuario.js"
+import { token } from "./url.js"
+const configs = {
+    headers: { Authorization: `Bearer ${token()}` }
+};
 export function umovFinalizar(val, destino){
     var y = url()
     let dados = JSON.parse(val)
@@ -138,7 +142,7 @@ export function umovFinalizar(val, destino){
                 cod_sala: Destino,
                 origem: 'posexame',
                 // user: usuarioLogado()
-            })
+            }, configs)
             .then(function (response) {
                 $('#modalTransporteFinal').modal('hide')
                 socket.emit('cardRender', 'foi')

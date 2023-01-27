@@ -762,7 +762,7 @@ function rodar(){
                                         acess_number: acessNumber,
                                         origem: origem,
                                         user: usuarioLogado()
-                                    })
+                                    }, config)
                                     .then(function (response) {
                                         socket.emit('tarefaUmov', 'foi');
                                         // console.log(xmlDaTarefa)
@@ -775,7 +775,7 @@ function rodar(){
                             //SE O STATUS DA TAREFA FOR IGUAL A CANCELADA
                             if(statusTarefa == '70' && tarefa != '70'){ 
                                 axios.post(y+'/api/moinhos/agendar/tarefa/'+acessNumber, {
-                                    numero_tarefa: numeroTarefa,
+                                    numero_tarefa: '',
                                     imagem_cadeira: 'cadeira-de-rodas-preto.png',
                                     status_tarefa: statusTarefa,
                                     origem: origem,
@@ -807,16 +807,19 @@ function rodar(){
         if(error.response.data.status == 'Token invalido.'){
             $('#modalLoading').modal('hide')
             $('#modalAlgoToken').modal('show')
+            return
         }
         if(error.response.data.status == 'Token expirado'){
             $('#modalLoading').modal('hide')
             $('#modalAlgoTokenExpirado').modal('show')
+            return
         }
         if(error.response.data.status == 'Token não existe.'){
             $('#modalLoading').modal('hide')
             $('#modalAlgoTokenSem').modal('show')
+            return
         }
-        // window.location.reload()
+        window.location.reload()
     })
 }
 

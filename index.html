@@ -339,7 +339,7 @@
                             <h5 class="modal-title">Solicitar transporte</h5>
                             <small>Informe a sala que o paciente irá realizar o exame.</small>
                         </div>
-                        <a data-bs-dismiss="modal" id="fecharAgendamento">
+                        <a data-bs-dismiss="modal" id="fecharTransporteFinal">
                             <em class="icon ni ni-cross"></em>
                         </a>
                     </div>
@@ -679,13 +679,14 @@
 
         <script type="text/javascript">
             //ADICIONA O FILTRO POR SETOR DE EXAME
+            const urlParams = new URLSearchParams(window.location.search);
             function mostraAlerta(elemento)
-            {   
+            {   urlParams.delete('sala')
                 if(elemento.value == '1'){
-                    elemento = '/'
+                    elemento = window.location.href.split('&setor')[0]
                     history.pushState({}, null, elemento);
                 }else{
-                    elemento = '?setor='+elemento.value
+                    elemento = window.location.href.split('&setor')[0] + '&setor='+elemento.value
                     history.pushState({}, null, elemento);
                 }
                 window.location.reload()
@@ -693,101 +694,101 @@
             //ADICIOCA O FILTRO POR SALA DE EXAME
             function mostraAlertaDois(elemento)
             {   
+                urlParams.delete('setor')
                 if(elemento.value == '1'){
-                    elemento = '/'
+                    elemento = window.location.href.split('&sala')[0]
                     history.pushState({}, null, elemento);
                 }else{
-                    elemento = '?sala='+elemento.value
+                    elemento = window.location.href.split('&sala')[0] + '&sala='+elemento.value
                     history.pushState({}, null, elemento);
                 }
                 window.location.reload()
             }
+            
             //ADICIONA OS ITENS SELECIONADOS NOS CARDS
-            if(window.location.href == 'http://localhost:3000/'){
-            }if(window.location.href == 'http://localhost:3000/?setor=19'){
+            if(urlParams.get('setor') == '19'){
                 var select = document.getElementById('selectSetorExame');
                 var text = select.options[1]
                 text.setAttribute('selected', '')
-            }if(window.location.href == 'http://localhost:3000/?setor=20'){
+            }if(urlParams.get('setor') == '20'){
                 var select = document.getElementById('selectSetorExame');
                 var text = select.options[2]
                 text.setAttribute('selected', '')
-            }if(window.location.href == 'http://localhost:3000/?setor=23'){
+            }if(urlParams.get('setor') == '23'){
                 var select = document.getElementById('selectSetorExame');
                 var text = select.options[3]
                 text.setAttribute('selected', '')
-            }if(window.location.href == 'http://localhost:3000/?setor=24'){
+            }if(urlParams.get('setor') == '24'){
                 var select = document.getElementById('selectSetorExame');
                 var text = select.options[4]
                 text.setAttribute('selected', '')
-            }if(window.location.href == 'http://localhost:3000/?setor=26'){
+            }if(urlParams.get('setor') == '26'){
                 var select = document.getElementById('selectSetorExame');
                 var text = select.options[5]
                 text.setAttribute('selected', '')
             }
             //ADICIONA OS ITENS SELECIONADOS NOS CARDS
-            if(window.location.href == 'http://localhost:3000'){
-            }if(window.location.href == 'http://localhost:3000/?sala=999-169'){
+           if(urlParams.get('sala') == '999-169'){
                 var select = document.getElementById('selectSalaExame');
                 var text = select.options[1]
                 text.setAttribute('selected', '')
-            }if(window.location.href == 'http://localhost:3000/?sala=999-170'){
+            }if(urlParams.get('sala') == '999-170'){
                 var select = document.getElementById('selectSalaExame');
                 var text = select.options[2]
                 text.setAttribute('selected', '')
-            }if(window.location.href == 'http://localhost:3000/?sala=999-168'){
+            }if(urlParams.get('sala') == '999-168'){
                 var select = document.getElementById('selectSalaExame');
                 var text = select.options[3]
                 text.setAttribute('selected', '')
-            }if(window.location.href == 'http://localhost:3000/?sala=999-61'){
+            }if(urlParams.get('sala') == '999-61'){
                 var select = document.getElementById('selectSalaExame');
                 var text = select.options[4]
                 text.setAttribute('selected', '')
-            }if(window.location.href == 'http://localhost:3000/?sala=999-130'){
+            }if(urlParams.get('sala') == '999-130'){
                 var select = document.getElementById('selectSalaExame');
                 var text = select.options[5]
                 text.setAttribute('selected', '')
-            }if(window.location.href == 'http://localhost:3000/?sala=999-46'){
+            }if(urlParams.get('sala') == '999-46'){
                 var select = document.getElementById('selectSalaExame');
                 var text = select.options[6]
                 text.setAttribute('selected', '')
-            }if(window.location.href == 'http://localhost:3000/?sala=999-60'){
+            }if(urlParams.get('sala') == '999-60'){
                 var select = document.getElementById('selectSalaExame');
                 var text = select.options[7]
                 text.setAttribute('selected', '')
-            }if(window.location.href == 'http://localhost:3000/?sala=999-7'){
+            }if(urlParams.get('sala') == '999-7'){
                 var select = document.getElementById('selectSalaExame');
                 var text = select.options[8]
                 text.setAttribute('selected', '')
-            }if(window.location.href == 'http://localhost:3000/?sala=999-8'){
+            }if(urlParams.get('sala') == '999-8'){
                 var select = document.getElementById('selectSalaExame');
                 var text = select.options[9]
                 text.setAttribute('selected', '')
-            }if(window.location.href == 'http://localhost:3000/?sala=999-121'){
+            }if(urlParams.get('sala') == '999-121'){
                 var select = document.getElementById('selectSalaExame');
                 var text = select.options[10]
                 text.setAttribute('selected', '')
-            }if(window.location.href == 'http://localhost:3000/?sala=999-20'){
+            }if(urlParams.get('sala') == '999-20'){
                 var select = document.getElementById('selectSalaExame');
                 var text = select.options[11]
                 text.setAttribute('selected', '')
-            }if(window.location.href == 'http://localhost:3000/?sala=999-9'){
+            }if(urlParams.get('sala') == '999-9'){
                 var select = document.getElementById('selectSalaExame');
                 var text = select.options[12]
                 text.setAttribute('selected', '')
-            }if(window.location.href == 'http://localhost:3000/?sala=999-6'){
+            }if(urlParams.get('sala') == '999-6'){
                 var select = document.getElementById('selectSalaExame');
                 var text = select.options[13]
                 text.setAttribute('selected', '')
-            }if(window.location.href == 'http://localhost:3000/?sala=999-45'){
+            }if(urlParams.get('sala') == '999-45'){
                 var select = document.getElementById('selectSalaExame');
                 var text = select.options[14]
                 text.setAttribute('selected', '')
-            }if(window.location.href == 'http://localhost:3000/?sala=999-118'){
+            }if(urlParams.get('sala') == '999-118'){
                 var select = document.getElementById('selectSalaExame');
                 var text = select.options[15]
                 text.setAttribute('selected', '')
-            }if(window.location.href == 'http://localhost:3000/?sala=999-38'){
+            }if(urlParams.get('sala') == '999-38'){
                 var select = document.getElementById('selectSalaExame');
                 var text = select.options[16]
                 text.setAttribute('selected', '')

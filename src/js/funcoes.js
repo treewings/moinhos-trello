@@ -268,6 +268,7 @@ $(document).ready(()=>{
 
                 let val = '';
                 $(document).ready(() => {
+                    
                     //PEGA O JSON DO CARD E ENVIA A REQUISIÇÃO DE ALTERAÇÃO
                     let update = document.querySelector("#solicitar-update-" + ID);
                     let valor = update.value;

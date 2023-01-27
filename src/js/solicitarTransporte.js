@@ -1,6 +1,10 @@
 import { url } from "./url.js"
 import socket from "./websocket.js"
 import { usuarioLogado } from "./funcoes/usuario.js"
+import { token } from "./url.js"
+const configs = {
+    headers: { Authorization: `Bearer ${token()}` }
+};
 export function umov(val, destino){
     var y = url()
     let dados = JSON.parse(val)
@@ -142,7 +146,7 @@ export function umov(val, destino){
                 cod_sala: Destino,
                 origem: 'agendado',
                 // user: usuarioLogado()
-            })
+            }, configs)
             .then(function (response) {
                 $('#modalTransporte').modal('hide')
                 // window.location.reload()
