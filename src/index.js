@@ -18,6 +18,7 @@ socket.on('cardRender', function(msg) {
 socket.on('tarefaUmov', function(dados) {
    var imagem = document.getElementById('image'+dados.number)
    imagem.src = 'images/Icones/'+dados.imagem_cadeira
+   $('#nome-sala-'+dados.number).text(dados.sala)
     console.log(dados)
 });
 
@@ -206,7 +207,7 @@ export default function rodar(){
             }
             //HTML DO CARD DE AGENDADOS
             $('#Agendados').append(`
-            <div class="board-item m-0  mb-2 border rounded"  data-id="${val.acess_number} id="${val.acess_number}">
+            <div class="board-item m-0  mb-2 border rounded"  data-id="${val.acess_number}" id="${val.acess_number}">
                 <div class="board-item-content p-0" style="min-height: 128px;">
                     <div class="kanban-item-title p-1 rounded-2" style="background: #`+corClassificacao+`; width: 100%; height: 40px;">
                         <div class="d-flex align-items-center text-danger">
@@ -233,7 +234,7 @@ export default function rodar(){
                         </div>
                         <div>
                             <p class="mb-0">${val.descricao_exame}</p>
-                            <p class="mb-0">`+descricaoSala+`</p>
+                            <p class="mb-0" id="nome-sala-${val.acess_number}">`+descricaoSala+`</p>
                             <input type="hidden" id="solicitar-update-${val.acess_number}" value='${JSON.stringify(val)}'>
                             <input type="hidden" id="numero_tarefa-${val.acess_number}" value='${val.numero_tarefa}'>
                             <input type="hidden" id="status_tarefa-${val.acess_number}" value='${val.status_tarefa}'>
@@ -472,7 +473,7 @@ export default function rodar(){
             }
 
             $('#posExame').append(`
-            <div class="board-item m-0  mb-2 border rounded"  data-id="${val.acess_number}">
+            <div class="board-item m-0  mb-2 border rounded"  data-id="${val.acess_number}" id="${val.acess_number}">
                 <div class="board-item-content p-0" style="min-height: 128px;">
                     <div class="kanban-item-title p-1 rounded-2" style="background: #`+corClassificacao+`; width: 100%; height: 40px;">
                         <div class="d-flex align-items-center text-danger">
@@ -492,7 +493,7 @@ export default function rodar(){
                             </div>
                             <a class="rounded-3 d-flex px-1 text-dark align-items-center" id="`+condicao+`" data-id="${val.acess_number}" style="background-color: #ecebeb; cursor: pointer; display:flex; align-items: cente; padding-top: 1px; padding-bottom: 1px; font-size:smaller">
                                     <div style="font-size: 13px;" class="m-0 d-flex align-items-center" id="img_icone-${val.acess_number}">
-                                        <img style="height: 13px; margin-right: 5px; margin-left: 4px;" src="images/Icones/${val.imagem_cadeira}">
+                                        <img style="height: 13px; margin-right: 5px; margin-left: 4px;" id="image${val.acess_number}" src="images/Icones/${val.imagem_cadeira}">
                                     </div>
                                 <div class="">${val.data_diferenca}</div>
                             </a>
@@ -711,9 +712,11 @@ export default function rodar(){
     })
 }
 
+// AGENDADOS COMEÇA AQUI A CHECAGEM DAS SOLICITACÕES
+
 const firstRequest = async () => {
     // Faz a primeira requisição e retorna o status
-    const response = await axios.get(url()+'/api/moinhos/checaumov', config);
+    const response = await axios.get(url()+'/api/moinhos/checaumov/agendados', config);
     return response.data.umovCheca;
   };
   
@@ -727,35 +730,73 @@ const firstRequest = async () => {
             let xmlDaTarefa = document.createElement('div')
             xmlDaTarefa.innerHTML = response.data
             let statusTarefa = xmlDaTarefa.getElementsByTagName('schedule')[0].getElementsByTagName('situation')[0].getElementsByTagName('id')[0].innerText
-    
+            let realizou = xmlDaTarefa.getElementsByTagName('schedule')[0].getElementsByTagName('customFields')[0].getElementsByTagName('retro__realizou')[0].innerText
+            let motivo = xmlDaTarefa.getElementsByTagName('schedule')[0].getElementsByTagName('customFields')[0].getElementsByTagName('retro__motivo__realizacao')[0].innerText
             if (statusTarefa === val.status_tarefa) {
     
               console.log("O status da primeira requisição é igual ao status da segunda requisição");
               clearTimeout(timerId);
               timerId = setTimeout(() => {
                 run()
-              }, 9000);
+              }, 10000);
               
             } else {
     
                 console.log("O status da primeira requisição é diferente do status da segunda requisição");
                 if(statusTarefa == 50){
-                    axios.post(y+'/api/moinhos/atendimento', {
-                        acess_number: val.acess_number,
-                        origem: 'agendado',
-                        user: usuarioLogado()
-                    }, config)
-                    .then(function (response) {
-        
-                        console.log('pq caiu aqui caraio')
-                        socket.emit('cardRender', 'foi');
-                        if(statusFromFirstRequest.length == 1){
-                            clearTimeout(timerId);
-                            timerId = setTimeout(() => {
-                              run()
-                            }, 9000);
+                    if(realizou == 'sim'){
+                        axios.post(y+'/api/moinhos/atendimento', {
+                            acess_number: val.acess_number,
+                            origem: 'agendado',
+                            user: usuarioLogado()
+                        }, config)
+                        .then(function (response) {
+            
+                            console.log('enviou direto pra atendimentos')
+                            socket.emit('cardRender', 'foi');
+                            if(statusFromFirstRequest.length == 1){
+                                clearTimeout(timerId);
+                                timerId = setTimeout(() => {
+                                  run()
+                                }, 10000);
+                            }
+                        })
+                    }else{
+                        if(motivo == 'cad_mot_pac_saiu_so'){
+                            axios.post(y+'/api/moinhos/atendimento', {
+                                acess_number: val.acess_number,
+                                origem: 'agendado',
+                                user: usuarioLogado()
+                            }, config)
+                            .then(function (response) {
+                
+                                console.log('enviou direto pra atendimento pq saiu só')
+                                socket.emit('cardRender', 'foi');
+                                if(statusFromFirstRequest.length == 1){
+                                    clearTimeout(timerId);
+                                    timerId = setTimeout(() => {
+                                      run()
+                                    }, 10000);
+                                }
+                            })
+                        }else{
+                            axios.post(y+'/api/moinhos/checaumov/limpar-dados-agendados', {
+                                acess_number: val.acess_number,
+                            }, config)
+                            .then(function (response) {
+                
+                                console.log('limpou dados')
+                                socket.emit('cardRender', 'foi');
+                                if(statusFromFirstRequest.length == 1){
+                                    clearTimeout(timerId);
+                                    timerId = setTimeout(() => {
+                                      run()
+                                    }, 10000);
+                                }
+                            })
                         }
-                    })
+                    }
+                    
                     return    
                 }
                
@@ -770,7 +811,7 @@ const firstRequest = async () => {
                         clearTimeout(timerId);
                         timerId = setTimeout(() => {
                           run()
-                        }, 9000);
+                        }, 10000);
                     }
                     return
                     // console.log(xmlDaTarefa)
@@ -783,17 +824,141 @@ const firstRequest = async () => {
               clearTimeout(timerId);
               timerId = setTimeout(() => {
                 run()
-              }, 9000);
+              }, 10000);
     }
     
   };
   
   const run = async () => {
-    const statusFromFirstRequest = await firstRequest();
-    await secondRequest(statusFromFirstRequest);
+    const statusFromFirstRequestPos = await firstRequest();
+    await secondRequest(statusFromFirstRequestPos);
   };
   
-  run();          
+  run();
+  
+  
+// POS EXAME COMEÇA AQUI A CHECAGEM DAS SOLICITACÕES
+  const firstRequestPos = async () => {
+    // Faz a primeira requisição e retorna o status
+    const response = await axios.get(url()+'/api/moinhos/checaumov/posexame', config);
+    return response.data.umovCheca;
+  };
+  
+  const secondRequestPos = async (statusFromFirstRequest) => {
+    var timerId;
+    if(statusFromFirstRequest != null){
+        statusFromFirstRequest.forEach( async (val)=>{
+
+            console.log(val)
+            const response = await axios.get(`https://api.umov.me/CenterWeb/api/26347e33d181559023ab7b32150ca3bfbc572e/schedule/${val.numero_tarefa}.xml`);
+            let xmlDaTarefa = document.createElement('div')
+            xmlDaTarefa.innerHTML = response.data
+            let statusTarefa = xmlDaTarefa.getElementsByTagName('schedule')[0].getElementsByTagName('situation')[0].getElementsByTagName('id')[0].innerText
+            let realizou = xmlDaTarefa.getElementsByTagName('schedule')[0].getElementsByTagName('customFields')[0].getElementsByTagName('retro__realizou')[0].innerText
+            let motivo = xmlDaTarefa.getElementsByTagName('schedule')[0].getElementsByTagName('customFields')[0].getElementsByTagName('retro__motivo__realizacao')[0].innerText
+            if (statusTarefa === val.status_tarefa) {
+    
+              console.log("O status da primeira requisição é igual ao status da segunda requisição pos");
+              clearTimeout(timerId);
+              timerId = setTimeout(() => {
+                runPos()
+              }, 10000);
+              
+            } else {
+    
+                console.log("O status da primeira requisição é diferente do status da segunda requisição pos");
+                if(statusTarefa == 50){
+                    if(realizou == 'sim'){
+                        axios.post(y+'/api/moinhos/finalizar', {
+                            acess_number: val.acess_number,
+                            origem: 'posexame',
+                            user: usuarioLogado()
+                        }, config)
+                        .then(function (response) {
+            
+                            console.log('enviou direto pra atendimentos')
+                            socket.emit('cardRender', 'foi');
+                            if(statusFromFirstRequest.length == 1){
+                                clearTimeout(timerId);
+                                timerId = setTimeout(() => {
+                                  runPos()
+                                }, 10000);
+                            }
+                        })
+                    }else{
+                        if(motivo == 'cad_mot_pac_saiu_so'){
+                            axios.post(y+'/api/moinhos/finalizar', {
+                                acess_number: val.acess_number,
+                                origem: 'posexame',
+                                user: usuarioLogado()
+                            }, config)
+                            .then(function (response) {
+                
+                                console.log('enviou direto pra atendimento pq saiu só pos')
+                                socket.emit('cardRender', 'foi');
+                                if(statusFromFirstRequest.length == 1){
+                                    clearTimeout(timerId);
+                                    timerId = setTimeout(() => {
+                                      runPos()
+                                    }, 10000);
+                                }
+                            })
+                        }else{
+                            axios.post(y+'/api/moinhos/checaumov/limpar-dados-posexame', {
+                                acess_number: val.acess_number,
+                            }, config)
+                            .then(function (response) {
+                
+                                console.log('limpou dados')
+                                socket.emit('cardRender', 'foi');
+                                if(statusFromFirstRequest.length == 1){
+                                    clearTimeout(timerId);
+                                    timerId = setTimeout(() => {
+                                      runPos()
+                                    }, 10000);
+                                }
+                            })
+                        }
+                    }
+                    
+                    return    
+                }
+               
+                axios.post(url()+'/api/moinhos/agendar/tarefa/'+val.acess_number, {
+                    numero_tarefa: val.numero_tarefa,
+                    imagem_cadeira: 'cadeira-de-rodas-azul.png',
+                    status_tarefa: statusTarefa,
+                    origem: 'posexame',
+                }, config).then(function (response) {
+                    socket.emit('tarefaUmov', {number: val.acess_number,  imagem_cadeira: 'cadeira-de-rodas-azul.png'});
+                    if(statusFromFirstRequest.length == 1){
+                        clearTimeout(timerId);
+                        timerId = setTimeout(() => {
+                          runPos()
+                        }, 10000);
+                    }
+                    return
+                    // console.log(xmlDaTarefa)
+                })
+    
+            }
+        })
+    }else{
+        console.log("procurando dados em posexame ...");
+              clearTimeout(timerId);
+              timerId = setTimeout(() => {
+                runPos()
+              }, 10000);
+    }
+    
+  };
+  
+  const runPos = async () => {
+    const statusFromFirstRequest = await firstRequestPos();
+    await secondRequestPos(statusFromFirstRequest);
+  };
+  
+  runPos();          
  
 solicitacoes()
 rodar()
