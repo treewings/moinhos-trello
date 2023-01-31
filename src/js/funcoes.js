@@ -284,9 +284,9 @@ $(document).ready(()=>{
                         $('#modalForm').modal('hide')
                         //ABRE MODAL DE SUCESSO
                         $('#modalAgendadoCancelado').modal('show')
+                        socket.emit('cardRender', 'foi');
                         setTimeout(async () => {
                             $('#modalAgendadoCancelado').modal('hide')
-                            socket.emit('cardRender', 'foi');
                         }, 900);
                     })
                     .catch(function (error) {
@@ -343,6 +343,9 @@ $(document).ready(()=>{
                         //ABRE MODAL DE SUCESSO
                         $('#modalAtendimentoCancelado').modal('show')
                         socket.emit('cardRender', 'foi')
+                        setTimeout(async () => {
+                            $('#modalAtendimentoCancelado').modal('hide')
+                        }, 900);
                     })
                     .catch(function (error) {
                         $('#modalAlgoErrado').modal('show')

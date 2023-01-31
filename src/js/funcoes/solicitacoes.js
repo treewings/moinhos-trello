@@ -13,51 +13,47 @@ const solicitacoes = ()=>{
     $('body').on('click', '#solicitarTransporteFinal', function(evento){
         //ABRE MODAL
         $('#modalTransporteFinal').modal('show')
+        $('#botaoSolicitaPos').prop('disabled', false);;
         let ID = $(this).data('id')
-        let valor =  document.querySelector('#solicitar-update-'+ID)
-        let codigo_ui =  document.querySelector('#codigo_ui-'+ID)
-        let unidade_internacao =  document.querySelector('#unidade_internacao-'+ID)
+        window.localStorage.setItem('numberPos', ID)
 
-        // addOptionTransporteFinal(unidade_internacao.value, codigo_ui.value+'_'+unidade_internacao.value)
-        // function addOptionTransporteFinal(key, valor){
-        //     let option = new Option(key, valor, true, true)
-        //     let transporteFinal = document.getElementById("selectTransporteFinal")
-        //     transporteFinal.add(option)
-        // }
-        let botao = $(".botaoTransporteFinal")
-        let form =  document.getElementById("formTransporteFinal")
-        $("#formTransporteFinal").submit(function (event) {
-            event.preventDefault()
-            if (form.checkValidity()) {
-                botao.attr('disabled', 'disabled');
-            }
-            umovFinalizar(valor.value, formTransporteFinal.sala.value)
-        })
     });
 
-    $('body').on('click', '#fecharTransporteFinal', function(event){
-        window.location.reload()
+    $("#formTransporteFinal").submit(function (event) {
+        event.preventDefault()
+        let valor = $('#selectTransporteFinal').val()
+        let acess_number = window.localStorage.getItem('numberPos')
+        let valors =  document.querySelector('#solicitar-update-'+acess_number)
+        $('#botaoSolicitaPos').attr('disabled','disabled');
+        umovFinalizar(valors.value, valor)
     })
 
     //ABRE MODAL DE SOLICITAÇÃO DE TRANSPORTE
     $('body').on('click', '#solicitarTransporte', function(evento){
         //ABRE MODAL
         $('#modalTransporte').modal('show')
+        $('#botaoSolicitarTransportes').prop('disabled', false);;
         let ID = $(this).data('id')
-        let valor =  document.querySelector('#solicitar-update-'+ID)
-        let botao = $(".botaoTransporteinicial")
-        let form = document.getElementById("formTransporte")
-        $("#formTransporte").submit(function (event) {
-            event.preventDefault()
-            if (form.checkValidity()) {
-                botao.attr('disabled', 'disabled');
-            }
-            umov(valor.value, formTransporte.sala.value)
-        })
+        window.localStorage.setItem('number', ID)
+        console.log(ID)        
+    })
+
+
+    $("#formTransporte").submit(function (event) {
+        event.preventDefault()
+        let valor = $('#selecioneTransporte').val()
+        let acess_number = window.localStorage.getItem('number')
+        console.log(valor)
+        console.log(acess_number)
+        let valors =  document.querySelector('#solicitar-update-'+acess_number)
+        $('#botaoSolicitarTransportes').attr('disabled','disabled');
+     
+        umov(valors.value, valor)
     })
 
     $("#formRealizarExame").submit(function(event){
         event.preventDefault()
+        $('#agendarSolicitarAtendimento').attr('disabled', 'disabled')
         //PEGA O JSON DO CARD E ENVIA A REQUISIÇÃO DE ALTERAÇÃO
         let ID = formRealizarExame.valorIdRealizarExame.value
         let update = document.querySelector("#solicitar-update-" + ID);
@@ -74,13 +70,13 @@ const solicitacoes = ()=>{
         }, config)
         .then(function (response) {
             $('#modalAtendimentoSucesso').modal('show')
+            $('#agendarSolicitarAtendimento').prop('disabled', false);
+            $('#modalSalaRealizarExame').modal('hide')
             console.log('teste')
-            // //ATRIBUI OS VALORES DOS COUNT's
-            // let SolicitadosCount = document.getElementById("AgendadosCount");
-            // let AgendadosCount = document.getElementById("AtendimentoCount");
-            // $("#SolicitadosCount").text((+SolicitadosCount.innerText.replace(/\s/g, '')) - 1)
-            // $("#AgendadosCount").text((+AgendadosCount.innerText.replace(/\s/g, '')) + 1)
             socket.emit('cardRender', 'foi')
+            setTimeout(async () => {
+                $('#modalAtendimentoSucesso').modal('hide')
+            }, 900);
         })
         .catch(function (error) {
             $('#modalAlgoErrado').modal('show')

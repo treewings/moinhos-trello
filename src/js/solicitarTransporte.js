@@ -150,7 +150,7 @@ export function umov(val, destino){
             .then(function (response) {
                 $('#modalTransporte').modal('hide')
                 // window.location.reload()
-                socket.emit('tarefaUmov', 'foi');
+                socket.emit('tarefaUmov', {number: dados.acess_number,  imagem_cadeira: 'cadeira-de-rodas-amarelo.png',});
             })
             .catch(function (error) {
                 $('#modalTransporte').modal('hide')

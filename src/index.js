@@ -11,11 +11,14 @@ var x  = ''
 var y = url()
 
 socket.on('cardRender', function(msg) {
-    window.location.reload()
-});
+    rodar()
+    console.log('deu bom')
+ });
 
-socket.on('tarefaUmov', function(msg) {
-    window.location.reload()
+socket.on('tarefaUmov', function(dados) {
+   var imagem = document.getElementById('image'+dados.number)
+   imagem.src = 'images/Icones/'+dados.imagem_cadeira
+    console.log(dados)
 });
 
 function acesso(){
@@ -34,7 +37,7 @@ const config = {
     headers: { Authorization: `Bearer ${token()}` }
 };
 
-function rodar(){
+export default function rodar(){
     acesso().filtro != '' ? x = (axios.post(y+'/api/moinhos/consulta', acesso().filtro, config) ) : x = (axios.get(y+'/api/moinhos', config))
     x.then(function(response) {
         $('#modalLoading').modal('hide')
@@ -71,7 +74,7 @@ function rodar(){
             dataHora = formartarData[0]+'/'+formartarData[1]+'/'+formartarData[2]+' '+formatarHora[0]+':'+formatarHora[1]
             //HTML DO CARD DE SOLICITADOS
             $('#Solicitados').append(`
-            <div class="board-item m-0 mb-2 border rounded movercard" data-id="${val.acess_number}">
+            <div class="board-item m-0 mb-2 border rounded movercard" data-id="${val.acess_number}" id="${val.acess_number}" >
                 <div class="board-item-content p-0" style="min-height: 128px;">
                     <div class="kanban-item-title p-1 rounded-2" style="background: #`+corClassificacao+`; width: 100%; height: 40px;">
                         <div class="d-flex align-items-center">
@@ -203,7 +206,7 @@ function rodar(){
             }
             //HTML DO CARD DE AGENDADOS
             $('#Agendados').append(`
-            <div class="board-item m-0  mb-2 border rounded"  data-id="${val.acess_number}">
+            <div class="board-item m-0  mb-2 border rounded"  data-id="${val.acess_number} id="${val.acess_number}">
                 <div class="board-item-content p-0" style="min-height: 128px;">
                     <div class="kanban-item-title p-1 rounded-2" style="background: #`+corClassificacao+`; width: 100%; height: 40px;">
                         <div class="d-flex align-items-center text-danger">
@@ -223,7 +226,7 @@ function rodar(){
                             </div>
                             <a class="rounded-3 d-flex px-1 text-dark align-items-center" id="`+condicao+`" data-id="${val.acess_number}" style="background-color: #ecebeb; cursor: pointer; display:flex; align-items: cente; padding-top: 1px; padding-bottom: 1px; font-size:smaller">
                                 <div style="font-size: 13px;" class="m-0 d-flex align-items-center" id="img_icone-${val.acess_number}">
-                                    <img style="height: 13px; margin-right: 5px; margin-left: 4px;" src="images/Icones/${val.imagem_cadeira}">
+                                    <img style="height: 13px; margin-right: 5px; margin-left: 4px;" id="image${val.acess_number}" src="images/Icones/${val.imagem_cadeira}">
                                 </div>
                                 <div class="">${val.data_diferenca}</div>
                             </a>
@@ -684,122 +687,7 @@ function rodar(){
         $("#PosExameCount").text(`${response.data.count.total_pos_exame}`)
         $("#FinalizadosCount").text(`${response.data.count.total_finalizados}`)
 
-        // filtro(response.data.filtro, response.data.filtroSala)
-
-        solicitacoes()
         treloRodar()
-        solicitadosSet()
-
-        //VERIFICA STATUS DA TAREFA
-        const checaImagem = async ()=>{
-            const buscarDados = setInterval(() => {
-                if(response.data.umovCheca != ''){
-                    Object.entries(response.data.umovCheca).forEach(([key, val]) => {
-                        let numeroTarefa = val.numero_tarefa
-                        let acessNumber = val.acess_number
-                        
-                        let posexame = document.querySelector("#posexame-"+acessNumber);
-                        let agendado = document.querySelector("#agendado-"+acessNumber);
-                        var origem = ''
-                        if (agendado.value  ==  'agendado' && posexame.value  ==  '') {
-                            origem = 'agendado'
-                        }if (agendado.value  == 'agendado' && posexame.value  ==  'posexame') {
-                            origem = 'posexame'
-                        }
-                        var cod_sala = val.cod_sala
-                        var sala = val.sala
-                        var tarefa = val.status_tarefa
-
-                        let linkXmlConsultaImagem = 'https://api.umov.me/CenterWeb/api/26347e33d181559023ab7b32150ca3bfbc572e/schedule/'+numeroTarefa+'.xml'
-                        axios.get(linkXmlConsultaImagem).then((val)=>{
-
-                            clearInterval(buscarDados)
-
-                            let xmlDaTarefa = document.createElement('div')
-                            xmlDaTarefa.innerHTML = val.data
-
-                            let statusTarefa = xmlDaTarefa.getElementsByTagName('schedule')[0].getElementsByTagName('situation')[0].getElementsByTagName('id')[0].innerText
-                            let agenteTarefa = xmlDaTarefa.getElementsByTagName('schedule')[0].getElementsByTagName('executionstarttime')[0]
-                            let realizou = xmlDaTarefa.getElementsByTagName('schedule')[0].getElementsByTagName('customFields')[0].getElementsByTagName('retro__realizou')[0].innerText
-
-                            if(statusTarefa == '30' && tarefa != '30'){
-                                
-                                axios.post(y+'/api/moinhos/agendar/tarefa/'+acessNumber, {
-                                    numero_tarefa: numeroTarefa,
-                                    imagem_cadeira: 'cadeira-de-rodas-amarelo.png',
-                                    status_tarefa: statusTarefa,
-                                    origem: origem,
-                                    sala: sala,
-                                    cod_sala: cod_sala
-                                },config)
-                                .then(function (response) {
-                                    // window.location.reload()
-                                    socket.emit('tarefaUmov', 'foi');
-                                })
-                            }
-
-                            // SE O STATUS DA TAREFA FOR EM CAMPOR E EXISTIR A TAG AGENTE
-                            if (statusTarefa == '40' && (agenteTarefa != '' && agenteTarefa != null && agenteTarefa != undefined) && tarefa != '40') {
-                                console.log('ta aqui em 40')
-                                axios.post(y+'/api/moinhos/agendar/tarefa/'+acessNumber, {
-                                    numero_tarefa: numeroTarefa,
-                                    imagem_cadeira: 'cadeira-de-rodas-azul.png',
-                                    status_tarefa: statusTarefa,
-                                    origem: origem,
-                                    sala: sala,
-                                    cod_sala: cod_sala
-                                }, config)
-                                .then(function (response) {
-                                    socket.emit('tarefaUmov', 'foi');
-                                    // console.log(xmlDaTarefa)
-                                })
-                            }
-                            // SE O STATUS DA TAREFA FOR IGUAL A FINALIZADO
-                            if(statusTarefa == '50' && tarefa != '50'){
-                                // console.log(realizou)
-                                // if(realizou == 'sim'){
-                                    axios.post(url()+'/api/moinhos/atendimento', {
-                                        acess_number: acessNumber,
-                                        origem: origem,
-                                        user: usuarioLogado()
-                                    }, config)
-                                    .then(function (response) {
-                                        socket.emit('tarefaUmov', 'foi');
-                                        // console.log(xmlDaTarefa)
-                                    })
-                                // }
-                                // if(realizou == 'nao'){
-                                //     console.log('deu certo')
-                                // }
-                            }
-                            //SE O STATUS DA TAREFA FOR IGUAL A CANCELADA
-                            if(statusTarefa == '70' && tarefa != '70'){ 
-                                axios.post(y+'/api/moinhos/agendar/tarefa/'+acessNumber, {
-                                    numero_tarefa: '',
-                                    imagem_cadeira: 'cadeira-de-rodas-preto.png',
-                                    status_tarefa: statusTarefa,
-                                    origem: origem,
-                                    sala: sala,
-                                    cod_sala: cod_sala
-                                }, config)
-                                .then(function (response) {
-                                    socket.emit('tarefaUmov', 'foi');
-                                    // console.log(xmlDaTarefa)
-                                })
-                            }
-
-                            checaImagem()
-                        })
-                    
-                    });
-                }else{
-                    clearInterval(buscarDados)
-                    checaImagem()
-                }
-                
-            }, 3000);
-        }; checaImagem()
-    
         
     })
     .catch(function(error) {
@@ -823,5 +711,90 @@ function rodar(){
     })
 }
 
+const firstRequest = async () => {
+    // Faz a primeira requisição e retorna o status
+    const response = await axios.get(url()+'/api/moinhos/checaumov', config);
+    return response.data.umovCheca;
+  };
+  
+  const secondRequest = async (statusFromFirstRequest) => {
+    var timerId;
+    if(statusFromFirstRequest != null){
+        statusFromFirstRequest.forEach( async (val)=>{
+
+            console.log(val)
+            const response = await axios.get(`https://api.umov.me/CenterWeb/api/26347e33d181559023ab7b32150ca3bfbc572e/schedule/${val.numero_tarefa}.xml`);
+            let xmlDaTarefa = document.createElement('div')
+            xmlDaTarefa.innerHTML = response.data
+            let statusTarefa = xmlDaTarefa.getElementsByTagName('schedule')[0].getElementsByTagName('situation')[0].getElementsByTagName('id')[0].innerText
+    
+            if (statusTarefa === val.status_tarefa) {
+    
+              console.log("O status da primeira requisição é igual ao status da segunda requisição");
+              clearTimeout(timerId);
+              timerId = setTimeout(() => {
+                run()
+              }, 9000);
+              
+            } else {
+    
+                console.log("O status da primeira requisição é diferente do status da segunda requisição");
+                if(statusTarefa == 50){
+                    axios.post(y+'/api/moinhos/atendimento', {
+                        acess_number: val.acess_number,
+                        origem: 'agendado',
+                        user: usuarioLogado()
+                    }, config)
+                    .then(function (response) {
+        
+                        console.log('pq caiu aqui caraio')
+                        socket.emit('cardRender', 'foi');
+                        if(statusFromFirstRequest.length == 1){
+                            clearTimeout(timerId);
+                            timerId = setTimeout(() => {
+                              run()
+                            }, 9000);
+                        }
+                    })
+                    return    
+                }
+               
+                axios.post(url()+'/api/moinhos/agendar/tarefa/'+val.acess_number, {
+                    numero_tarefa: val.numero_tarefa,
+                    imagem_cadeira: 'cadeira-de-rodas-azul.png',
+                    status_tarefa: statusTarefa,
+                    origem: 'agendado',
+                }, config).then(function (response) {
+                    socket.emit('tarefaUmov', {number: val.acess_number,  imagem_cadeira: 'cadeira-de-rodas-azul.png'});
+                    if(statusFromFirstRequest.length == 1){
+                        clearTimeout(timerId);
+                        timerId = setTimeout(() => {
+                          run()
+                        }, 9000);
+                    }
+                    return
+                    // console.log(xmlDaTarefa)
+                })
+    
+            }
+        })
+    }else{
+        console.log("procurando dados ...");
+              clearTimeout(timerId);
+              timerId = setTimeout(() => {
+                run()
+              }, 9000);
+    }
+    
+  };
+  
+  const run = async () => {
+    const statusFromFirstRequest = await firstRequest();
+    await secondRequest(statusFromFirstRequest);
+  };
+  
+  run();          
+ 
+solicitacoes()
 rodar()
 

@@ -24,7 +24,7 @@
                                 <option value="20">Raio X</option>
                                 <option value="23">Ecografia Geral</option>
                                 <option value="24">Ressonancia Magnetica</option>
-                                <option value="26">Ecografia GO</option>
+                                <option value="26">Centro da Mulher</option>
                             </select>
                         </div>
                     </div>
@@ -183,47 +183,16 @@
                 </div>
             </div>
         </div>
-        <div class="modal" tabindex="-1" id="modalAgendar">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <div>
-                            <h5 class="modal-title">Agendar horário de exame</h5>
-                            <small>Informe a data e a hora que o exame será realizado.</small>
-                        </div>
-                        <a data-bs-dismiss="modal" id="fecharAgendamento">
-                            <em class="icon ni ni-cross"></em>
-                        </a>
-                    </div>
-                    <div class="modal-body">
-                        <form name="form" class="form-validate is-alter">
-                            <div class="form-group d-flex flex-column">
-                                <div class="col-lg-12 col-sm-12 m-0">
-                                    <div class="form-group">
-                                        <div class="form-control-wrap">
-                                            <label class="form-label m-0" for="outlined-normal">Data de Realização</label>
-                                            <input type="date" name="data" class="form-control form-control form-control js-mask-data" id="outlined-normal js-mask-data" >
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group d-flex flex-column">
-                                <div class="col-lg-12 col-sm-12 m-0">
-                                    <div class="form-group">
-                                        <div class="form-control-wrap">
-                                            <label class="form-label m-0" for="outlined-normal">Hora de Realização</label>
-                                            <input type="time" name="hora" class="form-control form-control form-control js-mask-hora" id="outlined-normal js-mask-hora"  placeholder="12:00">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <button type="submit" class="btn btn-dim btn-outline-primary" id="marcar-horario">Agendar</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
+        <div id="modalAgendar" style="
+        display: none;
+        justify-content: center;
+        position: fixed;
+        align-items: center;
+        height: 100vh;
+        width: 100%;
+        top: 0;
+        background: #f0ffff94;">
+            
         </div>
         <div class="modal fade" tabindex="-1" id="modalHoraValida">
             <div class="modal-dialog" role="document">
@@ -236,7 +205,7 @@
                                 <p class="text-soft">Por favor, informe um horário válido.</p>
                             </div>
                             <div class="nk-modal-action mt-5">
-                                <a href="#" class="btn btn-lg btn-mw btn-light" data-bs-dismiss="modal" onClick="window.location.reload()">Voltar</a>
+                                <a href="#" class="btn btn-lg btn-mw btn-light" data-bs-dismiss="modal" onClick="$('#modalHoravalida').toggle()">Voltar</a>
                             </div>
                         </div>
                     </div>
@@ -254,7 +223,7 @@
                                 <p class="text-soft">Por favor, informe uma data válida.</p>
                             </div>
                             <div class="nk-modal-action mt-5">
-                                <a href="#" class="btn btn-lg btn-mw btn-light" data-bs-dismiss="modal" onClick="window.location.reload()">Voltar</a>
+                                <a href="#" class="btn btn-lg btn-mw btn-light" data-bs-dismiss="modal" onClick="$('#modalDataValida').toggle()">Voltar</a>
                             </div>
                         </div>
                     </div>
@@ -272,7 +241,7 @@
                                 <p class="text-soft">Essa movimentação não é válida.</p>
                             </div>
                             <div class="nk-modal-action mt-5">
-                                <a href="#" class="btn btn-lg btn-mw btn-light" data-bs-dismiss="modal" onClick="window.location.reload()">Voltar</a>
+                                <a href="#" class="btn btn-lg btn-mw btn-light" data-bs-dismiss="modal" onClick="$('#modalMovimentacaoInvalida').toggle()">Voltar</a>
                             </div>
                         </div>
                     </div>
@@ -323,9 +292,6 @@
                                 <div class="caption-text">Atendimento cancelado com <strong>Sucesso</strong>!</div>
                                 <span class="sub-text-sm">Acompanhe o card na coluna de solicitados.</span>
                             </div>
-                            <div class="nk-modal-action">
-                                <a href="#" class="btn btn-lg btn-mw btn-primary" data-bs-dismiss="modal" onClick="window.location.reload()">Fechar</a>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -349,7 +315,7 @@
                                 <div class="form-group">
                                     <label class="form-label">Sala</label>
                                     <div class="form-control-wrap">
-                                        <select name="sala" class="form-select js-select2" data-search="on">
+                                        <select name="sala" id="selecioneTransporte" class="form-select js-select2" data-search="on">
                                             <option value="default_option">Escolha uma sala</option>
                                             <option value="999-169_Sala de ressonância – Bloco C - 2º Andar">Sala de ressonância – Bloco C - 2º Andar</option>
                                             <option value="999-170_Sala de ressonância – Bloco C - 3º Andar">Sala de ressonância – Bloco C - 3º Andar</option>
@@ -372,7 +338,7 @@
                                 </div>
                             </div>                            
                             <div class="form-group">
-                                <button type="submit" class="btn btn-dim btn-outline-primary botaoTransporteinicial">Solicitar</button>
+                                <button type="submit" id="botaoSolicitarTransportes" class="btn btn-dim btn-outline-primary botaoTransporteinicial">Solicitar</button>
                             </div>
                         </form>
                     </div>
@@ -398,7 +364,7 @@
                                 <div class="form-group">
                                     <label class="form-label">Sala</label>
                                     <div class="form-control-wrap">
-                                        <select name="sala" class="form-select js-select2" data-search="on">
+                                        <select name="sala"  class="form-select js-select2" data-search="on">
                                             <option value="default_option">Escolha uma sala</option>
                                             <option value="999-169_Sala de ressonância – Bloco C - 2º Andar">Sala de ressonância – Bloco C - 2º Andar</option>
                                             <option value="999-170_Sala de ressonância – Bloco C - 3º Andar">Sala de ressonância – Bloco C - 3º Andar</option>
@@ -421,7 +387,7 @@
                                 </div>
                             </div>                            
                             <div class="form-group">
-                                <button type="submit" class="btn btn-dim btn-outline-primary">Solicitar</button>
+                                <button type="submit" class="btn btn-dim btn-outline-primary" id="agendarSolicitarAtendimento">Solicitar</button>
                             </div>
                         </form>
                     </div>
@@ -553,7 +519,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <button type="submit" class="btn btn-dim btn-outline-primary botaoTransporteFinal">Solicitar</button>
+                                <button type="submit" id="botaoSolicitaPos" class="btn btn-dim btn-outline-primary botaoTransporteFinal">Solicitar</button>
                             </div>
                         </form>
                     </div>

@@ -11,9 +11,6 @@ const solicitadosSet = async ()=>{
     const buscarDados = setInterval(() => {
         axios.get(url()+'/api/moinhos/diferenca', config)
         .then((val)=>{
-            val.data.solicitados.forEach((val)=>{
-                solicitadosVal.push(val)
-            })
             if(val.data.solicitados != ''){
                 socket.emit('cardRender', 'foi')
             }
