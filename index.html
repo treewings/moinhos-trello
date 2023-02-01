@@ -11,20 +11,21 @@
         <link rel="stylesheet" href="css/dashlite.css?ver=3.0.2">
         <link id="skin-default" rel="stylesheet" href="css/theme.css?ver=3.0.2">
     </head>
-    <body id="body">
+    <body id="body" style="display:none" onload="document.body.style.display='block'">
         <div class="nk-header nk-header-fixed is-light d-flex justify-content-between">
             <div class="container-fluid d-flex flex-row-reverse">
-                <div class="col-sm-3 m-2">
+                <div class="col-sm-4 m-2">
                     <div class="form-group d-flex align-items-center">
                         <h3 class="mr-2 mb-0 d-flex align-items-center"><em class="icon ni ni-activity-round-fill"></em></h3>
                         <div class="form-control-wrap w-100">
-                            <select class="form-select js-select2" data-search="on" id="selectSetorExame" onchange="javascript:mostraAlerta(this)" data-placeholder="Filtro por sala">
-                                <option value="1" >Todos os setores</option>
+                            <select class="form-select js-select2" multiple="multiple" data-search="on" id="selectSetorExame" onchange="javascript:mostraAlerta(this)" data-placeholder="Filtro por setor">
                                 <option value="19">Tomografia Computadorizada</option>
                                 <option value="20">Raio X</option>
                                 <option value="23">Ecografia Geral</option>
                                 <option value="24">Ressonancia Magnetica</option>
                                 <option value="26">Centro da Mulher</option>
+                                <option value="30">Radiologia Pediátrica</option>
+                                <option value="34">IG - Ecografia Geral</option>
                             </select>
                         </div>
                     </div>
@@ -452,7 +453,7 @@
                                             <option value="999-139_CONSULTÓRIO 706 - RAMIRO BARCELOS">CONSULTÓRIO 706 - RAMIRO BARCELOS</option>
                                             <option value="999-128_CONSULTÓRIO 1001 - RAMIRO BARCELOS">CONSULTÓRIO 1001 - RAMIRO BARCELOS</option>
                                             <option value="999-24_EMER CLASSIFICAÇÃO DE RISCO">EMER CLASSIFICAÇÃO DE RISCO</option>
-                                            <option value="999-27_EMER PEDIATRICA">EMER PEDIATRICA</option>
+                                            <!-- <option value="999-27_EMER PEDIATRICA">EMER PEDIATRICA</option> -->
                                             <option value="999-64_CENTRO DA MULHER - TOMOGRAFIA">CENTRO DA MULHER - TOMOGRAFIA</option>
                                             <option value="999-29_EMER VERMELHA">EMER VERMELHA</option>
                                             <option value="999-70_EMER MEDICAÇÃO">EMER MEDICAÇÃO</option>
@@ -646,15 +647,26 @@
         <script type="text/javascript">
             //ADICIONA O FILTRO POR SETOR DE EXAME
             const urlParams = new URLSearchParams(window.location.search);
-            function mostraAlerta(elemento)
-            {   urlParams.delete('sala')
-                if(elemento.value == '1'){
-                    elemento = window.location.href.split('&setor')[0]
-                    history.pushState({}, null, elemento);
-                }else{
-                    elemento = window.location.href.split('&setor')[0] + '&setor='+elemento.value
-                    history.pushState({}, null, elemento);
+            function mostraAlerta()
+            {   
+                var selectSetorExame = document.getElementById("selectSetorExame");
+                var optionsSetor = selectSetorExame.selectedOptions;
+                var valuesSetor = [];
+                for (var i = 0; i < optionsSetor.length; i++) {
+                    valuesSetor.push(optionsSetor[i].value);
                 }
+                urlParams.delete('sala')
+                let listaSetor = ''
+                valuesSetor.forEach(function(setor){
+                    listaSetor = listaSetor+','+setor
+                })
+                listaSetor = listaSetor.split('')
+                listaSetor.splice(0, 1)
+                listaSetor = listaSetor.join('')
+
+                let elemento = window.location.href.split('&setor')[0] + '&setor='+listaSetor
+                console.log(elemento)
+                history.pushState({}, null, elemento);
                 window.location.reload()
             }
             //ADICIOCA O FILTRO POR SALA DE EXAME
@@ -672,29 +684,46 @@
             }
             
             //ADICIONA OS ITENS SELECIONADOS NOS CARDS
-            if(urlParams.get('setor') == '19'){
+            let TodosSetores = urlParams.get('setor')
+            let selectTodosSetores = TodosSetores.split(',')
+            selectTodosSetores.forEach(function(setor){
+                if(setor == '19'){
                 var select = document.getElementById('selectSetorExame');
-                var text = select.options[1]
+                var text = select.options[0]
                 text.setAttribute('selected', '')
-            }if(urlParams.get('setor') == '20'){
-                var select = document.getElementById('selectSetorExame');
-                var text = select.options[2]
-                text.setAttribute('selected', '')
-            }if(urlParams.get('setor') == '23'){
-                var select = document.getElementById('selectSetorExame');
-                var text = select.options[3]
-                text.setAttribute('selected', '')
-            }if(urlParams.get('setor') == '24'){
-                var select = document.getElementById('selectSetorExame');
-                var text = select.options[4]
-                text.setAttribute('selected', '')
-            }if(urlParams.get('setor') == '26'){
-                var select = document.getElementById('selectSetorExame');
-                var text = select.options[5]
-                text.setAttribute('selected', '')
-            }
+                }
+                if(setor == '20'){
+                    var select = document.getElementById('selectSetorExame');
+                    var text = select.options[1]
+                    text.setAttribute('selected', '')
+                }
+                if(setor == '23'){
+                    var select = document.getElementById('selectSetorExame');
+                    var text = select.options[2]
+                    text.setAttribute('selected', '')
+                }
+                if(setor == '24'){
+                    var select = document.getElementById('selectSetorExame');
+                    var text = select.options[3]
+                    text.setAttribute('selected', '')
+                }
+                if(setor == '26'){
+                    var select = document.getElementById('selectSetorExame');
+                    var text = select.options[4]
+                    text.setAttribute('selected', '')
+                }if(setor == '30'){
+                    var select = document.getElementById('selectSetorExame');
+                    var text = select.options[5]
+                    text.setAttribute('selected', '')
+                }if(setor == '34'){
+                    var select = document.getElementById('selectSetorExame');
+                    var text = select.options[6]
+                    text.setAttribute('selected', '')
+                }
+            })
+
             //ADICIONA OS ITENS SELECIONADOS NOS CARDS
-           if(urlParams.get('sala') == '999-169'){
+            if(urlParams.get('sala') == '999-169'){
                 var select = document.getElementById('selectSalaExame');
                 var text = select.options[1]
                 text.setAttribute('selected', '')

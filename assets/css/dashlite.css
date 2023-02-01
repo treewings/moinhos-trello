@@ -21522,7 +21522,8 @@ ol.linenums li {
 }
 .select2-container .select2-selection--multiple .select2-selection__rendered {
   display: inline-block;
-  overflow: hidden;
+  overflow: auto;
+  height: 32px;
   padding-left: 8px;
   text-overflow: ellipsis;
   white-space: nowrap;

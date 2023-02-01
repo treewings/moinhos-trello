@@ -26,7 +26,42 @@ function acesso(){
     const urlParams = new URLSearchParams(window.location.search);
     var filtro = []
     if(urlParams.get('setor')){
-        filtro = {codigo_setor_exame: urlParams.get('setor')}
+        let SetorURL = urlParams.get('setor')
+        let cod_tumografiaComputadorizada = ''
+        let cod_raioX = ''
+        let cod_ecografiaGeral = ''
+        let cod_ressonanciaMagnetica = ''
+        let cod_centroDaMulher = ''
+        let cod_radiologiaPedriatrica = ''
+        let cod_igEcografiaGeral = ''
+
+        let CodigosSetorURL = SetorURL.split(',')
+        CodigosSetorURL.forEach(function(CodigoSetor){
+            if(CodigoSetor == 19){
+                cod_tumografiaComputadorizada = CodigoSetor
+            }if(CodigoSetor == 20){
+                cod_raioX = CodigoSetor
+            }if(CodigoSetor == 23){
+                cod_ecografiaGeral = CodigoSetor
+            }if(CodigoSetor == 24){
+                cod_ressonanciaMagnetica = CodigoSetor
+            }if(CodigoSetor == 26){
+                cod_centroDaMulher = CodigoSetor
+            }if(CodigoSetor == 30){
+                cod_radiologiaPedriatrica = CodigoSetor
+            }if(CodigoSetor == 34){
+                cod_igEcografiaGeral = CodigoSetor
+            }
+        })
+        filtro = {
+            ...( cod_tumografiaComputadorizada == 19 ? {cod_tumografiaComputadorizada: cod_tumografiaComputadorizada} : null ),
+            ...( cod_raioX == 20 ? {cod_raioX: cod_raioX} : null ),
+            ...( cod_ecografiaGeral == 23 ? {cod_ecografiaGeral: cod_ecografiaGeral} : null ),
+            ...( cod_ressonanciaMagnetica == 24 ? {cod_ressonanciaMagnetica: cod_ressonanciaMagnetica} : null ),
+            ...( cod_centroDaMulher == 26 ? {cod_centroDaMulher: cod_centroDaMulher} : null ),
+            ...( cod_radiologiaPedriatrica == 30 ? {cod_radiologiaPedriatrica: cod_radiologiaPedriatrica} : null ),
+            ...( cod_igEcografiaGeral == 34 ? {cod_igEcografiaGeral: cod_igEcografiaGeral} : null )
+        }
     }
     if(urlParams.get('sala')){
         filtro = {cod_sala: urlParams.get('sala')}
@@ -285,6 +320,7 @@ export default function rodar(){
                             <input type="hidden" id="sala-${val.acess_number}" value="${val.sala}" >
                             <input type="hidden" id="observacao-${val.acess_number}" value="${val.observacao}" >
                             <input type="hidden" id="observacao_select-${val.acess_number}" value="${val.observacao_select}" >
+                            <input type="hidden" id="motivo_umov-${val.acess_number}" value="${val.motivo_umov}" >
                         </div>
                         <div class="d-flex justify-content-between">
                             <p class="m-0 text-primary" id="agendamento-${val.acess_number}">Agendado para ${val.data_agendamento} ${val.hora_agendamento}</p>
@@ -551,6 +587,7 @@ export default function rodar(){
                             <input type="hidden" id="sala-${val.acess_number}" value="${val.sala}" >
                             <input type="hidden" id="observacao-${val.acess_number}" value="${val.observacao}" >
                             <input type="hidden" id="observacao_select-${val.acess_number}" value="${val.observacao_select}" >
+                            <input type="hidden" id="motivo_umov-${val.acess_number}" value="${val.motivo_umov}" >
                         </div>
                         <div class="d-flex justify-content-between">
                             <p class="m-0 text-warning" id="agendamento-${val.acess_number}">Saiu de atendimento ${val.data_movimentacao}</p>
@@ -762,7 +799,7 @@ const firstRequest = async () => {
                             }
                         })
                     }else{
-                        if(motivo == 'cad_mot_pac_saiu_so'){
+                        if(motivo == 'cad_mot_pac_saiu_so' || motivo == 'cad_mot_unidade_fez'){
                             axios.post(y+'/api/moinhos/atendimento', {
                                 acess_number: val.acess_number,
                                 origem: 'agendado',
@@ -782,6 +819,7 @@ const firstRequest = async () => {
                         }else{
                             axios.post(y+'/api/moinhos/checaumov/limpar-dados-agendados', {
                                 acess_number: val.acess_number,
+                                motivo: motivo
                             }, config)
                             .then(function (response) {
                 
@@ -798,6 +836,27 @@ const firstRequest = async () => {
                     }
                     
                     return    
+                }
+
+                if(statusTarefa == 70){
+
+                    axios.post(y+'/api/moinhos/checaumov/limpar-dados-agendados', {
+                        acess_number: val.acess_number,
+                        motivo: motivo
+                    }, config)
+                    .then(function (response) {
+        
+                        console.log('limpou dados 70')
+                        socket.emit('cardRender', 'foi');
+                        if(statusFromFirstRequest.length == 1){
+                            clearTimeout(timerId);
+                            timerId = setTimeout(() => {
+                              run()
+                            }, 10000);
+                        }
+                    })
+
+                    return
                 }
                
                 axios.post(url()+'/api/moinhos/agendar/tarefa/'+val.acess_number, {
@@ -886,7 +945,7 @@ const firstRequest = async () => {
                             }
                         })
                     }else{
-                        if(motivo == 'cad_mot_pac_saiu_so'){
+                        if(motivo == 'cad_mot_pac_saiu_so' || motivo == 'cad_mot_unidade_fez'){
                             axios.post(y+'/api/moinhos/finalizar', {
                                 acess_number: val.acess_number,
                                 origem: 'posexame',
@@ -906,6 +965,7 @@ const firstRequest = async () => {
                         }else{
                             axios.post(y+'/api/moinhos/checaumov/limpar-dados-posexame', {
                                 acess_number: val.acess_number,
+                                motivo: motivo
                             }, config)
                             .then(function (response) {
                 
@@ -922,6 +982,27 @@ const firstRequest = async () => {
                     }
                     
                     return    
+                }
+
+                if(statusTarefa == 70){
+
+                    axios.post(y+'/api/moinhos/checaumov/limpar-dados-posexame', {
+                        acess_number: val.acess_number,
+                        motivo: motivo
+                    }, config)
+                    .then(function (response) {
+        
+                        console.log('limpou dados 70 pos')
+                        socket.emit('cardRender', 'foi');
+                        if(statusFromFirstRequest.length == 1){
+                            clearTimeout(timerId);
+                            timerId = setTimeout(() => {
+                              runPos()
+                            }, 10000);
+                        }
+                    })
+
+                    return
                 }
                
                 axios.post(url()+'/api/moinhos/agendar/tarefa/'+val.acess_number, {

@@ -32,6 +32,7 @@ $(document).ready(()=>{
         let justificativaitem = document.querySelector("#justificativa_item-"+ID);
         let obsercacao = document.querySelector("#observacao-"+ID);
         let obsercacao_select = document.querySelector("#observacao_select-"+ID);
+        
 
         let valueNome = nome.value == '' || nome.value == 'null' || nome.value == undefined ? '' : nome.value;
         let valueDtNascimento = dtnascimento.value == '' || dtnascimento.value == null || dtnascimento.value == undefined ? '' : dtnascimento.value;
@@ -53,6 +54,12 @@ $(document).ready(()=>{
         let valueJustificativaItem = justificativaitem.value == '' || justificativaitem.value == 'null' || justificativaitem.value == undefined ? '' : justificativaitem.value;
         let valueObservacao = obsercacao.value == '' || obsercacao.value == 'null' || obsercacao.value == undefined ? '' : obsercacao.value;
         let valueObservacaoSelect = obsercacao_select.value == '' || obsercacao_select.value == 'null' || obsercacao_select.value == undefined ? '' : obsercacao_select.value;
+        let motivo_umov = ''
+        let valueMotivoUmov = ''
+        if((valueAgendado == 'agendado' && valueAtendimento != 'atendimento') || (valuePosExame == 'posexame' && valueFinalizado != 'finalizado')){
+            motivo_umov = document.querySelector("#motivo_umov-"+ID);
+            valueMotivoUmov = motivo_umov.value;
+        }
 
         let origemtextArea =  ''
         if (valueAgendado == 'agendado') {
@@ -117,6 +124,23 @@ $(document).ready(()=>{
                     </div>
                 </div>        
             `
+        }
+
+        //MOTIVO UMOV
+        let campoMotivoUmov = ''
+        if((valueAgendado == 'agendado' && valueAtendimento != 'atendimento') || (valuePosExame == 'posexame' && valueFinalizado != 'finalizado')){
+            if (valueMotivoUmov != 'null' && valueMotivoUmov != '' && valueMotivoUmov != null) {
+                campoMotivoUmov = `
+                    <div class="col-lg-12 col-sm-12 mb-3">
+                        <div class="form-group">
+                            <div class="form-control-wrap">
+                                <label class="form-label m-0" for="outlined-normal">Motivo da transporte ter sido cancelado</label>
+                                <input type="text" class="form-control form-control form-control" disabled value=" `+valueMotivoUmov+`" id="outlined-normal">
+                            </div>
+                        </div>
+                    </div>
+                `
+            }
         }
 
         var element = document.getElementById('js-modal-dados-preview');
@@ -225,6 +249,7 @@ $(document).ready(()=>{
                     </div>
                 </div>
             </div>
+            `+campoMotivoUmov+`
             `+textAreaObservacao+`
             `+botaoCancelar+`
         `;
