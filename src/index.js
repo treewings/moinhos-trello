@@ -762,7 +762,7 @@ const firstRequest = async () => {
                             }
                         })
                     }else{
-                        if(motivo == 'cad_mot_pac_saiu_so'){
+                        if(motivo == 'cad_mot_pac_saiu_so' || motivo == 'cad_mot_unidade_fez'){
                             axios.post(y+'/api/moinhos/atendimento', {
                                 acess_number: val.acess_number,
                                 origem: 'agendado',
@@ -782,6 +782,7 @@ const firstRequest = async () => {
                         }else{
                             axios.post(y+'/api/moinhos/checaumov/limpar-dados-agendados', {
                                 acess_number: val.acess_number,
+                                motivo: motivo
                             }, config)
                             .then(function (response) {
                 
@@ -886,7 +887,7 @@ const firstRequest = async () => {
                             }
                         })
                     }else{
-                        if(motivo == 'cad_mot_pac_saiu_so'){
+                        if(motivo == 'cad_mot_pac_saiu_so' || motivo == 'cad_mot_unidade_fez'){
                             axios.post(y+'/api/moinhos/finalizar', {
                                 acess_number: val.acess_number,
                                 origem: 'posexame',
@@ -906,6 +907,7 @@ const firstRequest = async () => {
                         }else{
                             axios.post(y+'/api/moinhos/checaumov/limpar-dados-posexame', {
                                 acess_number: val.acess_number,
+                                motivo: motivo
                             }, config)
                             .then(function (response) {
                 
@@ -922,6 +924,27 @@ const firstRequest = async () => {
                     }
                     
                     return    
+                }
+
+                if(statusTarefa == '70'){
+
+                    axios.post(y+'/api/moinhos/checaumov/limpar-dados-posexame', {
+                        acess_number: val.acess_number,
+                        motivo: motivo
+                    }, config)
+                    .then(function (response) {
+        
+                        console.log('limpou dados 70')
+                        socket.emit('cardRender', 'foi');
+                        if(statusFromFirstRequest.length == 1){
+                            clearTimeout(timerId);
+                            timerId = setTimeout(() => {
+                              runPos()
+                            }, 10000);
+                        }
+                    })
+
+                    return
                 }
                
                 axios.post(url()+'/api/moinhos/agendar/tarefa/'+val.acess_number, {

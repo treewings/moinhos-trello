@@ -647,7 +647,8 @@
             //ADICIONA O FILTRO POR SETOR DE EXAME
             const urlParams = new URLSearchParams(window.location.search);
             function mostraAlerta(elemento)
-            {   urlParams.delete('sala')
+            {   
+                urlParams.delete('sala')
                 if(elemento.value == '1'){
                     elemento = window.location.href.split('&setor')[0]
                     history.pushState({}, null, elemento);
