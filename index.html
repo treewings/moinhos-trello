@@ -14,12 +14,11 @@
     <body id="body">
         <div class="nk-header nk-header-fixed is-light d-flex justify-content-between">
             <div class="container-fluid d-flex flex-row-reverse">
-                <div class="col-sm-3 m-2">
+                <div class="col-sm-4 m-2">
                     <div class="form-group d-flex align-items-center">
                         <h3 class="mr-2 mb-0 d-flex align-items-center"><em class="icon ni ni-activity-round-fill"></em></h3>
                         <div class="form-control-wrap w-100">
-                            <select class="form-select js-select2" data-search="on" id="selectSetorExame" onchange="javascript:mostraAlerta(this)" data-placeholder="Filtro por sala">
-                                <option value="1" >Todos os setores</option>
+                            <select class="form-select js-select2" multiple="multiple" data-search="on" id="selectSetorExame" onchange="javascript:mostraAlerta(this)" data-placeholder="Filtro por setor">
                                 <option value="19">Tomografia Computadorizada</option>
                                 <option value="20">Raio X</option>
                                 <option value="23">Ecografia Geral</option>
@@ -31,9 +30,11 @@
                 </div>
                 <div class="col-sm-3 m-2">
                     <div class="form-group d-flex align-items-center">
-                        <h3 class="mr-2 mb-0 d-flex align-items-center"><svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-door-open-fill" viewBox="0 0 16 16">
-                            <path d="M1.5 15a.5.5 0 0 0 0 1h13a.5.5 0 0 0 0-1H13V2.5A1.5 1.5 0 0 0 11.5 1H11V.5a.5.5 0 0 0-.57-.495l-7 1A.5.5 0 0 0 3 1.5V15H1.5zM11 2h.5a.5.5 0 0 1 .5.5V15h-1V2zm-2.5 8c-.276 0-.5-.448-.5-1s.224-1 .5-1 .5.448.5 1-.224 1-.5 1z"/>
-                          </svg></h3>
+                        <h3 class="mr-2 mb-0 d-flex align-items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-door-open-fill" viewBox="0 0 16 16">
+                                <path d="M1.5 15a.5.5 0 0 0 0 1h13a.5.5 0 0 0 0-1H13V2.5A1.5 1.5 0 0 0 11.5 1H11V.5a.5.5 0 0 0-.57-.495l-7 1A.5.5 0 0 0 3 1.5V15H1.5zM11 2h.5a.5.5 0 0 1 .5.5V15h-1V2zm-2.5 8c-.276 0-.5-.448-.5-1s.224-1 .5-1 .5.448.5 1-.224 1-.5 1z"/>
+                            </svg>
+                        </h3>
                         <div class="form-control-wrap w-100">
                             <select class="form-select js-select2" data-search="on" id="selectSalaExame" data-placeholder="Filtro por sala" onchange="javascript:mostraAlertaDois(this)">
                                 <option value="1">Todas as salas</option>
@@ -680,15 +681,26 @@
         <script type="text/javascript">
             //ADICIONA O FILTRO POR SETOR DE EXAME
             const urlParams = new URLSearchParams(window.location.search);
-            function mostraAlerta(elemento)
-            {   urlParams.delete('sala')
-                if(elemento.value == '1'){
-                    elemento = window.location.href.split('&setor')[0]
-                    history.pushState({}, null, elemento);
-                }else{
-                    elemento = window.location.href.split('&setor')[0] + '&setor='+elemento.value
-                    history.pushState({}, null, elemento);
+            function mostraAlerta()
+            {   
+                var selectSetorExame = document.getElementById("selectSetorExame");
+                var optionsSetor = selectSetorExame.selectedOptions;
+                var valuesSetor = [];
+                for (var i = 0; i < optionsSetor.length; i++) {
+                    valuesSetor.push(optionsSetor[i].value);
                 }
+                urlParams.delete('sala')
+                let listaSetor = ''
+                valuesSetor.forEach(function(setor){
+                    listaSetor = listaSetor+','+setor
+                })
+                listaSetor = listaSetor.split('')
+                listaSetor.splice(0, 1)
+                listaSetor = listaSetor.join('')
+
+                let elemento = window.location.href.split('&setor')[0] + '&setor='+listaSetor
+                console.log(elemento)
+                history.pushState({}, null, elemento);
                 window.location.reload()
             }
             //ADICIOCA O FILTRO POR SALA DE EXAME
@@ -706,27 +718,36 @@
             }
             
             //ADICIONA OS ITENS SELECIONADOS NOS CARDS
-            if(urlParams.get('setor') == '19'){
+            let TodosSetores = urlParams.get('setor')
+            let selectTodosSetores = TodosSetores.split(',')
+            selectTodosSetores.forEach(function(setor){
+                if(setor == '19'){
                 var select = document.getElementById('selectSetorExame');
-                var text = select.options[1]
+                var text = select.options[0]
                 text.setAttribute('selected', '')
-            }if(urlParams.get('setor') == '20'){
-                var select = document.getElementById('selectSetorExame');
-                var text = select.options[2]
-                text.setAttribute('selected', '')
-            }if(urlParams.get('setor') == '23'){
-                var select = document.getElementById('selectSetorExame');
-                var text = select.options[3]
-                text.setAttribute('selected', '')
-            }if(urlParams.get('setor') == '24'){
-                var select = document.getElementById('selectSetorExame');
-                var text = select.options[4]
-                text.setAttribute('selected', '')
-            }if(urlParams.get('setor') == '26'){
-                var select = document.getElementById('selectSetorExame');
-                var text = select.options[5]
-                text.setAttribute('selected', '')
-            }
+                }
+                if(setor == '20'){
+                    var select = document.getElementById('selectSetorExame');
+                    var text = select.options[1]
+                    text.setAttribute('selected', '')
+                }
+                if(setor == '23'){
+                    var select = document.getElementById('selectSetorExame');
+                    var text = select.options[2]
+                    text.setAttribute('selected', '')
+                }
+                if(setor == '24'){
+                    var select = document.getElementById('selectSetorExame');
+                    var text = select.options[3]
+                    text.setAttribute('selected', '')
+                }
+                if(setor == '26'){
+                    var select = document.getElementById('selectSetorExame');
+                    var text = select.options[4]
+                    text.setAttribute('selected', '')
+                }
+            })
+            
             //ADICIONA OS ITENS SELECIONADOS NOS CARDS
            if(urlParams.get('sala') == '999-169'){
                 var select = document.getElementById('selectSalaExame');

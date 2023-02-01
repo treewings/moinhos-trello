@@ -22,7 +22,34 @@ function acesso(){
     const urlParams = new URLSearchParams(window.location.search);
     var filtro = []
     if(urlParams.get('setor')){
-        filtro = {codigo_setor_exame: urlParams.get('setor')}
+        let SetorURL = urlParams.get('setor')
+        let cod_tumografiaComputadorizada = ''
+        let cod_raioX = ''
+        let cod_ecografiaGeral = ''
+        let cod_ressonanciaMagnetica = ''
+        let cod_centroDaMulher = ''
+
+        let CodigosSetorURL = SetorURL.aplit(',')
+        CodigosSetorURL.forEach(function(CodigoSetor){
+            if(CodigoSetor == 19){
+                cod_tumografiaComputadorizada = CodigoSetor
+            }if(CodigoSetor == 20){
+                cod_raioX = CodigoSetor
+            }if(CodigoSetor == 23){
+                cod_ecografiaGeral = CodigoSetor
+            }if(CodigoSetor == 24){
+                cod_ressonanciaMagnetica = CodigoSetor
+            }if(CodigoSetor == 26){
+                cod_centroDaMulher = CodigoSetor
+            }
+        })
+        filtro = {
+            ...( cod_tumografiaComputadorizada == 19 ? {cod_tumografiaComputadorizada: cod_tumografiaComputadorizada} : null ),
+            ...( cod_raioX == 20 ? {cod_raioX: cod_raioX} : null ),
+            ...( cod_ecografiaGeral == 23 ? {cod_ecografiaGeral: cod_ecografiaGeral} : null ),
+            ...( cod_ressonanciaMagnetica == 24 ? {cod_ressonanciaMagnetica: cod_ressonanciaMagnetica} : null ),
+            ...( cod_centroDaMulher == 26 ? {cod_centroDaMulher: cod_centroDaMulher} : null )
+        }
     }
     if(urlParams.get('sala')){
         filtro = {cod_sala: urlParams.get('sala')}
@@ -688,7 +715,7 @@ function rodar(){
 
         solicitacoes()
         treloRodar()
-        solicitadosSet()
+        // solicitadosSet()
 
         //VERIFICA STATUS DA TAREFA
         const checaImagem = async ()=>{
