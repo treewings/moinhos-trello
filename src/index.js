@@ -103,6 +103,8 @@ export default function rodar(){
             let motivoExame = '';
             if(val.motivo_exame != 'URGENTE') {motivoExame = '';}
             if(val.motivo_exame == 'URGENTE') {motivoExame = '<em class="icon ni ni-alert-circle-fill text-danger"></em>';}
+            let noLeito = ''
+            if(val.local_exame == 'LEITO') {noLeito = '<img class="" src="images/Icones/cama.png" style="height:16px; margin-bottom:1px; margin-right:2px;">'}
             //FORMATA A DATA E HORA
             let dataHora = '';
             let formartarHoraData = val.hora_pedido.split(" ")
@@ -120,7 +122,7 @@ export default function rodar(){
                             </h6>
                             <h6 class="ml-1 title">`+nomePaciente+`</h6>
                         </div>
-                        <h6 class="d-flex" style="margin-bottom: 3px;">`+motivoExame+isolamento+`</h6>
+                        <h6 class="d-flex align-items-center" style="margin-bottom: 3px;">`+noLeito+motivoExame+isolamento+`</h6>
                     </div>
                     <div class="p-2">
                         <div class="kanban-item-text" style="font-size: 12px;">
@@ -226,6 +228,8 @@ export default function rodar(){
             let motivoExame = '';
             if(val.motivo_exame != 'URGENTE') {motivoExame = '';}
             if(val.motivo_exame == 'URGENTE') {motivoExame = '<em class="icon ni ni-alert-circle-fill text-danger"></em>';}
+            let noLeito = ''
+            if(val.local_exame == 'LEITO') {noLeito = '<img class="" src="images/Icones/cama.png" style="height:16px; margin-bottom:1px; margin-right:2px;">'}
             //FORMATA A DATA E HORA
             let dataHora = '';
             let formartarHoraData = val.hora_pedido.split(" ")
@@ -252,7 +256,7 @@ export default function rodar(){
                             </h6>
                             <h6 class="ml-1 title">`+nomePaciente+`</h6>
                         </div>
-                        <h6 class="d-flex" style="margin-bottom: 3px;">`+motivoExame+isolamento+`</h6>
+                        <h6 class="d-flex align-items-center" style="margin-bottom: 3px;">`+noLeito+motivoExame+isolamento+`</h6>
                     </div>
                     <div class="p-2">
                     <div class="kanban-item-text" style="font-size: 12px;">
@@ -360,6 +364,8 @@ export default function rodar(){
             let motivoExame = '';
             if(val.motivo_exame != 'URGENTE') {motivoExame = '';}
             if(val.motivo_exame == 'URGENTE') {motivoExame = '<em class="icon ni ni-alert-circle-fill text-danger"></em>';}
+            let noLeito = ''
+            if(val.local_exame == 'LEITO') {noLeito = '<img class="" src="images/Icones/cama.png" style="height:16px; margin-bottom:1px; margin-right:2px;">'}
             //FORMATA A DATA E HORA
             let dataHora = '';
             let formartarHoraData = val.hora_pedido.split(" ")
@@ -384,7 +390,7 @@ export default function rodar(){
                             </h6>
                             <h6 class="ml-1 title">`+nomePaciente+`</h6>
                         </div>
-                        <h6 class="d-flex" style="margin-bottom: 3px;">`+motivoExame+isolamento+`</h6>
+                        <h6 class="d-flex align-items-center" style="margin-bottom: 3px;">`+noLeito+motivoExame+isolamento+`</h6>
                     </div>
                     <div class="p-2">
                         <div class="kanban-item-text" style="font-size: 12px;">
@@ -489,6 +495,8 @@ export default function rodar(){
             let motivoExame = '';
             if(val.motivo_exame != 'URGENTE') {motivoExame = '';}
             if(val.motivo_exame == 'URGENTE') {motivoExame = '<em class="icon ni ni-alert-circle-fill text-danger"></em>';}
+            let noLeito = ''
+            if(val.local_exame == 'LEITO') {noLeito = '<img class="" src="images/Icones/cama.png" style="height:16px; margin-bottom:1px; margin-right:2px;">'}
             //FORMATA A DATA E HORA
             let dataHora = '';
             let formartarHoraData = val.hora_pedido.split(" ")
@@ -519,7 +527,7 @@ export default function rodar(){
                             </h6>
                             <h6 class="ml-1 title">`+nomePaciente+`</h6>
                         </div>
-                        <h6 class="d-flex" style="margin-bottom: 3px;">`+motivoExame+isolamento+`</h6>
+                        <h6 class="d-flex align-items-center" style="margin-bottom: 3px;">`+noLeito+motivoExame+isolamento+`</h6>
                     </div>
                     <div class="p-2">
                     <div class="kanban-item-text" style="font-size: 12px;">
@@ -626,6 +634,8 @@ export default function rodar(){
             let motivoExame = '';
             if(val.motivo_exame != 'URGENTE') {motivoExame = '';}
             if(val.motivo_exame == 'URGENTE') {motivoExame = '<em class="icon ni ni-alert-circle-fill text-danger"></em>';}
+            let noLeito = ''
+            if(val.local_exame == 'LEITO') {noLeito = '<img class="" src="images/Icones/cama.png" style="height:16px; margin-bottom:1px; margin-right:2px;">'}
             //FORMATA A DATA E HORA
             let dataHora = '';
             let formartarHoraData = val.hora_pedido.split(" ")
@@ -643,7 +653,7 @@ export default function rodar(){
                             </h6>
                             <h6 class="ml-1 title">`+nomePaciente+`</h6>
                         </div>
-                        <h6 class="d-flex" style="margin-bottom: 3px;">`+motivoExame+isolamento+`</h6>
+                        <h6 class="d-flex align-itmes-center" style="margin-bottom: 3px;">`+noLeito+motivoExame+isolamento+`</h6>
                     </div>
                     <div class="p-2">
                         <div class="kanban-item-text" style="font-size: 12px;">
