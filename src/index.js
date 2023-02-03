@@ -102,6 +102,8 @@ export default function rodar(){
             let motivoExame = '';
             if(val.motivo_exame != 'URGENTE') {motivoExame = '';}
             if(val.motivo_exame == 'URGENTE') {motivoExame = '<em class="icon ni ni-alert-circle-fill text-danger"></em>';}
+            let noLeito = ''
+            if(val.local_exame == 'LEITO') {noLeito = '<img class="" src="images/Icones/cama.png" style="height:18px; margin-bottom:1px; margin-right:2px;">'}
             //FORMATA A DATA E HORA
             let dataHora = '';
             let formartarHoraData = val.hora_pedido.split(" ")
@@ -114,12 +116,12 @@ export default function rodar(){
                 <div class="board-item-content p-0" style="min-height: 128px;">
                     <div class="kanban-item-title p-1 rounded-2" style="background: #`+corClassificacao+`; width: 100%; height: 40px;">
                         <div class="d-flex align-items-center">
-                            <h6 class="" style="margin-bottom: 3px;">
+                            <h6 class="" style="margin-bottom: 2px;">
                                 `+urgente+`
                             </h6>
                             <h6 class="ml-1 title">`+nomePaciente+`</h6>
                         </div>
-                        <h6 class="d-flex" style="margin-bottom: 3px;">`+motivoExame+isolamento+`</h6>
+                        <h6 class="d-flex align-items-center" style="margin-bottom: 3px;">`+noLeito+motivoExame+isolamento+`</h6>
                     </div>
                     <div class="p-2">
                         <div class="kanban-item-text" style="font-size: 12px;">
@@ -225,6 +227,8 @@ export default function rodar(){
             let motivoExame = '';
             if(val.motivo_exame != 'URGENTE') {motivoExame = '';}
             if(val.motivo_exame == 'URGENTE') {motivoExame = '<em class="icon ni ni-alert-circle-fill text-danger"></em>';}
+            let noLeito = ''
+            if(val.local_exame == 'LEITO') {noLeito = '<img class="" src="images/Icones/cama.png" style="height:18px; margin-bottom:1px; margin-right:2px;">'}
             //FORMATA A DATA E HORA
             let dataHora = '';
             let formartarHoraData = val.hora_pedido.split(" ")
@@ -246,12 +250,12 @@ export default function rodar(){
                 <div class="board-item-content p-0" style="min-height: 128px;">
                     <div class="kanban-item-title p-1 rounded-2" style="background: #`+corClassificacao+`; width: 100%; height: 40px;">
                         <div class="d-flex align-items-center text-danger">
-                            <h6 class="" style="margin-bottom: 3px;">
+                            <h6 class="" style="margin-bottom: 2px;">
                                 `+urgente+`
                             </h6>
                             <h6 class="ml-1 title">`+nomePaciente+`</h6>
                         </div>
-                        <h6 class="d-flex" style="margin-bottom: 3px;">`+motivoExame+isolamento+`</h6>
+                        <h6 class="d-flex" style="margin-bottom: 3px;">`+noLeito+motivoExame+isolamento+`</h6>
                     </div>
                     <div class="p-2">
                     <div class="kanban-item-text" style="font-size: 12px;">
@@ -359,6 +363,8 @@ export default function rodar(){
             let motivoExame = '';
             if(val.motivo_exame != 'URGENTE') {motivoExame = '';}
             if(val.motivo_exame == 'URGENTE') {motivoExame = '<em class="icon ni ni-alert-circle-fill text-danger"></em>';}
+            let noLeito = ''
+            if(val.local_exame == 'LEITO') {noLeito = '<img class="" src="images/Icones/cama.png" style="height:18px; margin-bottom:1px; margin-right:2px;">'}
             //FORMATA A DATA E HORA
             let dataHora = '';
             let formartarHoraData = val.hora_pedido.split(" ")
@@ -378,12 +384,12 @@ export default function rodar(){
                 <div class="board-item-content p-0" style="min-height: 128px;">
                     <div class="kanban-item-title p-1 rounded-2" style="background: #`+corClassificacao+`; width: 100%; height: 40px;">
                         <div class="d-flex align-items-center text-danger">
-                            <h6 class="" style="margin-bottom: 3px;">
+                            <h6 class="" style="margin-bottom: 2px;">
                                 `+urgente+`
                             </h6>
                             <h6 class="ml-1 title">`+nomePaciente+`</h6>
                         </div>
-                        <h6 class="d-flex" style="margin-bottom: 3px;">`+motivoExame+isolamento+`</h6>
+                        <h6 class="d-flex" style="margin-bottom: 3px;">`+noLeito+motivoExame+isolamento+`</h6>
                     </div>
                     <div class="p-2">
                         <div class="kanban-item-text" style="font-size: 12px;">
@@ -394,7 +400,7 @@ export default function rodar(){
                                 </div>
                                 <a class="rounded-3 d-flex px-1 pb-0 text-dark align-items-center" style="background-color: #ecebeb; cursor: pointer; display:flex; align-items: cente; font-size:smaller">
                                     <div style="font-size: 13px;" class="m-0 d-flex align-items-center"  id="img_icone-${val.acess_number}">
-                                        <em class="icon ni ni-activity-round-fill"></em>
+                                        <em class="icon ni ni-activity-round-fill" style="height: 13px;"></em>
                                     </div>
                                     <div class="">${val.data_diferenca}</div>
                                 </a>
@@ -488,6 +494,8 @@ export default function rodar(){
             let motivoExame = '';
             if(val.motivo_exame != 'URGENTE') {motivoExame = '';}
             if(val.motivo_exame == 'URGENTE') {motivoExame = '<em class="icon ni ni-alert-circle-fill text-danger"></em>';}
+            let noLeito = ''
+            if(val.local_exame == 'LEITO') {noLeito = '<img class="" src="images/Icones/cama.png" style="height:18px; margin-bottom:1px; margin-right:2px;">'}
             //FORMATA A DATA E HORA
             let dataHora = '';
             let formartarHoraData = val.hora_pedido.split(" ")
@@ -513,12 +521,12 @@ export default function rodar(){
                 <div class="board-item-content p-0" style="min-height: 128px;">
                     <div class="kanban-item-title p-1 rounded-2" style="background: #`+corClassificacao+`; width: 100%; height: 40px;">
                         <div class="d-flex align-items-center text-danger">
-                            <h6 class="" style="margin-bottom: 3px;">
+                            <h6 class="" style="margin-bottom: 2px;">
                                 `+urgente+`
                             </h6>
                             <h6 class="ml-1 title">`+nomePaciente+`</h6>
                         </div>
-                        <h6 class="d-flex" style="margin-bottom: 3px;">`+motivoExame+isolamento+`</h6>
+                        <h6 class="d-flex" style="margin-bottom: 3px;">`+noLeito+motivoExame+isolamento+`</h6>
                     </div>
                     <div class="p-2">
                     <div class="kanban-item-text" style="font-size: 12px;">
@@ -625,6 +633,8 @@ export default function rodar(){
             let motivoExame = '';
             if(val.motivo_exame != 'URGENTE') {motivoExame = '';}
             if(val.motivo_exame == 'URGENTE') {motivoExame = '<em class="icon ni ni-alert-circle-fill text-danger"></em>';}
+            let noLeito = ''
+            if(val.local_exame == 'LEITO') {noLeito = '<img class="" src="images/Icones/cama.png" style="height:18px; margin-bottom:1px; margin-right:2px;">'}
             //FORMATA A DATA E HORA
             let dataHora = '';
             let formartarHoraData = val.hora_pedido.split(" ")
@@ -637,12 +647,12 @@ export default function rodar(){
                 <div class="board-item-content p-0" style="min-height: 128px;">
                     <div class="kanban-item-title p-1 rounded-2" style="background: #`+corClassificacao+`; width: 100%; height: 40px;">
                         <div class="d-flex align-items-center">
-                            <h6 class="" style="margin-bottom: 3px;">
+                            <h6 class="" style="margin-bottom: 2px;">
                                 `+urgente+`
                             </h6>
                             <h6 class="ml-1 title">`+nomePaciente+`</h6>
                         </div>
-                        <h6 class="d-flex" style="margin-bottom: 3px;">`+motivoExame+isolamento+`</h6>
+                        <h6 class="d-flex" style="margin-bottom: 3px;">`+noLeito+motivoExame+isolamento+`</h6>
                     </div>
                     <div class="p-2">
                         <div class="kanban-item-text" style="font-size: 12px;">
