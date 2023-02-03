@@ -6,6 +6,7 @@ import socket from "./js/websocket.js";
 import solicitadosSet from "./js/setInterval/solicitadosSet.js";
 import { usuarioLogado } from "./js/funcoes/usuario.js";
 import { token } from "./js/url.js";
+import chat from "./js/funcoes/chat.js";
 
 var x  = ''
 var y = url()
@@ -1043,4 +1044,4 @@ const firstRequest = async () => {
  
 solicitacoes()
 rodar()
-
+// chat()

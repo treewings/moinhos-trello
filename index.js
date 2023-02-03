@@ -24,6 +24,10 @@ io.on('connection', (socket) => {
     socket.on('tarefaUmov', (msg) => {
       io.emit('tarefaUmov', msg);
     });
+
+    socket.on('chat', (msg) => {
+      io.emit('chat', msg);
+    });
   });
 
 server.listen(3000, () => {

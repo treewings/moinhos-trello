@@ -91,9 +91,9 @@ $(document).ready(()=>{
         //FIM BOTAO DE CANCELAR AGENDAMENTO OU ATENDIMENTO
 
         textAreaObservacao = ''
-        if(valueAgendado == 'agendado' && valueAgendado ==  ''){
+        if(valueAgendado ==  ''){
             textAreaObservacao = ''
-        }if(valueAgendado == 'agendado' && valueAgendado == 'agendado'){
+        }if(valueAgendado == 'agendado'){
             textAreaObservacao = `
                 <label class="form-label">Observações</label>
                 <div class="col-lg-12 col-sm-12 mb-3 d-flex justify-content-between">
