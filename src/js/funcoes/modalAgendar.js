@@ -72,6 +72,10 @@ export default function modalAgendar(item, grid){
                             </div>
                             <div class="form-group">
                                 <button type="submit" class="btn btn-dim btn-outline-primary" id="marcar-horario">Agendar</button>
+                                <button class = "btn btn-dim btn-outline-primary d-none" id="marcar-horario-carregando" type = "button" disabled > 
+                                    <span class = "spinner-border spinner-border-sm" role = "status" aria-hidden = "true" ></span> 
+                                    <span > Agendando horário... </span> 
+                                </button> 
                             </div>
                         </form>
                     </div>
@@ -87,20 +91,22 @@ export default function modalAgendar(item, grid){
         rodar()
     })
 
-  //ATRIBUI O VALOR DA DATA ATUAL NA MODAL
-  document.querySelector("[name='data']").value = dataAtualFormatada();
-  document.querySelector("[name='hora']").value = horaAtualFormatada();
+    //ATRIBUI O VALOR DA DATA ATUAL NA MODAL
+    document.querySelector("[name='data']").value = dataAtualFormatada();
+    document.querySelector("[name='hora']").value = horaAtualFormatada();
 
-  console.log(item.item._element.id)
+    console.log(item.item._element.id)
   
  
 
      //EVENDO DO FOMULÁRIO
      $("#agendarHorario").submit(function (event) {
         event.preventDefault()
+        document.getElementById("marcar-horario").classList.add("d-none");
+        document.getElementById("marcar-horario-carregando").classList.remove("d-none");
         // document.getElementById('modalAgendar').innerHTML = ''
-    //     socket.emit('cardRender', 'foi')
-    //    console.log('foi')
+        // socket.emit('cardRender', 'foi')
+        // console.log('foi')
 
        let continuar = 'sim';
        //PARA O EVENTO DE ARRASTAR CASSO OS DADOS SEJAM INVÁLIDOS

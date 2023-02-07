@@ -30,7 +30,7 @@ import { url } from "../url.js";
 
                     let statusTarefa = xmlDaTarefa.getElementsByTagName('schedule')[0].getElementsByTagName('situation')[0].getElementsByTagName('id')[0].innerText
                     let agenteTarefa = xmlDaTarefa.getElementsByTagName('schedule')[0].getElementsByTagName('executionstarttime')[0]
-        
+                    console.log(agenteTarefa)
 
                     if(statusTarefa == '30' && tarefa != '30'){
                         

@@ -78,6 +78,10 @@ $(document).ready(()=>{
             botaoCancelar = `
                 <div class="col-lg-12 col-sm-12 mt-3">
                     <a id="cancelarAgendamentoExame" class="btn btn-dim btn-light mt-2" data-id="`+ID+`">Cancelar horário agendado</a>
+                    <a class = "btn btn-dim btn-light mt-2 d-none" id="cancelarAgendamentoExame-carregando" type = "button" disabled > 
+                    <span class = "spinner-border spinner-border-sm" role = "status" aria-hidden = "true" ></span> 
+                    <span > Cancelando horário... </span> 
+                    </a> 
                 </div>
             ` 
         }
@@ -85,6 +89,10 @@ $(document).ready(()=>{
             botaoCancelar = `
                 <div class="col-lg-12 col-sm-12 mt-3">
                     <a id="cancelarAtendimentoExame" class="btn btn-dim btn-light mt-2" data-id="`+ID+`">Cancelar realização do exame</a>
+                    <a class = "btn btn-dim btn-light mt-2 d-none" id="cancelarAtendimentoExame-carregando" type = "button" disabled > 
+                    <span class = "spinner-border spinner-border-sm" role = "status" aria-hidden = "true" ></span> 
+                    <span > Cancelando realização do exame... </span> 
+                    </a> 
                 </div>
             `
         }
@@ -120,6 +128,10 @@ $(document).ready(()=>{
                         </div>
                         <div class="form-group mb-0 mt-1 d-flex flex-row-reverse">
                             <button type="submit" data-origem="`+origemtextArea+`" data-id="`+valueAcessionNumber+`" id="salvarObservacaoPreview" class="btn btn-sm btn-dim btn-outline-primary">Salvar Observações</button>
+                            <button class = "btn btn-sm btn-dim btn-outline-primary d-none" id="salvarObservacaoPreview-carregando" type = "button" disabled > 
+                            <span class = "spinner-border spinner-border-sm" role = "status" aria-hidden = "true" ></span> 
+                            <span > Salvando... </span> 
+                            </button> 
                         </div>
                     </div>
                 </div>        
@@ -276,49 +288,79 @@ $(document).ready(()=>{
             if (result.isConfirmed) {
                 let numerotarefa = document.querySelector("#numero_tarefa-" + ID);
                 var tarefa = numerotarefa.value
-                
+                document.getElementById("cancelarAgendamentoExame").classList.add("d-none");
+                document.getElementById("cancelarAgendamentoExame-carregando").classList.remove("d-none");
+                console.log(tarefa)
+                console.log(ID)
                 if(tarefa != 'null'){
-                    let config = {
+                    let configX = {
                         headers: {'Content-Type': 'application/x-www-form-urlencoded'}
                     };
                     console.log(tarefa)
                     let corpo ='<schedule><situation><id>70</id></situation></schedule>';	
                     axios.post(`https://api.umov.me/CenterWeb/api/26347e33d181559023ab7b32150ca3bfbc572e/schedule/`+tarefa+`.xml`, {
                         data: corpo
-                    }, config).then(function (response) {
+                    }, configX).then(function (response) {
                         console.log(response)
+                        let val = '';
+                        $(document).ready(() => {
+                            //PEGA O JSON DO CARD E ENVIA A REQUISIÇÃO DE ALTERAÇÃO
+                            let update = document.querySelector("#solicitar-update-" + ID);
+                            let valor = update.value;
+                            val = JSON.parse(valor);
+                            axios.post(y+'/api/moinhos/cancelar', {
+                                acess_number: ID,
+                                identificacao: 1,
+                                codigo_setor_exame:  val.codigo_setor_exame,
+                                data: val.hora_pedidoX,
+                                dados: val,
+                            }, config).then(function (response) {
+                                //ABRE MODAL DE SUCESSO
+                                $('#modalForm').modal('hide')
+                                //ABRE MODAL DE SUCESSO
+                                $('#modalAgendadoCancelado').modal('show')
+                                socket.emit('cardRender', 'foi');
+                                setTimeout(async () => {
+                                    $('#modalAgendadoCancelado').modal('hide')
+                                }, 900);
+                            })
+                            .catch(function (error) {
+                                $('#modalAlgoErrado').modal('show')
+                                console.error(error);
+                            });
+                        })
                     })
                 }
-
-
-                let val = '';
-                $(document).ready(() => {
-                    
-                    //PEGA O JSON DO CARD E ENVIA A REQUISIÇÃO DE ALTERAÇÃO
-                    let update = document.querySelector("#solicitar-update-" + ID);
-                    let valor = update.value;
-                    val = JSON.parse(valor);
-                    axios.post(y+'/api/moinhos/cancelar', {
-                        acess_number: ID,
-                        identificacao: 1,
-                        codigo_setor_exame:  val.codigo_setor_exame,
-                        data: val.hora_pedidoX,
-                        dados: val,
-                    }, config).then(function (response) {
-                        //ABRE MODAL DE SUCESSO
-                        $('#modalForm').modal('hide')
-                        //ABRE MODAL DE SUCESSO
-                        $('#modalAgendadoCancelado').modal('show')
-                        socket.emit('cardRender', 'foi');
-                        setTimeout(async () => {
-                            $('#modalAgendadoCancelado').modal('hide')
-                        }, 900);
+                if(tarefa == 'null'){
+                    let val = '';
+                    $(document).ready(() => {
+                        
+                        //PEGA O JSON DO CARD E ENVIA A REQUISIÇÃO DE ALTERAÇÃO
+                        let update = document.querySelector("#solicitar-update-" + ID);
+                        let valor = update.value;
+                        val = JSON.parse(valor);
+                        axios.post(y+'/api/moinhos/cancelar', {
+                            acess_number: ID,
+                            identificacao: 1,
+                            codigo_setor_exame: val.codigo_setor_exame,
+                            data: val.hora_pedidoX,
+                            dados: val,
+                        }, config).then(function (response) {
+                            //ABRE MODAL DE SUCESSO
+                            $('#modalForm').modal('hide')
+                            //ABRE MODAL DE SUCESSO
+                            $('#modalAgendadoCancelado').modal('show')
+                            socket.emit('cardRender', 'foi');
+                            setTimeout(async () => {
+                                $('#modalAgendadoCancelado').modal('hide')
+                            }, 900);
+                        })
+                        .catch(function (error) {
+                            $('#modalAlgoErrado').modal('show')
+                            console.error(error);
+                        });
                     })
-                    .catch(function (error) {
-                        $('#modalAlgoErrado').modal('show')
-                        console.error(error);
-                    });
-                })
+                }
             } else if (result.dismiss === Swal.DismissReason.cancel) {
                 swalWithBootstrapButtons.fire(
                 'Ação Cancelada',
@@ -349,6 +391,9 @@ $(document).ready(()=>{
             }).then((result) => {
             if (result.isConfirmed) {
                 let val = '';
+                document.getElementById("cancelarAtendimentoExame").classList.add("d-none");
+                document.getElementById("cancelarAtendimentoExame-carregando").classList.remove("d-none");
+
                 $(document).ready(() => {
                     //PEGA O JSON DO CARD E ENVIA A REQUISIÇÃO DE ALTERAÇÃO
                     let update = document.querySelector("#solicitar-update-" + ID);
@@ -391,6 +436,10 @@ $(document).ready(()=>{
     })
     $('body').on('click', '#salvarObservacaoPreview', function(event) {
         event.preventDefault()
+
+        document.getElementById("salvarObservacaoPreview").classList.add("d-none");
+        document.getElementById("salvarObservacaoPreview-carregando").classList.remove("d-none");
+
         let ID = $(this).data("id")
         let origem = $(this).data("origem")
         let observacao_select = document.getElementById('default-observacao_select-'+ID)
@@ -405,6 +454,8 @@ $(document).ready(()=>{
         }, config)
         .then(function (response) {
             socket.emit('cardRender', 'foi')
+            document.getElementById("salvarObservacaoPreview").classList.remove("d-none");
+            document.getElementById("salvarObservacaoPreview-carregando").classList.add("d-none");
         })
         
     })

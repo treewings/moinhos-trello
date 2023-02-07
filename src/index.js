@@ -13,14 +13,14 @@ var y = url()
 
 socket.on('cardRender', function(msg) {
     rodar()
-    console.log('deu bom')
  });
 
 socket.on('tarefaUmov', function(dados) {
    var imagem = document.getElementById('image'+dados.number)
    imagem.src = 'images/Icones/'+dados.imagem_cadeira
    $('#nome-sala-'+dados.number).text(dados.sala)
-    console.log(dados)
+   let tarefaInput = document.querySelector("#numero_tarefa-"+dados.number)
+   tarefaInput.value = dados.tarefa
 });
 
 function acesso(){
@@ -773,24 +773,21 @@ const firstRequest = async () => {
     if(statusFromFirstRequest != null){
         statusFromFirstRequest.forEach( async (val)=>{
 
-            console.log(val)
             const response = await axios.get(`https://api.umov.me/CenterWeb/api/26347e33d181559023ab7b32150ca3bfbc572e/schedule/${val.numero_tarefa}.xml`);
             let xmlDaTarefa = document.createElement('div')
             xmlDaTarefa.innerHTML = response.data
             let statusTarefa = xmlDaTarefa.getElementsByTagName('schedule')[0].getElementsByTagName('situation')[0].getElementsByTagName('id')[0].innerText
+            let agenteTarefa = xmlDaTarefa.getElementsByTagName('schedule')[0].getElementsByTagName('executionstarttime')[0]
             let realizou = xmlDaTarefa.getElementsByTagName('schedule')[0].getElementsByTagName('customFields')[0].getElementsByTagName('retro__realizou')[0].innerText
             let motivo = xmlDaTarefa.getElementsByTagName('schedule')[0].getElementsByTagName('customFields')[0].getElementsByTagName('retro__motivo__realizacao')[0].innerText
+
             if (statusTarefa === val.status_tarefa) {
+                clearTimeout(timerId);
+                timerId = setTimeout(() => {
+                    run()
+                }, 10000);
+            }else {
     
-              console.log("O status da primeira requisição é igual ao status da segunda requisição");
-              clearTimeout(timerId);
-              timerId = setTimeout(() => {
-                run()
-              }, 10000);
-              
-            } else {
-    
-                console.log("O status da primeira requisição é diferente do status da segunda requisição");
                 if(statusTarefa == 50){
                     if(realizou == 'sim'){
                         axios.post(y+'/api/moinhos/atendimento', {
@@ -800,7 +797,6 @@ const firstRequest = async () => {
                         }, config)
                         .then(function (response) {
             
-                            console.log('enviou direto pra atendimentos')
                             socket.emit('cardRender', 'foi');
                             if(statusFromFirstRequest.length == 1){
                                 clearTimeout(timerId);
@@ -818,7 +814,6 @@ const firstRequest = async () => {
                             }, config)
                             .then(function (response) {
                 
-                                console.log('enviou direto pra atendimento pq saiu só')
                                 socket.emit('cardRender', 'foi');
                                 if(statusFromFirstRequest.length == 1){
                                     clearTimeout(timerId);
@@ -834,7 +829,6 @@ const firstRequest = async () => {
                             }, config)
                             .then(function (response) {
                 
-                                console.log('limpou dados')
                                 socket.emit('cardRender', 'foi');
                                 if(statusFromFirstRequest.length == 1){
                                     clearTimeout(timerId);
@@ -857,7 +851,6 @@ const firstRequest = async () => {
                     }, config)
                     .then(function (response) {
         
-                        console.log('limpou dados 70')
                         socket.emit('cardRender', 'foi');
                         if(statusFromFirstRequest.length == 1){
                             clearTimeout(timerId);
@@ -869,32 +862,40 @@ const firstRequest = async () => {
 
                     return
                 }
-               
-                axios.post(url()+'/api/moinhos/agendar/tarefa/'+val.acess_number, {
-                    numero_tarefa: val.numero_tarefa,
-                    imagem_cadeira: 'cadeira-de-rodas-azul.png',
-                    status_tarefa: statusTarefa,
-                    origem: 'agendado',
-                }, config).then(function (response) {
-                    socket.emit('tarefaUmov', {number: val.acess_number,  imagem_cadeira: 'cadeira-de-rodas-azul.png'});
-                    if(statusFromFirstRequest.length == 1){
-                        clearTimeout(timerId);
-                        timerId = setTimeout(() => {
-                          run()
-                        }, 10000);
-                    }
-                    return
-                    // console.log(xmlDaTarefa)
-                })
-    
+                
+                if(statusTarefa == 40 && agenteTarefa != undefined){
+                    axios.post(url()+'/api/moinhos/agendar/tarefa/'+val.acess_number, {
+                        numero_tarefa: val.numero_tarefa,
+                        imagem_cadeira: 'cadeira-de-rodas-azul.png',
+                        status_tarefa: statusTarefa,
+                        origem: 'agendado',
+                    }, config).then(function (response) {
+                        socket.emit('tarefaUmov', {number: val.acess_number,  imagem_cadeira: 'cadeira-de-rodas-azul.png'});
+                        if(statusFromFirstRequest.length == 1){
+                            clearTimeout(timerId);
+                            timerId = setTimeout(() => {
+                            run()
+                            }, 10000);
+                        }
+                        return
+                    })
+                }
+
+                if(statusFromFirstRequest.length == 1){
+                    clearTimeout(timerId);
+                    timerId = setTimeout(() => {
+                    run()
+                    }, 10000);
+                }
+                return
+
             }
         })
     }else{
-        console.log("procurando dados ...");
-              clearTimeout(timerId);
-              timerId = setTimeout(() => {
-                run()
-              }, 10000);
+        clearTimeout(timerId);
+        timerId = setTimeout(() => {
+        run()
+        }, 10000);
     }
     
   };
@@ -919,16 +920,16 @@ const firstRequest = async () => {
     if(statusFromFirstRequest != null){
         statusFromFirstRequest.forEach( async (val)=>{
 
-            console.log(val)
             const response = await axios.get(`https://api.umov.me/CenterWeb/api/26347e33d181559023ab7b32150ca3bfbc572e/schedule/${val.numero_tarefa}.xml`);
             let xmlDaTarefa = document.createElement('div')
             xmlDaTarefa.innerHTML = response.data
             let statusTarefa = xmlDaTarefa.getElementsByTagName('schedule')[0].getElementsByTagName('situation')[0].getElementsByTagName('id')[0].innerText
             let realizou = xmlDaTarefa.getElementsByTagName('schedule')[0].getElementsByTagName('customFields')[0].getElementsByTagName('retro__realizou')[0].innerText
             let motivo = xmlDaTarefa.getElementsByTagName('schedule')[0].getElementsByTagName('customFields')[0].getElementsByTagName('retro__motivo__realizacao')[0].innerText
+            let agenteTarefa = xmlDaTarefa.getElementsByTagName('schedule')[0].getElementsByTagName('executionstarttime')[0]
+
             if (statusTarefa === val.status_tarefa) {
     
-              console.log("O status da primeira requisição é igual ao status da segunda requisição pos");
               clearTimeout(timerId);
               timerId = setTimeout(() => {
                 runPos()
@@ -936,7 +937,6 @@ const firstRequest = async () => {
               
             } else {
     
-                console.log("O status da primeira requisição é diferente do status da segunda requisição pos");
                 if(statusTarefa == 50){
                     if(realizou == 'sim'){
                         axios.post(y+'/api/moinhos/finalizar', {
@@ -946,7 +946,6 @@ const firstRequest = async () => {
                         }, config)
                         .then(function (response) {
             
-                            console.log('enviou direto pra atendimentos')
                             socket.emit('cardRender', 'foi');
                             if(statusFromFirstRequest.length == 1){
                                 clearTimeout(timerId);
@@ -964,7 +963,6 @@ const firstRequest = async () => {
                             }, config)
                             .then(function (response) {
                 
-                                console.log('enviou direto pra atendimento pq saiu só pos')
                                 socket.emit('cardRender', 'foi');
                                 if(statusFromFirstRequest.length == 1){
                                     clearTimeout(timerId);
@@ -980,7 +978,6 @@ const firstRequest = async () => {
                             }, config)
                             .then(function (response) {
                 
-                                console.log('limpou dados')
                                 socket.emit('cardRender', 'foi');
                                 if(statusFromFirstRequest.length == 1){
                                     clearTimeout(timerId);
@@ -1003,7 +1000,6 @@ const firstRequest = async () => {
                     }, config)
                     .then(function (response) {
         
-                        console.log('limpou dados 70 pos')
                         socket.emit('cardRender', 'foi');
                         if(statusFromFirstRequest.length == 1){
                             clearTimeout(timerId);
@@ -1016,27 +1012,35 @@ const firstRequest = async () => {
                     return
                 }
                
-                axios.post(url()+'/api/moinhos/agendar/tarefa/'+val.acess_number, {
-                    numero_tarefa: val.numero_tarefa,
-                    imagem_cadeira: 'cadeira-de-rodas-azul.png',
-                    status_tarefa: statusTarefa,
-                    origem: 'posexame',
-                }, config).then(function (response) {
-                    socket.emit('tarefaUmov', {number: val.acess_number,  imagem_cadeira: 'cadeira-de-rodas-azul.png'});
-                    if(statusFromFirstRequest.length == 1){
-                        clearTimeout(timerId);
-                        timerId = setTimeout(() => {
-                          runPos()
-                        }, 10000);
-                    }
-                    return
-                    // console.log(xmlDaTarefa)
-                })
+                if(statusTarefa == 40 && agenteTarefa != undefined){
+                    axios.post(url()+'/api/moinhos/agendar/tarefa/'+val.acess_number, {
+                        numero_tarefa: val.numero_tarefa,
+                        imagem_cadeira: 'cadeira-de-rodas-azul.png',
+                        status_tarefa: statusTarefa,
+                        origem: 'posexame',
+                    }, config).then(function (response) {
+                        socket.emit('tarefaUmov', {number: val.acess_number,  imagem_cadeira: 'cadeira-de-rodas-azul.png'});
+                        if(statusFromFirstRequest.length == 1){
+                            clearTimeout(timerId);
+                            timerId = setTimeout(() => {
+                            runPos()
+                            }, 10000);
+                        }
+                        return
+                    })
+                }
+
+                if(statusFromFirstRequest.length == 1){
+                    clearTimeout(timerId);
+                    timerId = setTimeout(() => {
+                    runPos()
+                    }, 10000);
+                }
+                return
     
             }
         })
     }else{
-        console.log("procurando dados em posexame ...");
               clearTimeout(timerId);
               timerId = setTimeout(() => {
                 runPos()

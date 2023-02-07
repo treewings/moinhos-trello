@@ -21,6 +21,10 @@ const solicitacoes = ()=>{
 
     $("#formTransporteFinal").submit(function (event) {
         event.preventDefault()
+
+        document.getElementById("botaoSolicitaPos").classList.add("d-none");
+        document.getElementById("botaoSolicitaPos-carregando").classList.remove("d-none");
+
         let valor = $('#selectTransporteFinal').val()
         let acess_number = window.localStorage.getItem('numberPos')
         let valors =  document.querySelector('#solicitar-update-'+acess_number)
@@ -38,9 +42,12 @@ const solicitacoes = ()=>{
         console.log(ID)        
     })
 
-
     $("#formTransporte").submit(function (event) {
         event.preventDefault()
+
+        document.getElementById("botaoSolicitarTransportes").classList.add("d-none");
+        document.getElementById("botaoSolicitarTransportes-carregando").classList.remove("d-none");
+
         let valor = $('#selecioneTransporte').val()
         let acess_number = window.localStorage.getItem('number')
         console.log(valor)
@@ -53,14 +60,18 @@ const solicitacoes = ()=>{
 
     $("#formRealizarExame").submit(function(event){
         event.preventDefault()
-        $('#agendarSolicitarAtendimento').attr('disabled', 'disabled')
+        // $('#agendarSolicitarAtendimento').attr('disabled', 'disabled')
+
+        document.getElementById("agendarSolicitarAtendimento").classList.add("d-none");
+        document.getElementById("agendarSolicitarAtendimento-carregando").classList.remove("d-none");
+
         //PEGA O JSON DO CARD E ENVIA A REQUISIÇÃO DE ALTERAÇÃO
         let ID = formRealizarExame.valorIdRealizarExame.value
         let update = document.querySelector("#solicitar-update-" + ID);
         let valor = update.value;
         let val = JSON.parse(valor);
-            let sala = formRealizarExame.sala.value
-            let salaEnvio = sala.split('_')
+        let sala = formRealizarExame.sala.value
+        let salaEnvio = sala.split('_')
         axios.post(y+'/api/moinhos/atendimento', {
             acess_number: ID,
             codigo_setor_exame: val.codigo_setor_exame,
@@ -72,6 +83,10 @@ const solicitacoes = ()=>{
             $('#modalAtendimentoSucesso').modal('show')
             $('#agendarSolicitarAtendimento').prop('disabled', false);
             $('#modalSalaRealizarExame').modal('hide')
+
+            document.getElementById("agendarSolicitarAtendimento").classList.remove("d-none");
+            document.getElementById("agendarSolicitarAtendimento-carregando").classList.add("d-none");
+
             console.log('teste')
             socket.emit('cardRender', 'foi')
             setTimeout(async () => {

@@ -61,7 +61,7 @@
                 </div>
             </div>
         </div>
-        <div class="board"  style="margin-top: 60px;">
+        <div class="board" style="margin-top: 60px;">
             <div class="board-column solicitados mb-5 pr-0">
                 <div class="board-column-container">
                     <div class="board-column-header px-0">
@@ -80,6 +80,24 @@
                     </div>
                 </div>
             </div>
+            <!-- <div class="board-column agendado mb-5 pr-0">
+                <div class="board-column-container">
+                    <div class="board-column-header px-0">
+                        <header class="kanban-board-header kanban-primary m-0">
+                            <div class="kanban-title-board">
+                                  <div class="kanban-title-content">
+                                      <h6 class="title">PENDÊNCIAS</h6>
+                                      <span class="badge rounded-pill bg-outline-light text-dark" id="AgendadosCount"></span>
+                                  </div>
+                              </div>
+                          </header>
+                      </div>
+                    <div class="board-column-content-wrapper p-0">
+                        <div class="board-column-content" id="Agendados">
+                        </div>
+                    </div>
+                </div>
+            </div> -->
             <div class="board-column agendado mb-5 pr-0">
                 <div class="board-column-container">
                     <div class="board-column-header px-0">
@@ -336,12 +354,18 @@
                                             <option value="999-45_Raio X – Bloco  A">Raio X – Bloco  A</option>
                                             <option value="999-118_Raio X da emergência">Raio X da emergência</option>
                                             <option value="999-38_Medicina Nuclear">Medicina Nuclear</option>
+                                            <option value="999-19_ECO 2º Andar">ECO 2º Andar</option>
+                                            <option value="999-44_RX 2º Andar">RX 2º Andar</option>
                                         </select>
                                     </div>
                                 </div>
                             </div>                            
                             <div class="form-group">
                                 <button type="submit" id="botaoSolicitarTransportes" class="btn btn-dim btn-outline-primary botaoTransporteinicial">Solicitar</button>
+                                <button class = "btn btn-dim btn-outline-primary d-none" id="botaoSolicitarTransportes-carregando" type = "button" disabled > 
+                                    <span class = "spinner-border spinner-border-sm" role = "status" aria-hidden = "true" ></span> 
+                                    <span > Solicitando transporte... </span> 
+                                </button> 
                             </div>
                         </form>
                     </div>
@@ -390,7 +414,11 @@
                                 </div>
                             </div>                            
                             <div class="form-group">
-                                <button type="submit" class="btn btn-dim btn-outline-primary" id="agendarSolicitarAtendimento">Solicitar</button>
+                                <button type="submit" class="btn btn-dim btn-outline-primary" id="agendarSolicitarAtendimento">Iniciar Atendimento</button>
+                                <button class = "btn btn-dim btn-outline-primary d-none" id="agendarSolicitarAtendimento-carregando" type = "button" disabled > 
+                                    <span class = "spinner-border spinner-border-sm" role = "status" aria-hidden = "true" ></span> 
+                                    <span > Anexando sala ao atendimento... </span> 
+                                </button> 
                             </div>
                         </form>
                     </div>
@@ -523,6 +551,10 @@
                             </div>
                             <div class="form-group">
                                 <button type="submit" id="botaoSolicitaPos" class="btn btn-dim btn-outline-primary botaoTransporteFinal">Solicitar</button>
+                                <button class = "btn btn-dim btn-outline-primary d-none" id="botaoSolicitaPos-carregando" type = "button" disabled > 
+                                    <span class = "spinner-border spinner-border-sm" role = "status" aria-hidden = "true" ></span> 
+                                    <span > Solicitando transporte... </span> 
+                                </button> 
                             </div>
                         </form>
                     </div>

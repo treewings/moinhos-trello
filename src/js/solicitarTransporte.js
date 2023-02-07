@@ -131,7 +131,7 @@ export function umov(val, destino){
         xmlDeCriacao.innerHTML = val.data
         let numeroTarefa = xmlDeCriacao.children[0].children[1].innerText
         let linkXmlTarefa = 'https://api.umov.me/CenterWeb/api/26347e33d181559023ab7b32150ca3bfbc572e/schedule/'+numeroTarefa+'.xml'
-
+        
         axios.get(linkXmlTarefa).then((val)=>{
             let xmlDaTarefa = document.createElement('div')
             xmlDaTarefa.innerHTML = val.data
@@ -149,8 +149,16 @@ export function umov(val, destino){
             }, configs)
             .then(function (response) {
                 $('#modalTransporte').modal('hide')
-                // window.location.reload()
-                socket.emit('tarefaUmov', {number: dados.acess_number,  imagem_cadeira: 'cadeira-de-rodas-amarelo.png', sala: nome_destino});
+
+                document.getElementById("botaoSolicitarTransportes").classList.remove("d-none");
+                document.getElementById("botaoSolicitarTransportes-carregando").classList.add("d-none");
+
+                socket.emit('tarefaUmov', {
+                    number: dados.acess_number, 
+                    imagem_cadeira: 'cadeira-de-rodas-amarelo.png', 
+                    sala: nome_destino,
+                    tarefa: numeroTarefa
+                });
             })
             .catch(function (error) {
                 $('#modalTransporte').modal('hide')

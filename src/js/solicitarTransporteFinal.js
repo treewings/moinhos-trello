@@ -145,7 +145,15 @@ export function umovFinalizar(val, destino){
             }, configs)
             .then(function (response) {
                 $('#modalTransporteFinal').modal('hide')
-                socket.emit('tarefaUmov', {number: dados.acess_number,  imagem_cadeira: 'cadeira-de-rodas-amarelo.png', sala: nome_destino});
+
+                document.getElementById("botaoSolicitaPos").classList.remove("d-none");
+                document.getElementById("botaoSolicitaPos-carregando").classList.add("d-none");
+
+                socket.emit('tarefaUmov', {
+                    number: dados.acess_number,  
+                    imagem_cadeira: 'cadeira-de-rodas-amarelo.png', 
+                    sala: nome_destino
+                });
             })
             .catch(function (error) {
                 $('#modalTransporteFinal').modal('hide')
