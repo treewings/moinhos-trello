@@ -400,7 +400,7 @@ export default function rodar(){
                                     <div class="mb-0 d-flex align-items-center">AN. ${val.acess_number}</div>
                                 </div>
                                 <a class="rounded-3 d-flex px-1 pb-0 text-dark align-items-center" style="background-color: #ecebeb; cursor: pointer; display:flex; align-items: cente; font-size:smaller">
-                                    <div style="height: 19.8px;" class="m-0 d-flex align-items-center"  id="img_icone-${val.acess_number}">
+                                    <div style="height: 19.8px; width: 20px;" class="m-0 d-flex align-items-center"  id="img_icone-${val.acess_number}">
                                         <em class="icon ni ni-activity-round-fill"></em>
                                     </div>
                                     <div class="">${val.data_diferenca}</div>

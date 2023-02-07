@@ -741,7 +741,7 @@
             
             //ADICIONA OS ITENS SELECIONADOS NOS CARDS
             let TodosSetores = urlParams.get('setor')
-            let selectTodosSetores = TodosSetores.split(',')
+            let selectTodosSetores =  TodosSetores ? TodosSetores.split(',') : []
             selectTodosSetores.forEach(function(setor){
                 if(setor == '19'){
                 var select = document.getElementById('selectSetorExame');
@@ -779,9 +779,8 @@
             })
 
             let salaURL = urlParams.get('sala')
-            console.log(salaURL)
-            console.log('teste')
             //ADICIONA OS ITENS SELECIONADOS NOS CARDS
+            console.log(salaURL)
             if(urlParams.get('sala') == '1'){
                 var select = document.getElementById('selectSalaExame');
                 var text = select.options[0]
