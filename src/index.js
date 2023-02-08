@@ -774,6 +774,7 @@ const firstRequest = async () => {
         statusFromFirstRequest.forEach( async (val)=>{
 
             const response = await axios.get(`https://api.umov.me/CenterWeb/api/26347e33d181559023ab7b32150ca3bfbc572e/schedule/${val.numero_tarefa}.xml`);
+
             let xmlDaTarefa = document.createElement('div')
             xmlDaTarefa.innerHTML = response.data
             let statusTarefa = xmlDaTarefa.getElementsByTagName('schedule')[0].getElementsByTagName('situation')[0].getElementsByTagName('id')[0].innerText
@@ -782,12 +783,13 @@ const firstRequest = async () => {
             let motivo = xmlDaTarefa.getElementsByTagName('schedule')[0].getElementsByTagName('customFields')[0].getElementsByTagName('retro__motivo__realizacao')[0].innerText
 
             if (statusTarefa === val.status_tarefa) {
+                console.log("O status da primeira requisição é igual")
                 clearTimeout(timerId);
                 timerId = setTimeout(() => {
                     run()
                 }, 10000);
             }else {
-    
+                console.log("O status da primeira requisição é diferente do status da segunda requisição");
                 if(statusTarefa == 50){
                     if(realizou == 'sim'){
                         axios.post(y+'/api/moinhos/atendimento', {
@@ -877,21 +879,22 @@ const firstRequest = async () => {
                             run()
                             }, 10000);
                         }
-                        return
+                       
                     })
+
+                    return
                 }
 
-                if(statusFromFirstRequest.length == 1){
-                    clearTimeout(timerId);
+
+                clearTimeout(timerId);
                     timerId = setTimeout(() => {
                     run()
-                    }, 10000);
-                }
-                return
+                }, 10000);
 
             }
         })
     }else{
+        console.log("procurando dados ...");
         clearTimeout(timerId);
         timerId = setTimeout(() => {
         run()
@@ -927,7 +930,8 @@ const firstRequest = async () => {
             let realizou = xmlDaTarefa.getElementsByTagName('schedule')[0].getElementsByTagName('customFields')[0].getElementsByTagName('retro__realizou')[0].innerText
             let motivo = xmlDaTarefa.getElementsByTagName('schedule')[0].getElementsByTagName('customFields')[0].getElementsByTagName('retro__motivo__realizacao')[0].innerText
             let agenteTarefa = xmlDaTarefa.getElementsByTagName('schedule')[0].getElementsByTagName('executionstarttime')[0]
-
+            console.log(agenteTarefa+' pos exame')
+            console.log(statusTarefa+' pos exame')
             if (statusTarefa === val.status_tarefa) {
     
               clearTimeout(timerId);
@@ -1026,18 +1030,17 @@ const firstRequest = async () => {
                             runPos()
                             }, 10000);
                         }
-                        return
+                        
                     })
+
+                    return
                 }
 
-                if(statusFromFirstRequest.length == 1){
-                    clearTimeout(timerId);
+                clearTimeout(timerId);
                     timerId = setTimeout(() => {
                     runPos()
-                    }, 10000);
-                }
-                return
-    
+                }, 10000);
+
             }
         })
     }else{
