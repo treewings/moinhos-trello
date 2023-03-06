@@ -1,8 +1,9 @@
 import socket from "../websocket.js";
-import rodar from "../../index.js";
 import { usuarioLogado } from "./usuario.js";
 import { url } from "../url.js";
 import { token } from "../url.js";
+import { acesso } from "../../index.js";
+
 
 const config = {
     headers: { Authorization: `Bearer ${token()}` }
@@ -88,7 +89,7 @@ export default function modalAgendar(item, grid){
         document.getElementById('modalAgendar').style.zIndex = '-1'
         document.getElementById('modalAgendar').style.display = 'none'
         document.getElementById('modalAgendar').innerHTML = ''
-        rodar()
+        
     })
 
     //ATRIBUI O VALOR DA DATA ATUAL NA MODAL
@@ -187,7 +188,10 @@ export default function modalAgendar(item, grid){
                     document.getElementById('modalAgendar').style.zIndex = '-1'
                     document.getElementById('modalAgendar').style.display = 'none'
                     document.getElementById('modalAgendar').innerHTML = ''
-                    socket.emit('cardRender', 'foi');
+               
+                        socket.emit('filtro-todos', {config: config})
+                        socket.emit('rodar', {config: config})
+                    
                     setTimeout(async () => {
                         $('#modalAgendadoSucesso').modal('hide')
                     }, 900);

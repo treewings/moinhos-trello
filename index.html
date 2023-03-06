@@ -11,6 +11,7 @@
         <!-- StyleSheets  -->
         <link rel="stylesheet" href="css/dashlite.css?ver=3.0.2">
         <link id="skin-default" rel="stylesheet" href="css/theme.css?ver=3.0.2">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.0.12/dist/css/select2.min.css">
     </head>
     <body id="body" style="display:none" onload="document.body.style.display='block'">
         <div class="nk-header nk-header-fixed is-light d-flex justify-content-between">
@@ -19,7 +20,7 @@
                     <div class="form-group d-flex align-items-center">
                         <h3 class="mr-2 mb-0 d-flex align-items-center"><em class="icon ni ni-activity-round-fill"></em></h3>
                         <div class="form-control-wrap w-100">
-                            <select class="form-select js-select2" multiple="multiple" data-search="on" id="selectSetorExame" onchange="javascript:mostraAlerta(this)" data-placeholder="Filtro por setor">
+                            <select class="form-select" multiple="multiple"  id="selectSetorExame"   data-placeholder="Filtro por setor">
                                 <option value="19">Tomografia Computadorizada</option>
                                 <option value="20">Raio X</option>
                                 <option value="23">Ecografia Geral</option>
@@ -37,7 +38,7 @@
                             <path d="M1.5 15a.5.5 0 0 0 0 1h13a.5.5 0 0 0 0-1H13V2.5A1.5 1.5 0 0 0 11.5 1H11V.5a.5.5 0 0 0-.57-.495l-7 1A.5.5 0 0 0 3 1.5V15H1.5zM11 2h.5a.5.5 0 0 1 .5.5V15h-1V2zm-2.5 8c-.276 0-.5-.448-.5-1s.224-1 .5-1 .5.448.5 1-.224 1-.5 1z"/>
                           </svg></h3>
                         <div class="form-control-wrap w-100">
-                            <select class="form-select js-select2" data-search="on" id="selectSalaExame" data-placeholder="Filtro por sala" onchange="javascript:mostraAlertaDois(this)">
+                            <select class="form-select" data-search="on" id="selectSalaExame">
                                 <option value="1">Todas as salas</option>
                                 <option value="999-169">Sala de ressonância – Bloco C - 2º Andar</option>
                                 <option value="999-170">Sala de ressonância – Bloco C - 3º Andar</option>
@@ -700,170 +701,12 @@
             </div>
         </div>
 
-        <script type="text/javascript">
-            //ADICIONA O FILTRO POR SETOR DE EXAME
-            const urlParams = new URLSearchParams(window.location.search);
-            function mostraAlerta()
-            {   
-                var selectSetorExame = document.getElementById("selectSetorExame");
-                var optionsSetor = selectSetorExame.selectedOptions;
-                var valuesSetor = [];
-                for (var i = 0; i < optionsSetor.length; i++) {
-                    valuesSetor.push(optionsSetor[i].value);
-                }
-                urlParams.delete('sala')
-                let listaSetor = ''
-                valuesSetor.forEach(function(setor){
-                    listaSetor = listaSetor+','+setor
-                })
-                listaSetor = listaSetor.split('')
-                listaSetor.splice(0, 1)
-                listaSetor = listaSetor.join('')
-
-                let elemento = window.location.href.split('&setor')[0] + '&setor='+listaSetor
-                console.log(elemento)
-                history.pushState({}, null, elemento);
-                window.location.reload()
-            }
-            //ADICIOCA O FILTRO POR SALA DE EXAME
-            function mostraAlertaDois(elemento)
-            {   
-                urlParams.delete('setor')
-                if(elemento.value == '1'){
-                    elemento = window.location.href.split('&sala')[0]
-                    history.pushState({}, null, elemento);
-                }else{
-                    elemento = window.location.href.split('&sala')[0] + '&sala='+elemento.value
-                    history.pushState({}, null, elemento);
-                }
-                window.location.reload()
-            }
-            
-            //ADICIONA OS ITENS SELECIONADOS NOS CARDS
-            let TodosSetores = urlParams.get('setor')
-            let selectTodosSetores =  TodosSetores ? TodosSetores.split(',') : []
-            selectTodosSetores.forEach(function(setor){
-                if(setor == '19'){
-                var select = document.getElementById('selectSetorExame');
-                var text = select.options[0]
-                text.setAttribute('selected', '')
-                }
-                if(setor == '20'){
-                    var select = document.getElementById('selectSetorExame');
-                    var text = select.options[1]
-                    text.setAttribute('selected', '')
-                }
-                if(setor == '23'){
-                    var select = document.getElementById('selectSetorExame');
-                    var text = select.options[2]
-                    text.setAttribute('selected', '')
-                }
-                if(setor == '24'){
-                    var select = document.getElementById('selectSetorExame');
-                    var text = select.options[3]
-                    text.setAttribute('selected', '')
-                }
-                if(setor == '26'){
-                    var select = document.getElementById('selectSetorExame');
-                    var text = select.options[4]
-                    text.setAttribute('selected', '')
-                }if(setor == '30'){
-                    var select = document.getElementById('selectSetorExame');
-                    var text = select.options[5]
-                    text.setAttribute('selected', '')
-                }if(setor == '34'){
-                    var select = document.getElementById('selectSetorExame');
-                    var text = select.options[6]
-                    text.setAttribute('selected', '')
-                }
-            })
-
-            let salaURL = urlParams.get('sala')
-            //ADICIONA OS ITENS SELECIONADOS NOS CARDS
-            console.log(salaURL)
-            if(urlParams.get('sala') == '1'){
-                var select = document.getElementById('selectSalaExame');
-                var text = select.options[0]
-                text.setAttribute('selected', '')
-            }if(urlParams.get('sala') == '999-169'){
-                var select = document.getElementById('selectSalaExame');
-                var text = select.options[1]
-                text.setAttribute('selected', '')
-            }if(urlParams.get('sala') == '999-170'){
-                var select = document.getElementById('selectSalaExame');
-                var text = select.options[2]
-                text.setAttribute('selected', '')
-            }if(urlParams.get('sala') == '999-168'){
-                var select = document.getElementById('selectSalaExame');
-                var text = select.options[3]
-                text.setAttribute('selected', '')
-            }if(urlParams.get('sala') == '999-61'){
-                var select = document.getElementById('selectSalaExame');
-                var text = select.options[4]
-                text.setAttribute('selected', '')
-            }if(urlParams.get('sala') == '999-130'){
-                var select = document.getElementById('selectSalaExame');
-                var text = select.options[5]
-                text.setAttribute('selected', '')
-            }if(urlParams.get('sala') == '999-46'){
-                var select = document.getElementById('selectSalaExame');
-                var text = select.options[6]
-                text.setAttribute('selected', '')
-            }if(urlParams.get('sala') == '999-60'){
-                var select = document.getElementById('selectSalaExame');
-                var text = select.options[7]
-                text.setAttribute('selected', '')
-            }if(urlParams.get('sala') == '999-7'){
-                var select = document.getElementById('selectSalaExame');
-                var text = select.options[8]
-                text.setAttribute('selected', '')
-            }if(urlParams.get('sala') == '999-8'){
-                var select = document.getElementById('selectSalaExame');
-                var text = select.options[9]
-                text.setAttribute('selected', '')
-            }if(urlParams.get('sala') == '999-121'){
-                var select = document.getElementById('selectSalaExame');
-                var text = select.options[10]
-                text.setAttribute('selected', '')
-            }if(urlParams.get('sala') == '999-20'){
-                var select = document.getElementById('selectSalaExame');
-                var text = select.options[11]
-                text.setAttribute('selected', '')
-            }if(urlParams.get('sala') == '999-9'){
-                var select = document.getElementById('selectSalaExame');
-                var text = select.options[12]
-                text.setAttribute('selected', '')
-            }if(urlParams.get('sala') == '999-6'){
-                var select = document.getElementById('selectSalaExame');
-                var text = select.options[13]
-                text.setAttribute('selected', '')
-            }if(urlParams.get('sala') == '999-45'){
-                var select = document.getElementById('selectSalaExame');
-                var text = select.options[14]
-                text.setAttribute('selected', '')
-            }if(urlParams.get('sala') == '999-118'){
-                var select = document.getElementById('selectSalaExame');
-                var text = select.options[15]
-                text.setAttribute('selected', '')
-            }if(urlParams.get('sala') == '999-38'){
-                var select = document.getElementById('selectSalaExame');
-                var text = select.options[16]
-                text.setAttribute('selected', '')
-            }if(urlParams.get('sala') == '999-19'){
-                var select = document.getElementById('selectSalaExame');
-                var text = select.options[17]
-                text.setAttribute('selected', '')
-            }if(urlParams.get('sala') == '999-44'){
-                var select = document.getElementById('selectSalaExame');
-                var text = select.options[18]
-                text.setAttribute('selected', '')
-            }
-        </script>
         
         <script src="/socket.io/socket.io.js"></script>
         <script src="js/jquery.min.js"></script>
         <script src="js/bundle.js?ver=3.0.2"></script>
         <script src="js/jquery.mask.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/js/select2.min.js" defer></script>
         <script src="js/sweet-alert.js"></script>   
         <script src="js/scripts.js?ver=3.0.2"></script>
         <script src="js/web-animation.js"></script>
@@ -872,5 +715,6 @@
         <script src="js/axios.js"></script>
         <script type="module" src="index.js"></script>
         <script type="module" src="js/funcoes.js"></script>
+        <script type="module" src="js/funcoes/filtro.js"></script>
     </body>
 </html>
