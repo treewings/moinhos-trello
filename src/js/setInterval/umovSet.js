@@ -30,7 +30,7 @@ import { url } from "../url.js";
 
                     let statusTarefa = xmlDaTarefa.getElementsByTagName('schedule')[0].getElementsByTagName('situation')[0].getElementsByTagName('id')[0].innerText
                     let agenteTarefa = xmlDaTarefa.getElementsByTagName('schedule')[0].getElementsByTagName('executionstarttime')[0]
-                    console.log(agenteTarefa)
+                    // console.log(agenteTarefa)
 
                     if(statusTarefa == '30' && tarefa != '30'){
                         
@@ -50,7 +50,7 @@ import { url } from "../url.js";
 
                     // SE O STATUS DA TAREFA FOR EM CAMPOR E EXISTIR A TAG AGENTE
                     if (statusTarefa == '40' && (agenteTarefa != '' && agenteTarefa != null && agenteTarefa != undefined) && tarefa != '40') {
-                        console.log('ta aqui em 40')
+                        // console.log('ta aqui em 40')
                         axios.post(url()+'/api/moinhos/agendar/tarefa/'+acessNumber, {
                             numero_tarefa: numeroTarefa,
                             imagem_cadeira: 'cadeira-de-rodas-azul.png',

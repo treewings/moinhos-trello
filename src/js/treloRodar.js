@@ -53,7 +53,7 @@ const treloRodar = ()=> {
                     }
                     //EVENTO DE PASSAGEM DO CARD DE AGENDADOS PARA ATENDIMENTO
                     if (item.fromGrid._element.id == 'Agendados' && item.toGrid._element.id ==  'Atendimento') {
-                        console.log('testeaqui')
+                        // console.log('testeaqui')
                         // DEFINE SE A COLUNA VAI ESTAR TRAVADA OU NÃO
                         // item.toGrid._settings.dragEnabled = false
                         //PEGA O VALOR DO ACESS_NUMBER

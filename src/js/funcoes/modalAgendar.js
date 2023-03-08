@@ -95,7 +95,7 @@ export default function modalAgendar(item, grid){
     document.querySelector("[name='data']").value = dataAtualFormatada();
     document.querySelector("[name='hora']").value = horaAtualFormatada();
 
-    console.log(item.item._element.id)
+    // console.log(item.item._element.id)
   
  
 

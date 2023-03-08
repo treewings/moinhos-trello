@@ -39,7 +39,7 @@ const solicitacoes = ()=>{
         $('#botaoSolicitarTransportes').prop('disabled', false);;
         let ID = $(this).data('id')
         window.localStorage.setItem('number', ID)
-        console.log(ID)        
+        // console.log(ID)        
     })
 
     $("#formTransporte").submit(function (event) {
@@ -50,8 +50,8 @@ const solicitacoes = ()=>{
 
         let valor = $('#selecioneTransporte').val()
         let acess_number = window.localStorage.getItem('number')
-        console.log(valor)
-        console.log(acess_number)
+        // console.log(valor)
+        // console.log(acess_number)
         let valors =  document.querySelector('#solicitar-update-'+acess_number)
         $('#botaoSolicitarTransportes').attr('disabled','disabled');
      
@@ -72,31 +72,38 @@ const solicitacoes = ()=>{
         let val = JSON.parse(valor);
         let sala = formRealizarExame.sala.value
         let salaEnvio = sala.split('_')
-        axios.post(y+'/api/moinhos/atendimento', {
-            acess_number: ID,
-            codigo_setor_exame: val.codigo_setor_exame,
-            cod_sala : salaEnvio[0],
-            sala : salaEnvio[1],
-            user: usuarioLogado()
-        }, config)
-        .then(function (response) {
-            $('#modalAtendimentoSucesso').modal('show')
-            $('#agendarSolicitarAtendimento').prop('disabled', false);
-            $('#modalSalaRealizarExame').modal('hide')
-
+        if(sala == 'default_option'){
+            $('#PreenchaSaladeExame').modal('show');
             document.getElementById("agendarSolicitarAtendimento").classList.remove("d-none");
             document.getElementById("agendarSolicitarAtendimento-carregando").classList.add("d-none");
+        }
+        if(sala != 'default_option'){
+            axios.post(y+'/api/moinhos/atendimento', {
+                acess_number: ID,
+                codigo_setor_exame: val.codigo_setor_exame,
+                cod_sala : salaEnvio[0],
+                sala : salaEnvio[1],
+                user: usuarioLogado()
+            }, config)
+            .then(function (response) {
+                $('#modalAtendimentoSucesso').modal('show')
+                $('#agendarSolicitarAtendimento').prop('disabled', false);
+                $('#modalSalaRealizarExame').modal('hide')
 
-            console.log('teste')
-            socket.emit('cardRender', 'foi')
-            setTimeout(async () => {
-                $('#modalAtendimentoSucesso').modal('hide')
-            }, 900);
-        })
-        .catch(function (error) {
-            $('#modalAlgoErrado').modal('show')
-            console.log(error);
-        });
+                document.getElementById("agendarSolicitarAtendimento").classList.remove("d-none");
+                document.getElementById("agendarSolicitarAtendimento-carregando").classList.add("d-none");
+
+                // console.log('teste')
+                socket.emit('cardRender', 'foi')
+                setTimeout(async () => {
+                    $('#modalAtendimentoSucesso').modal('hide')
+                }, 900);
+            })
+            .catch(function (error) {
+                $('#modalAlgoErrado').modal('show')
+                console.log(error);
+            });
+        }
     })
 }
 

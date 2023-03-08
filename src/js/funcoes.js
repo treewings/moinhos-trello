@@ -32,11 +32,16 @@ $(document).ready(()=>{
         let justificativaitem = document.querySelector("#justificativa_item-"+ID);
         let obsercacao = document.querySelector("#observacao-"+ID);
         let obsercacao_select = document.querySelector("#observacao_select-"+ID);
+        let prontuario = document.querySelector("#prontuario-"+ID);
         
 
         let valueNome = nome.value == '' || nome.value == 'null' || nome.value == undefined ? '' : nome.value;
         let valueDtNascimento = dtnascimento.value == '' || dtnascimento.value == null || dtnascimento.value == undefined ? '' : dtnascimento.value;
         let valueDtHrPedido = hrpedido.value == '' || hrpedido.value == 'null' || hrpedido.value == undefined ? '' : hrpedido.value;
+        let separadoValueDtHrPedido = valueDtHrPedido.split(" ")
+        let DtPedidoF = separadoValueDtHrPedido[0]
+        let separadoDtPedido = DtPedidoF.split("-")
+        valueDtHrPedido = separadoDtPedido[0]+'/'+separadoDtPedido[1]+'/'+separadoDtPedido[2]+' '+separadoValueDtHrPedido[1]
         let valueOrigem = origem.value == '' || origem.value == 'null' || origem.value == undefined ? '' : origem.value;
         let valueTipoIsolamento = tipoisolamento.value == '' || tipoisolamento.value == 'null' || tipoisolamento.value == undefined ? '' : tipoisolamento.value;
         let valueAcessionNumber = acessionnumber.value == '' || acessionnumber.value == 'null' || acessionnumber.value == undefined ? '' : acessionnumber.value;
@@ -54,6 +59,7 @@ $(document).ready(()=>{
         let valueJustificativaItem = justificativaitem.value == '' || justificativaitem.value == 'null' || justificativaitem.value == undefined ? '' : justificativaitem.value;
         let valueObservacao = obsercacao.value == '' || obsercacao.value == 'null' || obsercacao.value == undefined ? '' : obsercacao.value;
         let valueObservacaoSelect = obsercacao_select.value == '' || obsercacao_select.value == 'null' || obsercacao_select.value == undefined ? '' : obsercacao_select.value;
+        let valueProntuario = prontuario.value == '' || prontuario.value == 'null' || prontuario.value == undefined ? '' : prontuario.value;
         let motivo_umov = ''
         let valueMotivoUmov = ''
         if((valueAgendado == 'agendado' && valueAtendimento != 'atendimento') || (valuePosExame == 'posexame' && valueFinalizado != 'finalizado')){
@@ -157,11 +163,19 @@ $(document).ready(()=>{
 
         var element = document.getElementById('js-modal-dados-preview');
         element.innerHTML = `
-            <div class="col-lg-12 col-sm-12 mb-3">
-                <div class="form-group">
+            <div class="col-lg-12 col-sm-12 mb-3 d-flex justify-content-between">
+                <div class="form-group col-sm-5 m-0">
                     <div class="form-control-wrap">
-                        <label class="form-label m-0" for="outlined-normal">Nome</label>
-                        <input type="text" class="form-control form-control form-control" disabled value=" `+valueNome+`" id="outlined-normal">
+                        <label class="form-label m-0" for="outlined-normal">Prontuário</label>
+                        <input type="text" class="form-control form-control form-control-outlined" disabled value=" `+valueProntuario+`" id="outlined-normal">
+                    </div>
+                </div>
+                <div class="form-group col-sm-6 m-0">
+                    <div class="form-group">
+                        <div class="form-control-wrap">
+                            <label class="form-label m-0" for="outlined-normal">Nome</label>
+                            <input type="text" class="form-control form-control form-control" disabled value=" `+valueNome+`" id="outlined-normal">
+                        </div>
                     </div>
                 </div>
             </div>
@@ -248,7 +262,7 @@ $(document).ready(()=>{
                     <div class="form-group">
                         <div class="form-control-wrap">
                             <label class="form-label m-0" for="outlined-normal">Justificativa do Item</label>
-                            <input type="text" class="form-control form-control form-control-outlined" disabled value=" `+valueJustificativaItem+`" id="outlined-normal">
+                            <textarea type="text" class="form-control form-control form-control-outlined" disabled value="`+valueJustificativaItem+`" id="outlined-normal">`+valueJustificativaItem+`</textarea>
                         </div>
                     </div>
                 </div>
@@ -290,18 +304,18 @@ $(document).ready(()=>{
                 var tarefa = numerotarefa.value
                 document.getElementById("cancelarAgendamentoExame").classList.add("d-none");
                 document.getElementById("cancelarAgendamentoExame-carregando").classList.remove("d-none");
-                console.log(tarefa)
-                console.log(ID)
+                // console.log(tarefa)
+                // console.log(ID)
                 if(tarefa != 'null'){
                     let configX = {
                         headers: {'Content-Type': 'application/x-www-form-urlencoded'}
                     };
-                    console.log(tarefa)
+                    // console.log(tarefa)
                     let corpo ='<schedule><situation><id>70</id></situation></schedule>';	
                     axios.post(`https://api.umov.me/CenterWeb/api/26347e33d181559023ab7b32150ca3bfbc572e/schedule/`+tarefa+`.xml`, {
                         data: corpo
                     }, configX).then(function (response) {
-                        console.log(response)
+                        // console.log(response)
                         let val = '';
                         $(document).ready(() => {
                             //PEGA O JSON DO CARD E ENVIA A REQUISIÇÃO DE ALTERAÇÃO

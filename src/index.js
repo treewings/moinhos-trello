@@ -26,6 +26,7 @@ socket.on('tarefaUmov', function(dados) {
 function acesso(){
     const urlParams = new URLSearchParams(window.location.search);
     var filtro = []
+
     if(urlParams.get('setor')){
         let SetorURL = urlParams.get('setor')
         let cod_tumografiaComputadorizada = ''
@@ -54,6 +55,7 @@ function acesso(){
                 cod_igEcografiaGeral = CodigoSetor
             }
         })
+
         filtro = {
             ...( cod_tumografiaComputadorizada == 19 ? {cod_tumografiaComputadorizada: cod_tumografiaComputadorizada} : null ),
             ...( cod_raioX == 20 ? {cod_raioX: cod_raioX} : null ),
@@ -65,8 +67,20 @@ function acesso(){
         }
     }
     if(urlParams.get('sala')){
-        filtro = {cod_sala: urlParams.get('sala')}
+        filtro = {
+            cod_sala: urlParams.get('sala')
+        }
     }
+    
+    var pesquisa = urlParams.get('pesquisa')
+    var validaPesquisa = 0
+    if (pesquisa == null) {validaPesquisa = 1}
+    if (pesquisa == undefined) {validaPesquisa = 1}
+    if (pesquisa == '') {validaPesquisa = 1}
+    if(validaPesquisa == 0){
+        filtro.cod_nome = pesquisa
+    }
+    console.log(filtro)
     return {filtro}
 }
 
@@ -190,6 +204,7 @@ export default function rodar(){
                                 <input type="hidden" id="sala-${val.acess_number}" value="${val.sala}" >
                                 <input type="hidden" id="observacao-${val.acess_number}" value="${val.observacao}" >
                                 <input type="hidden" id="observacao_select-${val.acess_number}" value="${val.observacao_select}" >
+                                <input type="hidden" id="prontuario-${val.acess_number}" value="${val.prontuario}" >
                             </div>
                             <div class="d-flex justify-content-between">
                                 <p class="m-0 text-dark" id="agendamento-${val.acess_number}">Solicitado em `+dataHora+`</p>
@@ -326,6 +341,7 @@ export default function rodar(){
                             <input type="hidden" id="observacao-${val.acess_number}" value="${val.observacao}" >
                             <input type="hidden" id="observacao_select-${val.acess_number}" value="${val.observacao_select}" >
                             <input type="hidden" id="motivo_umov-${val.acess_number}" value="${val.motivo_umov}" >
+                            <input type="hidden" id="prontuario-${val.acess_number}" value="${val.prontuario}" >
                         </div>
                         <div class="d-flex justify-content-between">
                             <p class="m-0 text-primary" id="agendamento-${val.acess_number}">Agendado para ${val.data_agendamento} ${val.hora_agendamento}</p>
@@ -458,6 +474,7 @@ export default function rodar(){
                                 <input type="hidden" id="sala-${val.acess_number}" value="${val.sala}" >
                                 <input type="hidden" id="observacao-${val.acess_number}" value="${val.observacao}" >
                                 <input type="hidden" id="observacao_select-${val.acess_number}" value="${val.observacao_select}" >
+                                <input type="hidden" id="prontuario-${val.acess_number}" value="${val.prontuario}" >
                             </div>
                             <div class="d-flex justify-content-between">
                                 <p class="m-0 text-success"  id="agendamento-${val.acess_number}">Em atendimento ${val.data_movimentacao}</p>
@@ -597,6 +614,7 @@ export default function rodar(){
                             <input type="hidden" id="observacao-${val.acess_number}" value="${val.observacao}" >
                             <input type="hidden" id="observacao_select-${val.acess_number}" value="${val.observacao_select}" >
                             <input type="hidden" id="motivo_umov-${val.acess_number}" value="${val.motivo_umov}" >
+                            <input type="hidden" id="prontuario-${val.acess_number}" value="${val.prontuario}" >
                         </div>
                         <div class="d-flex justify-content-between">
                             <p class="m-0 text-warning" id="agendamento-${val.acess_number}">Saiu de atendimento ${val.data_movimentacao}</p>
@@ -716,6 +734,7 @@ export default function rodar(){
                                 <input type="hidden" id="sala-${val.acess_number}" value="${val.sala}" >
                                 <input type="hidden" id="observacao-${val.acess_number}" value="${val.observacao}" >
                                 <input type="hidden" id="observacao_select-${val.acess_number}" value="${val.observacao_select}" >
+                                <input type="hidden" id="prontuario-${val.acess_number}" value="${val.prontuario}" >
                             </div>
                             <div class="d-flex justify-content-between">
                                 <p class="m-0 text-dark" id="agendamento-${val.acess_number}">Finalizado em em ${val.data_movimentacao}</p>
@@ -783,13 +802,13 @@ const firstRequest = async () => {
             let motivo = xmlDaTarefa.getElementsByTagName('schedule')[0].getElementsByTagName('customFields')[0].getElementsByTagName('retro__motivo__realizacao')[0].innerText
 
             if (statusTarefa === val.status_tarefa) {
-                console.log("O status da primeira requisição é igual")
+                // console.log("O status da primeira requisição é igual")
                 clearTimeout(timerId);
                 timerId = setTimeout(() => {
                     run()
                 }, 10000);
             }else {
-                console.log("O status da primeira requisição é diferente do status da segunda requisição");
+                // console.log("O status da primeira requisição é diferente do status da segunda requisição");
                 if(statusTarefa == 50){
                     if(realizou == 'sim'){
                         axios.post(y+'/api/moinhos/atendimento', {
@@ -894,7 +913,7 @@ const firstRequest = async () => {
             }
         })
     }else{
-        console.log("procurando dados ...");
+        // console.log("procurando dados ...");
         clearTimeout(timerId);
         timerId = setTimeout(() => {
         run()
@@ -930,8 +949,8 @@ const firstRequest = async () => {
             let realizou = xmlDaTarefa.getElementsByTagName('schedule')[0].getElementsByTagName('customFields')[0].getElementsByTagName('retro__realizou')[0].innerText
             let motivo = xmlDaTarefa.getElementsByTagName('schedule')[0].getElementsByTagName('customFields')[0].getElementsByTagName('retro__motivo__realizacao')[0].innerText
             let agenteTarefa = xmlDaTarefa.getElementsByTagName('schedule')[0].getElementsByTagName('executionstarttime')[0]
-            console.log(agenteTarefa+' pos exame')
-            console.log(statusTarefa+' pos exame')
+            // console.log(agenteTarefa+' pos exame')
+            // console.log(statusTarefa+' pos exame')
             if (statusTarefa === val.status_tarefa) {
     
               clearTimeout(timerId);

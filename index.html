@@ -14,6 +14,7 @@
     </head>
     <body id="body" style="display:none" onload="document.body.style.display='block'">
         <div class="nk-header nk-header-fixed is-light d-flex justify-content-between">
+            <a onclick="location.reload()" class="my-2 btn btn-secondary"><em class="icon ni ni-reload"></em></a>
             <div class="container-fluid d-flex flex-row-reverse">
                 <div class="col-sm-4 m-2">
                     <div class="form-group d-flex align-items-center">
@@ -58,6 +59,19 @@
                                 <option value="999-19">ECO 2º Andar</option>
                                 <option value="999-44">RX 2º Andar</option>
                             </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-3 m-2">
+                    <div class="input-group">
+                        <input value="" type="text" class="form-control" placeholder="Nome do Paciente" id="search-input" disabled>
+                        <div class="input-group-append">
+                            <button class="btn btn-secondary py-0 d-none" type="button" id="clear-button" onclick="zerarPesquisa()" disabled>
+                                <em class="icon ni ni-cross"></em>
+                            </button>
+                            <button class="btn btn-secondary py-0" type="button" id="search-button" onclick="Pesquisa()" disabled>
+                                <em class='icon ni ni-search'></em>
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -581,6 +595,24 @@
                 </div>
             </div>
         </div>
+        <div class="modal fade" tabindex="-1" id="PreenchaSaladeExame">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-body modal-body-lg text-center">
+                        <div class="nk-modal">
+                            <em class="nk-modal-icon icon icon-circle icon-circle-xxl ni ni-cross bg-danger"></em>
+                            <h4 class="nk-modal-title">Selecione a sala!</h4>
+                            <div class="nk-modal-text">
+                                <p class="text-soft">É preciso selecionar uma sala.</p>
+                            </div>
+                            <div class="nk-modal-action mt-5">
+                                <a href="#" class="btn btn-lg btn-mw btn-light" data-bs-dismiss="modal" onClick="window.location.reload()">Voltar</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="modal fade" tabindex="-1" id="modalTransporteNaoSolicitado">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -630,7 +662,6 @@
                 </div>
             </div>
         </div>
-
         <div class="modal fade" tabindex="-1" id="modalAlgoToken">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -646,7 +677,6 @@
                 </div>
             </div>
         </div>
-
         <div class="modal fade" tabindex="-1" id="modalAlgoTokenExpirou">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -662,7 +692,6 @@
                 </div>
             </div>
         </div>
-
         <div class="modal fade" tabindex="-1" id="modalAlgoTokenSem">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -701,6 +730,49 @@
         </div>
 
         <script type="text/javascript">
+            //LOGICA DO INPUT DE PESQUISA
+            const searchInput = document.getElementById('search-input');
+            const searchButton = document.getElementById('search-button');
+            const clearButton = document.getElementById('clear-button');
+            searchInput.addEventListener('keyup', () => {
+                if (searchInput.value != null || searchInput.value != undefined || searchInput.value != '') {
+                    clearButton.classList.remove('d-none');
+                } else {
+                    clearButton.classList.add('d-none');
+                }
+            });
+            clearButton.addEventListener('click', () => {
+                searchInput.value = '';
+                clearButton.classList.add('d-none');
+            });
+            //AÇÃO DE PESQUISA
+            function Pesquisa(){
+                let inputPesquisa = document.getElementById("search-input");
+                let valueInputPesquisa = inputPesquisa.value;
+                if(valueInputPesquisa != null || valueInputPesquisa != undefined || valueInputPesquisa != ''){
+                    // LOGICAPARA A URL
+                    let urlAtual = new URL(window.location.href);
+                    urlAtual.searchParams.set("pesquisa", valueInputPesquisa);
+                    window.location.href = urlAtual.toString();
+                }
+            }
+            //COLOCAR O VALOR DA PESQUISA NO INPUT
+            const queryPesquisa = window.location.search;
+            const paramsPesquisa = new URLSearchParams(queryPesquisa);
+            const pesquisaURL = paramsPesquisa.get('pesquisa');
+            if(pesquisaURL != null || pesquisaURL != undefined || pesquisaURL != ''){
+                searchInput.value = pesquisaURL;
+            }
+            //ZERAR PESQUISA
+            function zerarPesquisa() {
+                const queryZerarPesquisa = window.location.search;
+                const paramsParaZerar = new URLSearchParams(queryZerarPesquisa);
+                paramsParaZerar.delete('pesquisa');
+                const novaURLzerada = paramsParaZerar.toString();
+                const novaURL = window.location.pathname + '?' + novaURLzerada;
+                window.location.href = novaURL.toString();
+            }
+
             //ADICIONA O FILTRO POR SETOR DE EXAME
             const urlParams = new URLSearchParams(window.location.search);
             function mostraAlerta()
@@ -721,7 +793,7 @@
                 listaSetor = listaSetor.join('')
 
                 let elemento = window.location.href.split('&setor')[0] + '&setor='+listaSetor
-                console.log(elemento)
+                // console.log(elemento)
                 history.pushState({}, null, elemento);
                 window.location.reload()
             }
@@ -780,7 +852,7 @@
 
             let salaURL = urlParams.get('sala')
             //ADICIONA OS ITENS SELECIONADOS NOS CARDS
-            console.log(salaURL)
+            // console.log(salaURL)
             if(urlParams.get('sala') == '1'){
                 var select = document.getElementById('selectSalaExame');
                 var text = select.options[0]

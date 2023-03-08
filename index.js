@@ -15,7 +15,7 @@ app.get('/', (req, res) => {
 
 
 io.on('connection', (socket) => {
-    console.log(socket.id+', conectado ...')
+    // console.log(socket.id+', conectado ...')
 
     socket.on('cardRender', (msg) => {
       io.emit('cardRender', msg);
@@ -31,5 +31,5 @@ io.on('connection', (socket) => {
   });
 
 server.listen(3000, () => {
-  console.log('listening on *:3000');
+  // console.log('listening on *:3000');
 });
