@@ -78,8 +78,12 @@ function acesso(){
     if (pesquisa == undefined) {validaPesquisa = 1}
     if (pesquisa == '') {validaPesquisa = 1}
     if(validaPesquisa == 0){
-        filtro.cod_nome = pesquisa
+        filtro = {
+            cod_nome: pesquisa
+        }
+       
     }
+    
     console.log(filtro)
     return {filtro}
 }
@@ -775,7 +779,7 @@ export default function rodar(){
             $('#modalAlgoTokenSem').modal('show')
             return
         }
-        window.location.reload()
+        // window.location.reload()
     })
 }
 

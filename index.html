@@ -64,12 +64,12 @@
                 </div>
                 <div class="col-sm-3 m-2">
                     <div class="input-group">
-                        <input value="" type="text" class="form-control" placeholder="Nome do Paciente" id="search-input" disabled>
+                        <input value="" type="text" class="form-control" placeholder="Nome do Paciente" id="search-input">
                         <div class="input-group-append">
-                            <button class="btn btn-secondary py-0 d-none" type="button" id="clear-button" onclick="zerarPesquisa()" disabled>
+                            <button class="btn btn-secondary py-0 d-none" type="button" id="clear-button" onclick="zerarPesquisa()">
                                 <em class="icon ni ni-cross"></em>
                             </button>
-                            <button class="btn btn-secondary py-0" type="button" id="search-button" onclick="Pesquisa()" disabled>
+                            <button class="btn btn-secondary py-0" type="button" id="search-button" onclick="Pesquisa()">
                                 <em class='icon ni ni-search'></em>
                             </button>
                         </div>
@@ -751,7 +751,8 @@
                 let valueInputPesquisa = inputPesquisa.value;
                 if(valueInputPesquisa != null || valueInputPesquisa != undefined || valueInputPesquisa != ''){
                     // LOGICAPARA A URL
-                    let urlAtual = new URL(window.location.href);
+                    
+                    let urlAtual = new URL(window.location.href.split('&')[0]+'&'+window.location.href.split('&')[1]);
                     urlAtual.searchParams.set("pesquisa", valueInputPesquisa);
                     window.location.href = urlAtual.toString();
                 }
@@ -792,7 +793,7 @@
                 listaSetor.splice(0, 1)
                 listaSetor = listaSetor.join('')
 
-                let elemento = window.location.href.split('&setor')[0] + '&setor='+listaSetor
+                let elemento = window.location.href.split('&')[0]+'&'+window.location.href.split('&')[1] + '&setor='+listaSetor
                 // console.log(elemento)
                 history.pushState({}, null, elemento);
                 window.location.reload()
@@ -805,7 +806,7 @@
                     elemento = window.location.href.split('&sala')[0]
                     history.pushState({}, null, elemento);
                 }else{
-                    elemento = window.location.href.split('&sala')[0] + '&sala='+elemento.value
+                    elemento = window.location.href.split('&')[0]+'&'+window.location.href.split('&')[1] + '&sala='+elemento.value
                     history.pushState({}, null, elemento);
                 }
                 window.location.reload()
