@@ -107,7 +107,20 @@ export default function rodar(){
             //FORMATA O NOME DO PACIENTE
             let nome = val.paciente
             let nomeSeparado = nome.split(" ")
-            let nomePaciente = nomeSeparado[0]+' '+nomeSeparado[1]
+            let nomePaciente
+            if (nomeSeparado.length > 1 && nomeSeparado[1] !== undefined){
+                if (nomeSeparado.length > 2 && nomeSeparado[2] !== undefined){
+                    if(nomeSeparado[1].length > 3){
+                        nomePaciente = nomeSeparado[0]+' '+nomeSeparado[1]
+                    }else{
+                        nomePaciente = nomeSeparado[0]+' '+nomeSeparado[1]+' '+nomeSeparado[2]
+                    }
+                }else{
+                    nomePaciente = nomeSeparado[0]+' '+nomeSeparado[1]
+                }
+            }else{
+                nomePaciente = nomeSeparado[0]
+            }
             //DEFINE A COR DO CARD
             let corClassificacao = '';
             if (val.cor_classificacao == null || val.cor_classificacao == 'VERDE') {corClassificacao = 'f9f3f3';}
@@ -741,7 +754,7 @@ export default function rodar(){
                                 <input type="hidden" id="prontuario-${val.acess_number}" value="${val.prontuario}" >
                             </div>
                             <div class="d-flex justify-content-between">
-                                <p class="m-0 text-dark" id="agendamento-${val.acess_number}">Finalizado em em ${val.data_movimentacao}</p>
+                                <p class="m-0 text-dark" id="agendamento-${val.acess_number}">Finalizado em ${val.data_movimentacao}</p>
                                 <div class="aparecer" data-id="${val.acess_number}">
                                     <a style="background: transparent;" class="border-0 p-0 btn btn-icon btn-light" data-bs-toggle="modal" data-bs-target="#modalForm">•••</a>
                                 </div>
