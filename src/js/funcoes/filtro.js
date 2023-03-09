@@ -1,64 +1,12 @@
 
 
 import socket from "../websocket.js";
-
-function token(){
-    const urlParams = new URLSearchParams(window.location.search);
-
-    return urlParams.get('token')
-}
-
+import { token } from "../url.js";
+import { acesso } from "../../index.js";
 
 const config = {
     headers: { Authorization: `Bearer ${token()}` }
 };
-
-function acesso(){
-    const urlParams = new URLSearchParams(window.location.search);
-    var filtro = []
-    if(urlParams.get('setor')){
-        let SetorURL = urlParams.get('setor')
-        let cod_tumografiaComputadorizada = ''
-        let cod_raioX = ''
-        let cod_ecografiaGeral = ''
-        let cod_ressonanciaMagnetica = ''
-        let cod_centroDaMulher = ''
-        let cod_radiologiaPedriatrica = ''
-        let cod_igEcografiaGeral = ''
-
-        let CodigosSetorURL = SetorURL.split(',')
-        CodigosSetorURL.forEach(function(CodigoSetor){
-            if(CodigoSetor == 19){
-                cod_tumografiaComputadorizada = CodigoSetor
-            }if(CodigoSetor == 20){
-                cod_raioX = CodigoSetor
-            }if(CodigoSetor == 23){
-                cod_ecografiaGeral = CodigoSetor
-            }if(CodigoSetor == 24){
-                cod_ressonanciaMagnetica = CodigoSetor
-            }if(CodigoSetor == 26){
-                cod_centroDaMulher = CodigoSetor
-            }if(CodigoSetor == 30){
-                cod_radiologiaPedriatrica = CodigoSetor
-            }if(CodigoSetor == 34){
-                cod_igEcografiaGeral = CodigoSetor
-            }
-        })
-        filtro = {
-            ...( cod_tumografiaComputadorizada == 19 ? {cod_tumografiaComputadorizada: cod_tumografiaComputadorizada} : null ),
-            ...( cod_raioX == 20 ? {cod_raioX: cod_raioX} : null ),
-            ...( cod_ecografiaGeral == 23 ? {cod_ecografiaGeral: cod_ecografiaGeral} : null ),
-            ...( cod_ressonanciaMagnetica == 24 ? {cod_ressonanciaMagnetica: cod_ressonanciaMagnetica} : null ),
-            ...( cod_centroDaMulher == 26 ? {cod_centroDaMulher: cod_centroDaMulher} : null ),
-            ...( cod_radiologiaPedriatrica == 30 ? {cod_radiologiaPedriatrica: cod_radiologiaPedriatrica} : null ),
-            ...( cod_igEcografiaGeral == 34 ? {cod_igEcografiaGeral: cod_igEcografiaGeral} : null )
-        }
-    }
-    if(urlParams.get('sala')){
-        filtro = {cod_sala: urlParams.get('sala')}
-    }
-    return {filtro}
-}
 
 //ADICIONA O FILTRO POR SETOR DE EXAME
 
@@ -70,12 +18,11 @@ $(document).ready(function() {
     
     let changeEventTriggeredByUser = true;
 
-  
    
     selectSetorExame.select2({
-    placeholder: 'Select an option',
+        
     })
-  .on('change', (event) => {
+    .on('change', (event) => {
 
     if (changeEventTriggeredByUser) {
         // Atualiza o valor do selectSalaExame diretamente
@@ -108,7 +55,7 @@ $(document).ready(function() {
 
     
     selectSalaExame.select2({
-    placeholder: 'Select an option',
+        
     })
     .on('change', (event) => {
 

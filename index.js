@@ -32,13 +32,13 @@ io.on('connection', (socket) => {
     });
 
     socket.on('rodar', async (msg) => {
-      const dados = await axios.get('http://192.168.11.12:8008/api/moinhos', msg.config)  
+      const dados = await axios.get('http://10.86.32.50:8008/api/moinhos', msg.config)  
       io.emit('rodar', {dadosReal: dados.data});
     });
 
 
     socket.on('evento-filtro', async(data) => {
-      const filtro = await axios.post('http://192.168.11.12:8008/api/moinhos/consulta', data.filtro, data.config)
+      const filtro = await axios.post('http://10.86.32.50:8008/api/moinhos/consulta', data.filtro, data.config)
       const clienteAtual = io.sockets.sockets.get(socket.id)
       clienteAtual.request.headers.referer = data.url
       socket.join(socket.id);
@@ -105,7 +105,7 @@ io.on('connection', (socket) => {
           client.emit('filtro-todos', { dadosFiltroTotal: filtrosRespostas[JSON.stringify(filtros)] });
         } else {
           // se a resposta ainda não existe, faça a requisição
-          const resposta = await axios.post('http://192.168.11.12:8008/api/moinhos/consulta', filtros, data.config);
+          const resposta = await axios.post('http://10.86.32.50:8008/api/moinhos/consulta', filtros, data.config);
           // armazene a resposta para esse filtro
           filtrosRespostas[JSON.stringify(filtros)] = resposta.data;
           // envie a resposta para o cliente
