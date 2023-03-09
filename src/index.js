@@ -246,7 +246,20 @@ export default function rodar(){
             //FORMATA O NOME DO PACIENTE
             let nome = val.paciente
             let nomeSeparado = nome.split(" ")
-            let nomePaciente = nomeSeparado[0]+' '+nomeSeparado[1]
+            let nomePaciente
+            if (nomeSeparado.length > 1 && nomeSeparado[1] !== undefined){
+                if (nomeSeparado.length > 2 && nomeSeparado[2] !== undefined){
+                    if(nomeSeparado[1].length > 3){
+                        nomePaciente = nomeSeparado[0]+' '+nomeSeparado[1]
+                    }else{
+                        nomePaciente = nomeSeparado[0]+' '+nomeSeparado[1]+' '+nomeSeparado[2]
+                    }
+                }else{
+                    nomePaciente = nomeSeparado[0]+' '+nomeSeparado[1]
+                }
+            }else{
+                nomePaciente = nomeSeparado[0]
+            }
             //DEFINE A COR DO CARD
             let corClassificacao = '';
             if (val.cor_classificacao == null || val.cor_classificacao == 'VERDE') {corClassificacao = 'f9f3f3';}
@@ -383,7 +396,20 @@ export default function rodar(){
             //FORMATA O NOME DO PACIENTE
             let nome = val.paciente
             let nomeSeparado = nome.split(" ")
-            let nomePaciente = nomeSeparado[0]+' '+nomeSeparado[1]
+            let nomePaciente
+            if (nomeSeparado.length > 1 && nomeSeparado[1] !== undefined){
+                if (nomeSeparado.length > 2 && nomeSeparado[2] !== undefined){
+                    if(nomeSeparado[1].length > 3){
+                        nomePaciente = nomeSeparado[0]+' '+nomeSeparado[1]
+                    }else{
+                        nomePaciente = nomeSeparado[0]+' '+nomeSeparado[1]+' '+nomeSeparado[2]
+                    }
+                }else{
+                    nomePaciente = nomeSeparado[0]+' '+nomeSeparado[1]
+                }
+            }else{
+                nomePaciente = nomeSeparado[0]
+            }
             //DEFINE A COR DO CARD
             let corClassificacao = '';
             if (val.cor_classificacao == null || val.cor_classificacao == 'VERDE') {corClassificacao = 'f9f3f3';}
@@ -515,7 +541,20 @@ export default function rodar(){
             //FORMATA O NOME DO PACIENTE
             let nome = val.paciente
             let nomeSeparado = nome.split(" ")
-            let nomePaciente = nomeSeparado[0]+' '+nomeSeparado[1]
+            let nomePaciente
+            if (nomeSeparado.length > 1 && nomeSeparado[1] !== undefined){
+                if (nomeSeparado.length > 2 && nomeSeparado[2] !== undefined){
+                    if(nomeSeparado[1].length > 3){
+                        nomePaciente = nomeSeparado[0]+' '+nomeSeparado[1]
+                    }else{
+                        nomePaciente = nomeSeparado[0]+' '+nomeSeparado[1]+' '+nomeSeparado[2]
+                    }
+                }else{
+                    nomePaciente = nomeSeparado[0]+' '+nomeSeparado[1]
+                }
+            }else{
+                nomePaciente = nomeSeparado[0]
+            }
             //DEFINE A COR DO CARD
             let corClassificacao = '';
             if (val.cor_classificacao == null || val.cor_classificacao == 'VERDE') {corClassificacao = 'f9f3f3';}
@@ -655,7 +694,20 @@ export default function rodar(){
             //FORMATA O NOME DO PACIENTE
             let nome = val.paciente
             let nomeSeparado = nome.split(" ")
-            let nomePaciente = nomeSeparado[0]+' '+nomeSeparado[1]
+            let nomePaciente
+            if (nomeSeparado.length > 1 && nomeSeparado[1] !== undefined){
+                if (nomeSeparado.length > 2 && nomeSeparado[2] !== undefined){
+                    if(nomeSeparado[1].length > 3){
+                        nomePaciente = nomeSeparado[0]+' '+nomeSeparado[1]
+                    }else{
+                        nomePaciente = nomeSeparado[0]+' '+nomeSeparado[1]+' '+nomeSeparado[2]
+                    }
+                }else{
+                    nomePaciente = nomeSeparado[0]+' '+nomeSeparado[1]
+                }
+            }else{
+                nomePaciente = nomeSeparado[0]
+            }
             //DEFINE A COR DO CARD
             let corClassificacao = '';
             if (val.cor_classificacao == null || val.cor_classificacao == 'VERDE') {corClassificacao = 'f9f3f3';}

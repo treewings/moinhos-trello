@@ -1,6 +1,6 @@
 export function url(){
     // return 'http://144.22.147.249:8000' //AMBIENTE DE TESTES
-    return 'http://10.86.32.50:8008'  //AMBIENTE DE PRODUÇÃO 
+    return 'http://164.152.41.164:5000'  //AMBIENTE DE PRODUÇÃO 
 }
 
 export function token(){
