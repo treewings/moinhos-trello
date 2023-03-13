@@ -97,8 +97,27 @@ export default function rodar(){
     x.then(function(response) {
         $('#modalLoading').modal('hide')
         $('#Solicitados').empty();
-        //DEFINE O CARD DA COLUNA DE SOLICITADOS
         Object.entries(response.data.solicitados).forEach(([key, val]) => {
+            //TRATA OS DADOS EM RELAÇÃO AS ASPAS
+            for (const chave in val) {
+                if (typeof val[chave] === "string") {
+                    if (val[chave].includes("'")) {
+                        let minhaString = val[chave]
+                        if (minhaString.indexOf('"') !== -1 || minhaString.indexOf("'") !== -1) {
+                            // Remover todas as aspas da string
+                            minhaString = minhaString.replace(/['"]+/g, '');
+                            val[chave] = minhaString
+                        }
+                    }if (val[chave].includes('"')) {
+                        let minhaString = val[chave]
+                        if (minhaString.indexOf('"') !== -1 || minhaString.indexOf("'") !== -1) {
+                            // Remover todas as aspas da string
+                            minhaString = minhaString.replace(/['"]+/g, '');
+                            val[chave] = minhaString
+                        }
+                    }
+                }
+            }
             //ICONE DE URGENCIA
             let urgente = ''
             if (val.tipo_atendimento == 'U') {
@@ -236,8 +255,27 @@ export default function rodar(){
             `)
         });
         $('#Agendados').empty();
-        //DEFINE O CARD DA COLUNA DE AGENDADOS
         Object.entries(response.data.agendados).forEach(([key, val]) => {
+            //TRATA OS DADOS EM RELAÇÃO AS ASPAS
+            for (const chave in val) {
+                if (typeof val[chave] === "string") {
+                    if (val[chave].includes("'")) {
+                        let minhaString = val[chave]
+                        if (minhaString.indexOf('"') !== -1 || minhaString.indexOf("'") !== -1) {
+                            // Remover todas as aspas da string
+                            minhaString = minhaString.replace(/['"]+/g, '');
+                            val[chave] = minhaString
+                        }
+                    }if (val[chave].includes('"')) {
+                        let minhaString = val[chave]
+                        if (minhaString.indexOf('"') !== -1 || minhaString.indexOf("'") !== -1) {
+                            // Remover todas as aspas da string
+                            minhaString = minhaString.replace(/['"]+/g, '');
+                            val[chave] = minhaString
+                        }
+                    }
+                }
+            }
             //ICONE DE URGENCIA
             let urgente = ''
             if (val.tipo_atendimento == 'U') {
@@ -388,6 +426,26 @@ export default function rodar(){
         $('#Atendimento').empty();
         //
         Object.entries(response.data.atendimento).forEach(([key, val]) => {
+            //TRATA OS DADOS EM RELAÇÃO AS ASPAS
+            for (const chave in val) {
+                if (typeof val[chave] === "string") {
+                    if (val[chave].includes("'")) {
+                        let minhaString = val[chave]
+                        if (minhaString.indexOf('"') !== -1 || minhaString.indexOf("'") !== -1) {
+                            // Remover todas as aspas da string
+                            minhaString = minhaString.replace(/['"]+/g, '');
+                            val[chave] = minhaString
+                        }
+                    }if (val[chave].includes('"')) {
+                        let minhaString = val[chave]
+                        if (minhaString.indexOf('"') !== -1 || minhaString.indexOf("'") !== -1) {
+                            // Remover todas as aspas da string
+                            minhaString = minhaString.replace(/['"]+/g, '');
+                            val[chave] = minhaString
+                        }
+                    }
+                }
+            }
             //ICONE DE URGENCIA
             let urgente = ''
             if (val.tipo_atendimento == 'U') {
@@ -533,6 +591,26 @@ export default function rodar(){
         });
         $('#posExame').empty();
         Object.entries(response.data.pos_exame).forEach(([key, val]) => {
+            //TRATA OS DADOS EM RELAÇÃO AS ASPAS
+            for (const chave in val) {
+                if (typeof val[chave] === "string") {
+                    if (val[chave].includes("'")) {
+                        let minhaString = val[chave]
+                        if (minhaString.indexOf('"') !== -1 || minhaString.indexOf("'") !== -1) {
+                            // Remover todas as aspas da string
+                            minhaString = minhaString.replace(/['"]+/g, '');
+                            val[chave] = minhaString
+                        }
+                    }if (val[chave].includes('"')) {
+                        let minhaString = val[chave]
+                        if (minhaString.indexOf('"') !== -1 || minhaString.indexOf("'") !== -1) {
+                            // Remover todas as aspas da string
+                            minhaString = minhaString.replace(/['"]+/g, '');
+                            val[chave] = minhaString
+                        }
+                    }
+                }
+            }
             //ICONE DE URGENCIA
             let urgente = ''
             if (val.tipo_atendimento == 'U') {
@@ -686,6 +764,26 @@ export default function rodar(){
         });
         $('#finalizados').empty();
         Object.entries(response.data.finalizados).forEach(([key, val]) => {
+            //TRATA OS DADOS EM RELAÇÃO AS ASPAS
+            for (const chave in val) {
+                if (typeof val[chave] === "string") {
+                    if (val[chave].includes("'")) {
+                        let minhaString = val[chave]
+                        if (minhaString.indexOf('"') !== -1 || minhaString.indexOf("'") !== -1) {
+                            // Remover todas as aspas da string
+                            minhaString = minhaString.replace(/['"]+/g, '');
+                            val[chave] = minhaString
+                        }
+                    }if (val[chave].includes('"')) {
+                        let minhaString = val[chave]
+                        if (minhaString.indexOf('"') !== -1 || minhaString.indexOf("'") !== -1) {
+                            // Remover todas as aspas da string
+                            minhaString = minhaString.replace(/['"]+/g, '');
+                            val[chave] = minhaString
+                        }
+                    }
+                }
+            }
             //ICONE DE URGENCIA
             let urgente = ''
             if (val.tipo_atendimento == 'U') {
