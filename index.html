@@ -752,7 +752,7 @@
                 if(valueInputPesquisa != null || valueInputPesquisa != undefined || valueInputPesquisa != ''){
                     // LOGICAPARA A URL
                     
-                    let urlAtual = new URL(window.location.href.split('&')[0]+'&'+window.location.href.split('&')[1]);
+                    let urlAtual = new URL(window.location.href);
                     urlAtual.searchParams.set("pesquisa", valueInputPesquisa);
                     window.location.href = urlAtual.toString();
                 }
